@@ -1,8 +1,10 @@
-package com.test.apm.leakcanary;
+package com.test.apm.customleak.watch;
 
+import com.test.apm.customleak.CustomHeapDumper;
+import com.test.apm.customleak.KeyedWeakReference;
+import com.test.apm.customleak.iservice.GcTrigger;
+import com.test.apm.customleak.privoder.LeakDefaultProvider;
 import com.test.apm.leak.watcher.HeapDumper;
-import com.test.apm.leakcanary.iservice.GcTrigger;
-import com.test.apm.leakcanary.privoder.LeakDefaultProvider;
 import com.test.utils.AppUtils;
 import com.test.utils.LogUtils;
 
@@ -10,27 +12,32 @@ import java.io.File;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 
 import static com.test.apm.leak.watcher.HeapDumper.RETRY_LATER;
 
-
-public class ActivityRefWatcher {
+public class RefWatcher {
     private ExecutorService executorService;
     private final Set<String> retainedKeys;
     private ReferenceQueue<Object> queue;
     private GcTrigger gcTrigger;
     private HeapDumper heapDumper;
 
-    public ActivityRefWatcher(ExecutorService executorService, ReferenceQueue<Object> queue) {
+    public RefWatcher(ExecutorService executorService, ReferenceQueue<Object> queue) {
         this.executorService = executorService;
         retainedKeys = new CopyOnWriteArraySet<>();
         this.queue = queue;
         init();
     }
 
-    public void watch(KeyedWeakReference reference) {
+    public void watch(Object object) {
+        KeyedWeakReference reference = new KeyedWeakReference(object, UUID.randomUUID().toString(), object.getClass().getSimpleName(), queue);
+        AppUtils.getMainHandler().postDelayed(() -> watchInner(reference), 100);
+    }
+
+    public void watchInner(KeyedWeakReference reference) {
         retainedKeys.add(reference.key);
         LogUtils.leakLog(ActivityRefWatcher.class, "watch()-----reference: " + reference.toString());
         executorService.execute(new Runnable() {
