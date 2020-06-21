@@ -19,27 +19,25 @@ public class LifecycleClassVisitor extends ClassVisitor {
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
-        System.out.println("------ClassVisitor visit start-------");
-        System.out.println(" visit className-------" + name);
-        System.out.println(" visit superName-------" + superName);
         this.className = name;
+        System.out.println("LifecycleClassVisitor.visit()-----name: " + name + ", superName: " + superName);
     }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        System.out.println("ClassVisitor visitMethod name-------" + name);
+        System.out.println("LifecycleClassVisitor.visitMethod()-----name: " + name + ", desc: " + desc);
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if (name.startsWith("on")) {
-            //处理onXX()方法
-            return new LifecycleMethodVisitor(mv, className, name);
-        }
-        return mv;
+//        if (name.startsWith("on")) {
+        //处理onXX()方法
+        return new LifecycleMethodVisitor(mv, className, name);
+//        }
+//        return super.visitMethod(access, name, desc, signature, exceptions);
     }
 
     @Override
     public void visitEnd() {
         super.visitEnd();
-        System.out.println("------ClassVisitor visit end-------");
+        System.out.println("LifecycleClassVisitor.visitEnd()");
     }
 }
 
