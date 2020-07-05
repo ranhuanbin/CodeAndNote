@@ -1,12 +1,12 @@
-package com.hb.test.cmatrix.trace;
+package com.hb.test.cmatrix.fps;
 
 import android.app.Application;
 
-import com.hb.test.cmatrix.fps.CFrameTracer;
+import com.hb.test.cmatrix.trace.CTraceConfig;
+import com.hb.test.cmatrix.trace.CUIThreadMonitor;
 
 public class CTracePlugin {
     private Application application;
-    private CFrameTracer frameTracer;
     private CTraceConfig config;
 
     public CTracePlugin(CTraceConfig config) {
@@ -15,12 +15,10 @@ public class CTracePlugin {
 
     public void init(Application app) {
         application = app;
-        frameTracer = new CFrameTracer(config);
     }
 
     public void start() {
         CUIThreadMonitor.getInstance().init(config);
         CUIThreadMonitor.getInstance().onStart();
-        frameTracer.onStartTrace();
     }
 }

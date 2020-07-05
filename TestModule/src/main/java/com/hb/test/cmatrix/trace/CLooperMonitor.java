@@ -17,7 +17,6 @@ public class CLooperMonitor implements MessageQueue.IdleHandler {
     private final HashSet<CLooperDispatchListener> listeners = new HashSet<>();
     private long lastCheckPrinterTime = 0;
 
-    private LooperPrinter printer;
     private Looper looper;
 
     public CLooperMonitor() {
@@ -34,7 +33,7 @@ public class CLooperMonitor implements MessageQueue.IdleHandler {
         } catch (Exception e) {
             CMatrixLogUtils.log(getClass(), "resetPrinter---exception: " + e.getMessage());
         }
-        looper.setMessageLogging(printer = new LooperPrinter(originPrinter));
+        looper.setMessageLogging(new LooperPrinter(originPrinter));
     }
 
     private synchronized void addIdleHandler(Looper looper) {

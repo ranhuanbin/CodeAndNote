@@ -8,48 +8,29 @@ import com.hb.test.cmatrix.CMatrixLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
     private static final String ADD_CALLBACK = "addCallbackLocked";
     public static final int CALLBACK_INPUT = 0;
-    public static final int CALLBACK_ANIMATION = 1;
-    public static final int CALLBACK_TRAVERSAL = 2;
-    public static final int CALLBACK_LAST = CALLBACK_TRAVERSAL;
-
-    private static final int DO_QUEUE_DEFAULT = 0;
-    private static final int DO_QUEUE_BEGIN = 1;
-    private static final int DO_QUEUE_END = 2;
-    private volatile boolean isAlive = false;
-    private long[] dispatchTimeMs = new long[4];
-    private final HashSet<CLooperObserver> observers = new HashSet<>();
     private volatile long token = 0;
     private boolean isBelongFrame = false;
-    private long[] queueCost = new long[CALLBACK_LAST + 1];
 
     private static final CUIThreadMonitor instance = new CUIThreadMonitor();
     private CTraceConfig config;
-    private Choreographer choreographer;
-    private Object callbackQueueLock;
     private Object[] callbackQueues;
-    private Method addTraversalQueue;
     private Method addInputQueue;
-    private Method addAnimationQueue;
     private long frameIntervalNanos = 16666666;
-    private int[] queueStatus = new int[CALLBACK_LAST + 1];
-    private boolean[] callbackExist = new boolean[CALLBACK_LAST + 1];
+    private boolean callbackExist = false;
 
     public void init(CTraceConfig config) {
         this.config = config;
-        choreographer = Choreographer.getInstance();
-        callbackQueueLock = reflectObject(choreographer, "mLock");
+        Choreographer choreographer = Choreographer.getInstance();
         callbackQueues = reflectObject(choreographer, "mCallbackQueues");
-
-        addInputQueue = reflectChoreographerMethod(callbackQueues[CALLBACK_INPUT], ADD_CALLBACK, long.class, Object.class, Object.class);
-        addAnimationQueue = reflectChoreographerMethod(callbackQueues[CALLBACK_ANIMATION], ADD_CALLBACK, long.class, Object.class, Object.class);
-        addTraversalQueue = reflectChoreographerMethod(callbackQueues[CALLBACK_TRAVERSAL], ADD_CALLBACK, long.class, Object.class, Object.class);
-        frameIntervalNanos = reflectObject(choreographer, "mFrameIntervalNanos");
-
+        addInputQueue = reflectChoreographerMethod(callbackQueues[CALLBACK_INPUT], long.class, Object.class, Object.class);
+        long mFrameIntervalNanos = reflectObject(choreographer, "mFrameIntervalNanos");
+        frameIntervalNanos = TimeUnit.MILLISECONDS.convert(mFrameIntervalNanos, TimeUnit.NANOSECONDS) + 1;
+        CMatrixLogUtils.log(getClass(), "init()---mFrameIntervalNanos: " + mFrameIntervalNanos + ", frameIntervalNanos: " + frameIntervalNanos);
         CLooperMonitor.getInstance().addListener(new CLooperDispatchListener() {
             @Override
             public boolean isValid() {
@@ -72,21 +53,12 @@ public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
 
     @Override
     public void onStart() {
-        if (!isAlive) {
-            synchronized (this) {
-                callbackExist = new boolean[CALLBACK_LAST + 1];
-            }
-            queueStatus = new int[CALLBACK_LAST + 1];
-            queueCost = new long[CALLBACK_LAST + 1];
-            addFrameCallback(CALLBACK_INPUT, this);
-        }
+        CMatrixLogUtils.log(getClass(), "onStart()-----addFrameCallback");
+        addFrameCallback();
     }
 
     @Override
     public void onStop() {
-        if (isAlive) {
-            this.isAlive = false;
-        }
     }
 
     @Override
@@ -96,163 +68,66 @@ public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
 
     @Override
     public void run() {
-        try {
-            doFrameBegin(token);
-            doQueueBegin(CALLBACK_INPUT);
-            addFrameCallback(CALLBACK_ANIMATION, new Runnable() {
-                @Override
-                public void run() {
-                    doQueueEnd(CALLBACK_INPUT);
-                    doQueueBegin(CALLBACK_ANIMATION);
-                }
-            });
-            addFrameCallback(CALLBACK_TRAVERSAL, new Runnable() {
-                @Override
-                public void run() {
-                    doQueueEnd(CALLBACK_ANIMATION);
-                    doQueueBegin(CALLBACK_TRAVERSAL);
-                }
-            });
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void doQueueBegin(int type) {
-        queueStatus[type] = DO_QUEUE_BEGIN;
-        queueCost[type] = System.nanoTime();
+        doFrameBegin();
     }
 
     private void dispatchBegin() {
         CMatrixLogUtils.log(getClass(), "dispatchBegin()");
-        token = dispatchTimeMs[0] = SystemClock.uptimeMillis();
-        dispatchTimeMs[2] = SystemClock.currentThreadTimeMillis();
-        synchronized (observers) {
-            for (CLooperObserver observer : observers) {
-                if (!observer.isDispatchBegin()) {
-                    observer.dispatchBegin(dispatchTimeMs[0], dispatchTimeMs[2], token);
-                }
-            }
-        }
+        token = SystemClock.uptimeMillis();
     }
 
-    private void doFrameBegin(long token) {
+    private void doFrameBegin() {
+        CMatrixLogUtils.log(getClass(), "doFrameBegin()");
         this.isBelongFrame = true;
     }
 
-    private void doFrameEnd(long token) {
-        doQueueEnd(CALLBACK_TRAVERSAL);
-        queueStatus = new int[CALLBACK_LAST + 1];
-        addFrameCallback(CALLBACK_INPUT, this);
+    private void doFrameEnd() {
+        callbackExist = false;
+        addFrameCallback();
         this.isBelongFrame = false;
     }
 
-    private void doQueueEnd(int type) {
-        queueStatus[type] = DO_QUEUE_END;
-        queueCost[type] = System.nanoTime() - queueCost[type];
-        synchronized (this) {
-            callbackExist[type] = false;
-        }
-    }
-
     private void dispatchEnd() {
-        CMatrixLogUtils.log(getClass(), "dispatchEnd()");
-        if (isBelongFrame) {
-            doFrameEnd(token);
-        }
-
-        long start = token;
-        long end = SystemClock.uptimeMillis();
-
-        synchronized (observers) {
-            for (CLooperObserver observer : observers) {
-                if (observer.isDispatchBegin()) {
-                    observer.doFrame("", token, SystemClock.uptimeMillis(), isBelongFrame ? end - start : 0,
-                            queueCost[CALLBACK_INPUT], queueCost[CALLBACK_ANIMATION], queueCost[CALLBACK_TRAVERSAL]);
-                }
-            }
-        }
-        dispatchTimeMs[3] = SystemClock.currentThreadTimeMillis();
-        dispatchTimeMs[1] = SystemClock.uptimeMillis();
-        synchronized (observers) {
-            for (CLooperObserver observer : observers) {
-                if (observer.isDispatchBegin()) {
-                    observer.dispatchEnd(dispatchTimeMs[0], dispatchTimeMs[2], dispatchTimeMs[1], dispatchTimeMs[3], token, isBelongFrame);
-                }
-            }
+        CMatrixLogUtils.log(getClass(), "dispatchEnd()---isBelongFrame: " + isBelongFrame);
+        if (isBelongFrame) {//属于帧刷新
+            doFrameEnd();
+            long start = token;
+            long end = SystemClock.uptimeMillis();
+            CMatrixLogUtils.log(getClass(), "dispatchEnd()---start: " + start + ", end: " + end + ", cost: " + (end - start) + ", dropFrames: " + (int) (end - start) / frameIntervalNanos);
         }
     }
 
-    private synchronized void addFrameCallback(int type, Runnable callback) {
-        if (callbackExist[type]) {
-            return;
-        }
-        if (!isAlive && type == CALLBACK_INPUT) {
+    private synchronized void addFrameCallback() {
+        if (callbackExist) {
             return;
         }
         try {
-            synchronized (callbackQueueLock) {
-                Method method = null;
-                switch (type) {
-                    case CALLBACK_INPUT:
-                        method = addInputQueue;
-                        break;
-                    case CALLBACK_ANIMATION:
-                        method = addAnimationQueue;
-                        break;
-                    case CALLBACK_TRAVERSAL:
-                        method = addTraversalQueue;
-                        break;
-                }
-                if (null != method) {
-                    method.invoke(callbackQueues[type], -1, callback, null);
-                    callbackExist[type] = true;
-                }
-            }
+            addInputQueue.invoke(callbackQueues[0], -1, this, null);
+            callbackExist = true;
         } catch (Exception e) {
-
+            CMatrixLogUtils.log(getClass(), "addFrameCallback()---exception: " + e.getMessage());
         }
     }
 
-    public long getFrameIntervalNanos() {
-        return frameIntervalNanos;
-    }
-
-    public void addObserver(CLooperObserver observer) {
-        if (!isAlive) {
-            onStart();
-        }
-        synchronized (observers) {
-            observers.add(observer);
-        }
-    }
-
-    public void removeObserver(CLooperObserver observer) {
-        synchronized (observers) {
-            observers.remove(observer);
-            if (observers.isEmpty()) {
-                onStop();
-            }
-        }
-    }
-
+    @SuppressWarnings("unchecked")
     private <T> T reflectObject(Object instance, String name) {
         try {
             Field field = instance.getClass().getDeclaredField(name);
             field.setAccessible(true);
             return (T) field.get(instance);
         } catch (Exception e) {
-            e.printStackTrace();
+            CMatrixLogUtils.log(getClass(), "reflectObject()---exception: " + e.getMessage());
         }
         return null;
     }
 
-    private Method reflectChoreographerMethod(Object instance, String name, Class<?>... argTypes) {
+    private Method reflectChoreographerMethod(Object instance, Class<?>... argTypes) {
         try {
-            Method method = instance.getClass().getDeclaredMethod(name, argTypes);
+            Method method = instance.getClass().getDeclaredMethod(CUIThreadMonitor.ADD_CALLBACK, argTypes);
             method.setAccessible(true);
             return method;
         } catch (Exception e) {
+            CMatrixLogUtils.log(getClass(), "reflectChoreographerMethod()---exception: " + e.getMessage());
         }
         return null;
     }
