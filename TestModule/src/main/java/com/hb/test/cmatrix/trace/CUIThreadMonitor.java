@@ -3,28 +3,26 @@ package com.hb.test.cmatrix.trace;
 import android.os.SystemClock;
 import android.view.Choreographer;
 
-import com.hb.test.cmatrix.CBeatLifecycle;
 import com.hb.test.cmatrix.CMatrixLogUtils;
+import com.hb.test.cmatrix.fps.FpsListener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
-public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
+public class CUIThreadMonitor implements Runnable {
     private static final String ADD_CALLBACK = "addCallbackLocked";
     public static final int CALLBACK_INPUT = 0;
     private volatile long token = 0;
     private boolean isBelongFrame = false;
-
+    private FpsListener fpsListener;
     private static final CUIThreadMonitor instance = new CUIThreadMonitor();
-    private CTraceConfig config;
     private Object[] callbackQueues;
     private Method addInputQueue;
     private long frameIntervalNanos = 16666666;
     private boolean callbackExist = false;
 
-    public void init(CTraceConfig config) {
-        this.config = config;
+    public void init() {
         Choreographer choreographer = Choreographer.getInstance();
         callbackQueues = reflectObject(choreographer, "mCallbackQueues");
         addInputQueue = reflectChoreographerMethod(callbackQueues[CALLBACK_INPUT], long.class, Object.class, Object.class);
@@ -32,10 +30,6 @@ public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
         frameIntervalNanos = TimeUnit.MILLISECONDS.convert(mFrameIntervalNanos, TimeUnit.NANOSECONDS) + 1;
         CMatrixLogUtils.log(getClass(), "init()---mFrameIntervalNanos: " + mFrameIntervalNanos + ", frameIntervalNanos: " + frameIntervalNanos);
         CLooperMonitor.getInstance().addListener(new CLooperDispatchListener() {
-            @Override
-            public boolean isValid() {
-                return true;
-            }
 
             @Override
             public void dispatchStart() {
@@ -51,19 +45,13 @@ public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
         });
     }
 
-    @Override
+    public void addFpsListener(FpsListener listener) {
+        this.fpsListener = listener;
+    }
+
     public void onStart() {
         CMatrixLogUtils.log(getClass(), "onStart()-----addFrameCallback");
         addFrameCallback();
-    }
-
-    @Override
-    public void onStop() {
-    }
-
-    @Override
-    public boolean isAlive() {
-        return false;
     }
 
     @Override
@@ -93,7 +81,9 @@ public class CUIThreadMonitor implements CBeatLifecycle, Runnable {
             doFrameEnd();
             long start = token;
             long end = SystemClock.uptimeMillis();
-            CMatrixLogUtils.log(getClass(), "dispatchEnd()---start: " + start + ", end: " + end + ", cost: " + (end - start) + ", dropFrames: " + (int) (end - start) / frameIntervalNanos);
+            if (fpsListener != null) {
+                fpsListener.doFrame(start, end, frameIntervalNanos);
+            }
         }
     }
 

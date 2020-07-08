@@ -3,10 +3,6 @@ package com.hb.test.cmatrix.trace;
 public class CLooperDispatchListener {
     boolean isHasDispatchStart = false;
 
-    public boolean isValid() {
-        return false;
-    }
-
     public void dispatchStart() {
 
     }
