@@ -11,3 +11,9 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/01.
 https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/02.md
 题目描述:
     请实现一个函数，把字符串中的每个空格替换成"%20"，例如“We are happy.”，则输出“We%20are%20happy.”。
+    
+20200814
+https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/03.md
+题目描述:
+    输入1个链表的头结点，从尾到头反过来打印出每个结点的值。
+    
