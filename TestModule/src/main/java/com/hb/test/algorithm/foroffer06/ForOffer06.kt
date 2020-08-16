@@ -19,9 +19,9 @@ class ForOffer06 {
                 if (numbsers[min] == numbsers[hi] && numbsers[min] == numbsers[lo]) {
                     return minInorder(numbsers, lo, hi)
                 }
-                if (numbsers(min) >= numbsers[lo]) {
+                if (numbsers[min] >= numbsers[lo]) {
                     hi = min
-                } else if (numbsers(min) <= numbsers[hi]) {
+                } else if (numbsers[min] <= numbsers[hi]) {
                     lo = min
                 }
             }
