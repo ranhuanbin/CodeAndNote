@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import com.hb.test.R
 import com.hb.test.algorithm.foroffer01.ForOffer01
 import com.hb.test.algorithm.foroffer02.ForOffer02
+import com.hb.test.algorithm.foroffer06.ForOffer06
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
@@ -16,9 +17,10 @@ class AlgorithmTestActivity : FragmentActivity() {
     }
 
     private fun forOffer01() {
-        ForOffer01.test(3);
+        ForOffer01.test(3)
     }
     private fun forOffer02() {
-        ForOffer02.replaceBlank();
+        ForOffer02.replaceBlank()
+ForOffer06.forOffer06()
     }
 }
