@@ -27,3 +27,8 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/06.
 题目描述:
     把一个数组最开始的若干个元素搬到数组的末尾， 我们称之数组的旋转。输入一个递增排序的数组的一个旋转， 输出旋转数组的最小元素。例如数组{3,4,5,1,2 ｝为｛ 1,2,3,4,5}的一个旋转，该数组的最小值为1。
     
+20200817
+https://github.com/LRH1993/android_interview/commit/726a0a24a8c6421d2177de264261d0dbbeb43b96
+题目描述:
+    写一个函数，输入n，求斐波那契数列的第n项值。
+
