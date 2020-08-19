@@ -31,4 +31,9 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/06.
 https://github.com/LRH1993/android_interview/commit/726a0a24a8c6421d2177de264261d0dbbeb43b96
 题目描述:
     写一个函数，输入n，求斐波那契数列的第n项值。
+    
+20200818
+https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/08.md
+题目描述
+    请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制1001，有2位1。因此如果输入9，该函数输出2。
 

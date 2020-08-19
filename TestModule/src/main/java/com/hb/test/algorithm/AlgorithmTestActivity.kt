@@ -8,6 +8,7 @@ import com.hb.test.algorithm.foroffer01.ForOffer01
 import com.hb.test.algorithm.foroffer02.ForOffer02
 import com.hb.test.algorithm.foroffer06.ForOffer06
 import com.hb.test.algorithm.foroffer07.ForOffer07
+import com.hb.test.algorithm.foroffer08.ForOffer08
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
@@ -17,6 +18,7 @@ class AlgorithmTestActivity : FragmentActivity() {
         forOffer01.setOnClickListener { forOffer01() }
         forOffer02.setOnClickListener { forOffer02() }
         forOffer07.setOnClickListener { forOffer07() }
+        forOffer08.setOnClickListener { forOffer08() }
     }
 
     private fun forOffer01() {
@@ -31,5 +33,13 @@ class AlgorithmTestActivity : FragmentActivity() {
         val xunhuan = ForOffer07.xunhuan(7)
         val digui = ForOffer07.digui(7)
         Log.v("AndroidTest", "xunhuan: " + xunhuan + ", digui: " + digui)
+    }
+
+    private fun forOffer08() {
+        ForOffer08.forOffer08(getInput())
+    }
+
+    private fun getInput(): Int {
+        return Integer.valueOf(input.text.toString().trim())
     }
 }
