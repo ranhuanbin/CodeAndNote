@@ -37,3 +37,7 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/08.
 题目描述
     请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制1001，有2位1。因此如果输入9，该函数输出2。
 
+20200821
+https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/10.md
+题目描述
+    给定单向链表的一个头指针和节点指针，定义一个函数在O(1)时间删除该节点。
