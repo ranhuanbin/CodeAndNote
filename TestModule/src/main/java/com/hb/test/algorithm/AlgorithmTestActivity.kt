@@ -9,6 +9,7 @@ import com.hb.test.algorithm.foroffer02.ForOffer02
 import com.hb.test.algorithm.foroffer06.ForOffer06
 import com.hb.test.algorithm.foroffer07.ForOffer07
 import com.hb.test.algorithm.foroffer08.ForOffer08
+import com.hb.test.algorithm.foroffer13.ForOffer13
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
@@ -19,6 +20,7 @@ class AlgorithmTestActivity : FragmentActivity() {
         forOffer02.setOnClickListener { forOffer02() }
         forOffer07.setOnClickListener { forOffer07() }
         forOffer08.setOnClickListener { forOffer08() }
+        forOffer13.setOnClickListener { forOffer13() }
     }
 
     private fun forOffer01() {
@@ -41,5 +43,9 @@ class AlgorithmTestActivity : FragmentActivity() {
 
     private fun getInput(): Int {
         return Integer.valueOf(input.text.toString().trim())
+    }
+
+    private fun forOffer13() {
+        ForOffer13.forOffer13Test();
     }
 }

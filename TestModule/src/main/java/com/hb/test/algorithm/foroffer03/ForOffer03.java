@@ -1,5 +1,6 @@
 package com.hb.test.algorithm.foroffer03;
 
+import com.hb.test.algorithm.NodeList;
 import com.hb.test.utils.LogUtils;
 
 import java.util.Stack;
@@ -10,28 +11,24 @@ import java.util.Stack;
 public class ForOffer03 {
     public static final String TAG = "ForOffer03";
 
-    public static class ListNode {
-        int val;//节点的值
-        ListNode next;//下一个节点
-    }
 
     // 栈的方式
-    public static void method1(ListNode root) {
-        Stack<ListNode> listNodes = new Stack<>();
+    public static void method1(NodeList root) {
+        Stack<NodeList> listNodes = new Stack<>();
         while (root != null) {
             listNodes.push(root);
             root = root.next;
         }
         while (!listNodes.empty()) {
-            LogUtils.v(TAG, ForOffer03.class, "val: " + listNodes.pop().val);
+            LogUtils.v(TAG, ForOffer03.class, "val: " + listNodes.pop().value);
         }
     }
 
     // 递归的方式
-    public static void method2(ListNode root) {
+    public static void method2(NodeList root) {
         if (root != null) {
             method2(root.next);
-            LogUtils.v(TAG, ForOffer03.class, "val: " + root.val);
+            LogUtils.v(TAG, ForOffer03.class, "val: " + root.value);
         }
     }
 }

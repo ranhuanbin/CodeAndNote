@@ -42,7 +42,7 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/10.
 题目描述:
     给定单向链表的一个头指针和节点指针，定义一个函数在O(1)时间删除该节点。
     
-20200822
+##### 20200822
 (1)https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/11.md
 题目描述:
     输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位予数组的后半部分。
@@ -50,4 +50,14 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/10.
 题目描述:
     输入一个链表，输出该链表中倒数第k个结点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾结点是倒数第1个结点．例如一个链表有6个结点，从头结点开始它们的值依次是1、2、3、4、5、6。这个链表的倒数第3个结点是值为4的结点。
 
+##### 20200823()
+(1)递归/遍历
+https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/13.md
+题目描述:   
+    定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。
+    
+(2)遍历
+https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/14.md
+题目描述:
+    输入两个递增排序的链表，合并这两个链表并使新链表中的结点仍然是按照递增排序的。
 

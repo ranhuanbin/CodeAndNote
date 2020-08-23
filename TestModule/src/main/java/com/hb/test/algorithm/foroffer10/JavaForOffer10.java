@@ -1,5 +1,6 @@
 package com.hb.test.algorithm.foroffer10;
 
+import com.hb.test.algorithm.NodeList;
 import com.hb.test.utils.LogUtils;
 
 /**
@@ -34,16 +35,4 @@ public class JavaForOffer10 {
         return head;
     }
 
-    public static class NodeList {
-        public NodeList next;
-        public int val;
-
-        @Override
-        public String toString() {
-            return "NodeList{" +
-                    "next=" + next +
-                    ", val=" + val +
-                    '}';
-        }
-    }
 }

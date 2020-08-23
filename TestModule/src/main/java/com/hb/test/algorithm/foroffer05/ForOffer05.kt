@@ -1,5 +1,6 @@
 package com.hb.test.algorithm.foroffer05
 
+import com.hb.test.algorithm.NodeList
 import java.lang.IllegalArgumentException
 import java.util.*
 
@@ -33,8 +34,4 @@ class ForOffer05 {
         return deleteStack.pop()
     }
 
-    class NodeList {
-        var nodeList = null
-        var value = 0
-    }
 }
