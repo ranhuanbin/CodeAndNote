@@ -1,0 +1,28 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+    implementation localGroovy()
+}
+repositories {
+    jcenter()
+    mavenCentral()
+    maven() { url 'https://maven.google.com' }
+}
+dependencies {
+    implementation 'com.android.tools.build:gradle:4.0.1'
+}
+//将插件打包上传到本地maven仓库
+uploadArchives {
+    repositories.mavenDeployer {
+            pom.groupId = 'com.plugin.test' //自行定义, 一般是包名
+            pom.version = '1.0.53' //版本号
+            pom.artifactId = 'ccRegisterPlugin' //自行定义
+            //指定本地maven的路径, 在项目根目录下
+            repository(url: uri('../repos'))
+    }
+}
+
