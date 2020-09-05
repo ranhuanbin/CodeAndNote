@@ -197,6 +197,10 @@ class RegisterTransform extends Transform {
         }
         // 获得输出文件
         File dest = outputProvider.getContentLocation(destName + "_" + hexName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+        println("RegisterTransform.getDestFile.1------------------------------------------------------------start\n" +
+                "destName: ${destName}\n" +
+                "dest: ${dest}\n" +
+                "RegisterTransform.getDestFile.1------------------------------------------------------------end\n")
         return dest
     }
 
