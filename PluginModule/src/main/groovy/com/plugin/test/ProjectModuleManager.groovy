@@ -55,11 +55,11 @@ public class ProjectModuleManager {
         }
         initByTask(project)
 
-        println("manageModule.1------------------------------------------------------------start\n" +
+        println("ProjectModuleManager.manageModule.1------------------------------------------------------------start\n" +
                 "currentProject: ${project}, \n" +
                 "taskIsAssemble: ${taskIsAssemble}, \n" +
                 "mainModuleName: ${mainModuleName}, \n" +
-                "manageModule.1------------------------------------------------------------end")
+                "ProjectModuleManager.manageModule.1------------------------------------------------------------end\n")
 
         def mainApp = isMainApp(project)
         def assembleFor = isAssembleFor(project)
@@ -124,11 +124,11 @@ public class ProjectModuleManager {
         //  ./gradlew :demo_component_b:assembleRelease -PccMain=anyothermodules //为demo_b打aar包
         def projectProps = project.gradle.startParameter.projectProperties
         projectProps.each {
-            println("initByTask.1------------------------------------------------------------start\n" +
+            println("ProjectModuleManager.initByTask.1------------------------------------------------------------start\n" +
                     "currentProject: ${project}, \n" +
                     "key: ${it.key}, \n" +
                     "value: ${it.value}, \n" +
-                    "initByTask.1------------------------------------------------------------end")
+                    "ProjectModuleManager.initByTask.1------------------------------------------------------------end\n")
         }
         if (projectProps && projectProps.containsKey(ASSEMBLE_APK_FOR_CC_COMPONENT)) {
             mainModuleName = projectProps.get(ASSEMBLE_APK_FOR_CC_COMPONENT)
@@ -138,11 +138,11 @@ public class ProjectModuleManager {
         def taskNames = project.gradle.startParameter.taskNames
         def allModuleBuildApkPattern = Pattern.compile(TASK_TYPES)
         for (String task : taskNames) {
-            println("initByTask.2------------------------------------------------------------start\n" +
+            println("ProjectModuleManager.initByTask.2------------------------------------------------------------start\n" +
                     "currentProject: ${project}, \n" +
                     "task: ${task}, \n" +
                     "allModuleBuildApkPattern: ${allModuleBuildApkPattern}, \n" +
-                    "initByTask.2------------------------------------------------------------end")
+                    "ProjectModuleManager.initByTask.2------------------------------------------------------------end\n")
             if (allModuleBuildApkPattern.matcher(task.toUpperCase()).matches()) {
                 taskIsAssemble = true
                 if (task.contains(":")) {

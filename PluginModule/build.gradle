@@ -19,7 +19,7 @@ dependencies {
 uploadArchives {
     repositories.mavenDeployer {
             pom.groupId = 'com.plugin.test' //自行定义, 一般是包名
-            pom.version = '1.0.54' //版本号
+            pom.version = '1.0.58' //版本号
             pom.artifactId = 'ccRegisterPlugin' //自行定义
             //指定本地maven的路径, 在项目根目录下
             repository(url: uri('../repos'))

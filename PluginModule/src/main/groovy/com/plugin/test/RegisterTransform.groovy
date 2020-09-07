@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
+
 /**
  * 自动注册的核心类
  */
@@ -59,7 +60,7 @@ class RegisterTransform extends Transform {
                    , TransformOutputProvider outputProvider
                    , boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println("RegisterTransform.transform.1------------------------------------------------------------start\n" +
-                "currentProject: ${project}\n" +
+                "project: ${project}\n" +
                 "extension: ${extension}\n" +
                 "RegisterTransform.transform.1------------------------------------------------------------end\n")
         project.logger.warn("start ${PLUGIN_NAME} transform...")
@@ -136,7 +137,6 @@ class RegisterTransform extends Transform {
                     "RegisterTransform.transform.3------------------------------------------------------------end\n")
             if (ext.fileContainsInitClass) {
                 println('')
-                println("insert register code to file:" + ext.fileContainsInitClass.absolutePath)
                 println("RegisterTransform.transform.4------------------------------------------------------------start\n" +
                         "insert register code to file: ${ext.fileContainsInitClass.absolutePath}\n" +
                         "ext.classList: ${ext.classList}\n" +
@@ -210,9 +210,19 @@ class RegisterTransform extends Transform {
         File dest = outputProvider.getContentLocation(directoryInput.name, directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
         classFolder = dest
         String root = directoryInput.file.absolutePath
-        if (!root.endsWith(File.separator))
+        println("RegisterTransform.scanClass.1------------------------------------------------------------start\n" +
+                "dest: ${dest}\n" +
+                "root: ${root}\n" +
+                "directoryInput.name: ${directoryInput.name}\n" +
+                "RegisterTransform.scanClass.1------------------------------------------------------------end\n")
+        if (!root.endsWith(File.separator)) {
             root += File.separator
-
+        }
+        println("RegisterTransform.scanClass.2------------------------------------------------------------start\n" +
+                "dest: ${dest}\n" +
+                "root: ${root}\n" +
+                "directoryInput.name: ${directoryInput.name}\n" +
+                "RegisterTransform.scanClass.2------------------------------------------------------------end\n")
         // changedFiles 为空 或者 关闭缓存
         if (directoryInput.changedFiles.isEmpty() || !cacheEnabled || isAllScan) {
             //遍历目录下的每个文件

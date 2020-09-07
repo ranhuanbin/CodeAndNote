@@ -66,11 +66,24 @@ class CodeScanner {
     }
 
     boolean checkInitClass(String entryName, File destFile, String srcFilePath) {
+        println("CodeScanner.checkInitClass.1------------------------------------------------------------start\n" +
+                "entryName: ${entryName}\n" +
+                "destFile: ${destFile}\n" +
+                "srcFilePath: ${srcFilePath}\n" +
+                "infoList.size: ${infoList.size()}\n" +
+                "CodeScanner.checkInitClass.1------------------------------------------------------------end\n")
         if (entryName == null || !entryName.endsWith(".class"))
             return
         entryName = entryName.substring(0, entryName.lastIndexOf('.'))
         def found = false
         infoList.each { ext ->
+            println("CodeScanner.checkInitClass.2------------------------------------------------------------start\n" +
+                    "index: ${infoList.indexOf(ext)}\n" +
+                    "entryName: ${entryName}\n" +
+                    "destFile: ${destFile}\n" +
+                    "srcFilePath: ${srcFilePath}\n" +
+                    "ext.initClassName: ${ext.initClassName}\n" +
+                    "CodeScanner.checkInitClass.2------------------------------------------------------------end\n")
             if (ext.initClassName == entryName) {
                 ext.fileContainsInitClass = destFile
                 if (destFile.name.endsWith(".jar") || destFile.name.endsWith(".class")) {
@@ -112,6 +125,11 @@ class CodeScanner {
     private static boolean shouldProcessThisClassForRegister(RegisterInfo info, String entryName) {
         if (info != null) {
             def list = info.includePatterns
+            println("CodeScanner.shouldProcessThisClassForRegister.1------------------------------------------------------------start\n" +
+                    "RegisterInfo: ${info}\n" +
+                    "entryName: ${entryName}\n" +
+                    "info.excludePatterns: ${info.excludePatterns}\n" +
+                    "CodeScanner.shouldProcessThisClassForRegister.1------------------------------------------------------------end\n")
             if (list) {
                 def exlist = info.excludePatterns
                 Pattern pattern, p
@@ -239,10 +257,14 @@ class CodeScanner {
             ) {
                 return
             }
+            println("CodeScanner.visit.2------------------------------------------------------------start\n" +
+                    "infoList.size(): ${infoList.size()}\n" +
+                    "CodeScanner.visit.2------------------------------------------------------------end\n")
             infoList.each { ext ->
-                println("CodeScanner.visit.2------------------------------------------------------------start\n" +
+                println("CodeScanner.visit.3------------------------------------------------------------start\n" +
                         "ext: ${ext}\n" +
-                        "CodeScanner.visit.2------------------------------------------------------------end\n")
+                        "name: ${name}\n" +
+                        "CodeScanner.visit.3------------------------------------------------------------end\n")
                 if (shouldProcessThisClassForRegister(ext, name)) {
                     def interfaceName = ext.interfaceName
                     if (superName != 'java/lang/Object' && !ext.superClassNames.isEmpty()) {

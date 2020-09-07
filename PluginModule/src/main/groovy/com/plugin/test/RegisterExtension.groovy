@@ -29,6 +29,10 @@ class RegisterExtension {
             RegisterInfo info = new RegisterInfo()
             info.interfaceName = map.get('scanInterface')
             def superClasses = map.get('scanSuperClasses')
+            println("RegisterExtension.convertConfig.2------------------------------------------------------------start\n" +
+                    "info.interfaceName: ${info.interfaceName}\n" +
+                    "superClasses: ${superClasses}\n" +
+                    "RegisterExtension.convertConfig.2------------------------------------------------------------end\n")
             if (!superClasses) {
                 superClasses = new ArrayList<String>()
             } else if (superClasses instanceof String) {
@@ -37,15 +41,15 @@ class RegisterExtension {
                 superClasses = superList
             }
             info.superClassNames = superClasses
-            info.initClassName = map.get('codeInsertToClassName') //代码注入的类
+            info.initClassName = map.get('codeInsertToClassName')   //代码注入的类
             info.initMethodName = map.get('codeInsertToMethodName') //代码注入的方法（默认为static块）
             info.registerMethodName = map.get('registerMethodName') //生成的代码所调用的方法
-            info.registerClassName = map.get('registerClassName') //注册方法所在的类
+            info.registerClassName = map.get('registerClassName')   //注册方法所在的类
             info.paramType = map.get('paramType') //注册方法参数类型：'object':参数为对象，'class':参数为Class类型
             info.include = map.get('include')
             info.exclude = map.get('exclude')
 
-            println("RegisterExtension.convertConfig.2------------------------------------------------------------start\n" +
+            println("RegisterExtension.convertConfig.3------------------------------------------------------------start\n" +
                     "superClassNames: ${info.superClassNames}\n" +
                     "initClassName: ${info.initClassName}\n" +
                     "initMethodName: ${info.initMethodName}\n" +
@@ -54,7 +58,7 @@ class RegisterExtension {
                     "paramType: ${info.paramType}\n" +
                     "include: ${info.include}\n" +
                     "exclude: ${info.exclude}\n" +
-                    "RegisterExtension.convertConfig.2------------------------------------------------------------end\n")
+                    "RegisterExtension.convertConfig.3------------------------------------------------------------end\n")
 
             info.init()
             if (info.validate())
@@ -66,8 +70,14 @@ class RegisterExtension {
 
         println("RegisterExtension.convertConfig.3------------------------------------------------------------start\n" +
                 "cacheEnabled: ${cacheEnabled}\n" +
+                "list.size: ${list.size()}\n" +
                 "RegisterExtension.convertConfig.3------------------------------------------------------------end\n")
 
+        list.each {
+            println("RegisterExtension.convertConfig.4------------------------------------------------------------start\n" +
+                    "registerInfo: ${it}\n" +
+                    "RegisterExtension.convertConfig.4------------------------------------------------------------end\n")
+        }
         if (cacheEnabled) {
             checkRegisterInfo()
         } else {
