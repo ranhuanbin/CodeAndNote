@@ -50,7 +50,7 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/10.
 题目描述:
     输入一个链表，输出该链表中倒数第k个结点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾结点是倒数第1个结点．例如一个链表有6个结点，从头结点开始它们的值依次是1、2、3、4、5、6。这个链表的倒数第3个结点是值为4的结点。
 
-##### 20200823()
+##### 20200823
 (1)递归/遍历
 https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/13.md
 题目描述:   
@@ -67,4 +67,20 @@ https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/18.
 ###### 题目描述
 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小数的min 函数。在该栈中，调用min、push 及pop的时间复杂度都是O(1)。
 
+##### 20200905
+[https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/26.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/26.md)
+###### 题目描述
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
 
+##### 20200905
+[https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/27.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/27.md)
+###### 题目描述
+输入n个整数，找出其中最小的k个数。
+
+##### 20200920
+[https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/28.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/28.md)
+###### 题目描述
+输入一个整型数组，数组里有正数也有负数。数组中一个或连续的多个整数组成一个子数组。求所有子数组的和的最大值。要求时间复杂度为O(n)。
+
+##### 排序(paixu)
+> 1、快排(20200830)

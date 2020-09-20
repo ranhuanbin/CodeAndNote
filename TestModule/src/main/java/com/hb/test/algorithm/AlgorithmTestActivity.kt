@@ -6,14 +6,15 @@ import androidx.fragment.app.FragmentActivity
 import com.hb.test.R
 import com.hb.test.algorithm.foroffer01.ForOffer01
 import com.hb.test.algorithm.foroffer02.ForOffer02
-import com.hb.test.algorithm.foroffer06.ForOffer06
 import com.hb.test.algorithm.foroffer07.ForOffer07
 import com.hb.test.algorithm.foroffer08.ForOffer08
 import com.hb.test.algorithm.foroffer13.ForOffer13
 import com.hb.test.algorithm.foroffer18.ForOffer18
+import com.hb.test.algorithm.foroffer28.ForOffer28
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
+    var TAG = "AlgorithmTestActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_algorithm)
@@ -23,6 +24,7 @@ class AlgorithmTestActivity : FragmentActivity() {
         forOffer08.setOnClickListener { forOffer08() }
         forOffer13.setOnClickListener { forOffer13() }
         forOffer18.setOnClickListener { forOffer18() }
+        forOffer28.setOnClickListener { forOffer28() }
     }
 
     private fun forOffer01() {
@@ -53,5 +55,10 @@ class AlgorithmTestActivity : FragmentActivity() {
 
     private fun forOffer18() {
         ForOffer18.testForOffer18(getInput());
+    }
+
+    private fun forOffer28() {
+        val findSubArray = ForOffer28.findSubArray(arrayOf(1, -2, 3, 10, -4, 7, 2, -5, 6))
+        Log.v(TAG, "findSubArray: " + findSubArray)
     }
 }
