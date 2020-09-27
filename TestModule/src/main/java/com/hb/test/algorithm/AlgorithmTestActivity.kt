@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.hb.test.R
-import com.hb.test.algorithm.foroffer01.ForOffer01
-import com.hb.test.algorithm.foroffer02.ForOffer02
-import com.hb.test.algorithm.foroffer07.ForOffer07
-import com.hb.test.algorithm.foroffer08.ForOffer08
-import com.hb.test.algorithm.foroffer13.ForOffer13
-import com.hb.test.algorithm.foroffer18.ForOffer18
-import com.hb.test.algorithm.foroffer28.ForOffer28
+import com.hb.test.algorithm.ff.ff01.ForOffer01
+import com.hb.test.algorithm.ff.ff02.ForOffer02
+import com.hb.test.algorithm.ff.foroffer07.ForOffer07
+import com.hb.test.algorithm.ff.foroffer08.ForOffer08
+import com.hb.test.algorithm.ff.foroffer13.ForOffer13
+import com.hb.test.algorithm.ff.foroffer18.ForOffer18
+import com.hb.test.algorithm.ff.foroffer28.ForOffer28
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
