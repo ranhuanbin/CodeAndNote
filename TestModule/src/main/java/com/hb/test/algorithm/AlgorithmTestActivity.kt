@@ -11,6 +11,7 @@ import com.hb.test.algorithm.ff.foroffer08.ForOffer08
 import com.hb.test.algorithm.ff.foroffer13.ForOffer13
 import com.hb.test.algorithm.ff.foroffer18.ForOffer18
 import com.hb.test.algorithm.ff.foroffer28.ForOffer28
+import com.hb.test.algorithm.lt.lt04.Lt04
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
@@ -25,6 +26,7 @@ class AlgorithmTestActivity : FragmentActivity() {
         forOffer13.setOnClickListener { forOffer13() }
         forOffer18.setOnClickListener { forOffer18() }
         forOffer28.setOnClickListener { forOffer28() }
+        lt04.setOnClickListener { lt04() }
     }
 
     private fun forOffer01() {
@@ -60,5 +62,9 @@ class AlgorithmTestActivity : FragmentActivity() {
     private fun forOffer28() {
         val findSubArray = ForOffer28.findSubArray(arrayOf(1, -2, 3, 10, -4, 7, 2, -5, 6))
         Log.v(TAG, "findSubArray: " + findSubArray)
+    }
+
+    private fun lt04() {
+        Lt04.testLt04(121);
     }
 }
