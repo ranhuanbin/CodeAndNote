@@ -35,3 +35,40 @@
 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
 不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
 [https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+
+###### lt08(双指针模式, 与lt07非常类型)
+[https://leetcode-cn.com/problems/remove-element/](https://leetcode-cn.com/problems/remove-element/)
+
+**`特点: `** 
+&emsp;&emsp;这种题与lt07非常类似, 双指针模式, 而且都是删除数组中指定元素, 最终解法用的是虚拟数组, 装入符合条件的元素.
+
+**`描述: `** 
+&emsp;&emsp;给你一个数组nums和一个值val，你需要原地移除所有数值等于val的元素，并返回移除后数组的新长度。
+不要使用额外的数组空间，你必须仅使用O(1)额外空间并原地修改输入数组。
+元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+
+
+###### lt09(滑动窗口)
+[https://leetcode-cn.com/problems/implement-strstr/](https://leetcode-cn.com/problems/implement-strstr/)
+
+**`描述: `** 
+&emsp;&emsp;给定一个haystack字符串和一个needle字符串，在haystack字符串中找出needle字符串出现的第一个位置 (从0开始)。如果不存在，则返回-1。
+
+###### lt10(二分查找注意边界问题)
+[https://leetcode-cn.com/problems/search-insert-position/](https://leetcode-cn.com/problems/search-insert-position/)
+
+给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+你可以假设数组中无重复元素。
+
+###### lt11(动态规划)
+[https://leetcode-cn.com/problems/maximum-subarray/](https://leetcode-cn.com/problems/maximum-subarray/)
+
+给定一个整数数组nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+
+
+
+
+
+
+

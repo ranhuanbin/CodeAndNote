@@ -12,6 +12,8 @@ import com.hb.test.algorithm.ff.foroffer13.ForOffer13
 import com.hb.test.algorithm.ff.foroffer18.ForOffer18
 import com.hb.test.algorithm.ff.foroffer28.ForOffer28
 import com.hb.test.algorithm.lt.lt04.Lt04
+import com.hb.test.algorithm.lt.lt07.Lt07
+import com.hb.test.algorithm.lt.lt10.Lt10
 import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
@@ -27,6 +29,8 @@ class AlgorithmTestActivity : FragmentActivity() {
         forOffer18.setOnClickListener { forOffer18() }
         forOffer28.setOnClickListener { forOffer28() }
         lt04.setOnClickListener { lt04() }
+        lt07.setOnClickListener { lt07() }
+        lt10.setOnClickListener { lt10() }
     }
 
     private fun forOffer01() {
@@ -66,5 +70,12 @@ class AlgorithmTestActivity : FragmentActivity() {
 
     private fun lt04() {
         Lt04.testLt04(121);
+    }
+
+    private fun lt07() {
+        Lt07.testForLt07();
+    }
+    private fun lt10() {
+        Lt10.testForLt10();
     }
 }
