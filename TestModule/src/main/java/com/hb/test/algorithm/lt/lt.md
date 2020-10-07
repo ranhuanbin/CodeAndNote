@@ -65,8 +65,17 @@
 
 给定一个整数数组nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
 
+###### lt12
+[https://leetcode-cn.com/problems/length-of-last-word/](https://leetcode-cn.com/problems/length-of-last-word/)
+给定一个仅包含大小写字母和空格 ' ' 的字符串 s，返回其最后一个单词的长度。如果字符串从左向右滚动显示，那么最后一个单词就是最后出现的单词。
+如果不存在最后一个单词，请返回 0 。
+说明：一个单词是指仅由字母组成、不包含任何空格字符的 最大子字符串。
 
-
+###### lt13(进一的问题, 非常经典, 自增求余==0, 说明自增)
+[https://leetcode-cn.com/problems/plus-one/](https://leetcode-cn.com/problems/plus-one/)
+给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+最高位数字存放在数组的首位，数组中每个元素只存储单个数字。
+你可以假设除了整数0之外，这个整数不会以零开头。
 
 
 
