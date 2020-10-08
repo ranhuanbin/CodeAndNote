@@ -77,6 +77,12 @@
 最高位数字存放在数组的首位，数组中每个元素只存储单个数字。
 你可以假设除了整数0之外，这个整数不会以零开头。
 
+###### lt14(for循环中可以设置多个变量, char运算与int的关系)
+[https://leetcode-cn.com/problems/add-binary/](https://leetcode-cn.com/problems/add-binary/)
+给你两个二进制字符串，返回它们的和（用二进制表示）。
+输入为非空字符串且只包含数字1和0。
+
+
 
 
 
