@@ -82,6 +82,9 @@
 给你两个二进制字符串，返回它们的和（用二进制表示）。
 输入为非空字符串且只包含数字1和0。
 
+##### lt15(这道题需要注意的是第二种解法, 注意链表尾节点问题)
+[https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
 
 
 
