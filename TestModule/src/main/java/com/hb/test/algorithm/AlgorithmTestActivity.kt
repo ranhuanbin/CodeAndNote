@@ -17,25 +17,25 @@ import com.hb.test.algorithm.lt.lt07.Lt07
 import com.hb.test.algorithm.lt.lt10.Lt10
 import com.hb.test.algorithm.lt.lt14.Lt14
 import com.hb.test.algorithm.lt.lt15.Lt15
-import kotlinx.android.synthetic.main.activity_test_algorithm.*
+//import kotlinx.android.synthetic.main.activity_test_algorithm.*
 
 class AlgorithmTestActivity : FragmentActivity() {
     var TAG = "AlgorithmTestActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_algorithm)
-        forOffer01.setOnClickListener { forOffer01() }
-        forOffer02.setOnClickListener { forOffer02() }
-        forOffer07.setOnClickListener { forOffer07() }
-        forOffer08.setOnClickListener { forOffer08() }
-        forOffer13.setOnClickListener { forOffer13() }
-        forOffer18.setOnClickListener { forOffer18() }
-        forOffer28.setOnClickListener { forOffer28() }
-        lt04.setOnClickListener { lt04() }
-        lt07.setOnClickListener { lt07() }
-        lt10.setOnClickListener { lt10() }
-        lt14.setOnClickListener { lt(14) }
-        lt15.setOnClickListener { lt(15) }
+//        forOffer01.setOnClickListener { forOffer01() }
+//        forOffer02.setOnClickListener { forOffer02() }
+//        forOffer07.setOnClickListener { forOffer07() }
+//        forOffer08.setOnClickListener { forOffer08() }
+//        forOffer13.setOnClickListener { forOffer13() }
+//        forOffer18.setOnClickListener { forOffer18() }
+//        forOffer28.setOnClickListener { forOffer28() }
+//        lt04.setOnClickListener { lt04() }
+//        lt07.setOnClickListener { lt07() }
+//        lt10.setOnClickListener { lt10() }
+//        lt14.setOnClickListener { lt(14) }
+//        lt15.setOnClickListener { lt(15) }
     }
 
     private fun forOffer01() {
@@ -57,7 +57,8 @@ class AlgorithmTestActivity : FragmentActivity() {
     }
 
     private fun getInput(): Int {
-        return Integer.valueOf(input.text.toString().trim())
+        return 1
+//        return Integer.valueOf(input.text.toString().trim())
     }
 
     private fun forOffer13() {
@@ -86,6 +87,7 @@ class AlgorithmTestActivity : FragmentActivity() {
     }
 
     private fun lt(index: Int) {
+        SystemClock.sleep(1000);
         if (index == 14) {
             Lt14.testForLt14()
         } else if (index == 15) {
