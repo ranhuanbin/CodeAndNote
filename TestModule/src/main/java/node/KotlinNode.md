@@ -1,4 +1,4 @@
-##### 1、for循环的几种写法
+#### 1、for循环的几种写法
 ```kotlin
 // 写法一:(正序遍历)
 for (index in 1..100) {
@@ -22,14 +22,14 @@ for (index in 1 until 10) {
 }
 ```
 
-##### 2.定义数组
+#### 2.定义数组
 ```kotlin
 val array1 = Array(10) { i-> i * i }
 val array2 = IntArray(10)
 val array3 = arrayOfNulls<Int>(5)
 val array4 = intArrayOf(1, 2, 3, 4, 5)
 ```
-##### 3.位运算
+#### 3.位运算
 ```
 表达式                 转换方法
 shl()           有符号左移(相当于java<<)
@@ -39,4 +39,190 @@ and()           按位与
 or()            按位或
 xor()           按位异或
 inv()           按位取反
+```
+#### 4.let、with、run、apply、also函数
+##### 4.1 when函数
+类似switch/case和if/else
+```kotlin
+when(view.visibility) {
+    View.VISIBLE -> toast("1")
+    View.INVISIBLE -> toast("2")
+    else -> toast("3")
+}
+
+when {
+    
+}
+```
+#### 5. any
+Any类型是Kotlin中所有非空类型的根类型
+```kotlin
+// 相当于java中的if(taskNames != null && !taskNames.isEmpty()) {}
+project.gradle.startParameter.taskNames.any {
+    it.contains("release") || it.contains("Release")
+}
+```
+#### 6. apply
+```kotlin
+// example
+fun applyMethod():String = StringBuffer().apply { 
+    for (letter in 'A'..'Z') {
+        append(letter)
+    }
+    append("\n Now I know the apply")
+ }.toString()
+
+// output
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+Now I konw the alphabet
+
+apply被声明成一个扩展函数, 它的接受者变成作为实参的lambda的接受者. 执行apply的结果就是StringBuffer
+
+apply返回的值是lambda接受者的对象
+```
+#### 7. Block(代替java中的事件回调)
+格式: 块名:(参数:参数类型) -> 返回值类型
+##### 7.1 无入参, 无返回值(简单回调)
+```
+// java写法
+public interface Function {
+    void call();
+}
+
+public void setFunction(Function function) {
+    mFunction = function;
+}
+
+//调用
+setFunction(new Function() {
+    @Override
+    public void call() {
+        System.out.println("hello");
+    }
+});
+
+mFunction.call();
+//输出hello
+```
+```
+// kotlin写法
+//Kotlin
+fun test1(block: () -> Unit) {
+    block()
+}
+//调用
+test1 {
+    println("hello")
+}
+//输出hello
+```
+##### 7.2 无入参, 有返回值 (调用返回一个字符串)
+```
+//java
+public interface Function {
+    String call();
+}
+
+public void setFunction(Function function) {
+    mFunction = function;
+}
+
+//调用
+setFunction(new Function() {
+    @Override
+    public String call() {
+        return "hello";
+    }
+});
+
+String value = mFunction.call();
+System.out.println("返回值；" + value);
+
+//输出
+返回值：hello
+```
+```
+//kotlin
+fun test2(block: () -> String) {
+    val result = block()
+    println(result)
+}
+
+//kotlin不需要写return，最后一行则是返回值，这里相当于Java的return "hello"
+test2 {
+    "返回值：hello"
+}
+
+//输出
+返回值：hello
+```
+##### 7.3 有入参, 有返回值 (传两个数字, 返回结果)
+```
+//java
+public interface Function {
+    int call(int x, int y);
+}
+
+public void setFunction(Function function) {
+    mFunction = function;
+}
+
+//调用
+setFunction(new Function() {
+    @Override
+    public int call(int x, int y) {
+        return x + y;
+    }
+});
+
+mFunction.call(1, 2);
+//输出3
+```
+```
+//kotlin
+fun test3(block: (x: Int, y: Int) -> Int) {
+    val result = block(1, 2)
+    println(result)
+}
+
+test3 { x, y ->
+    x + y
+}
+//输出3
+```
+##### 7.4 有入参, 无返回值 (传两个数字, 回调处打印参数)
+```
+//java
+public interface Function {
+    void call(int x, int y);
+}
+
+public void setFunction(Function function) {
+    mFunction = function;
+}
+
+setFunction(new Function() {
+    @Override
+    public void call(int x, int y) {
+        System.out.println("参数1：" + x + "，参数2：" + y);
+    }
+});
+
+mFunction.call(1, 2);
+
+//输出
+参数1：1，参数2：2
+```
+```
+//kotlin
+fun test4(block: (x: Int, y: Int) -> Unit) {
+    block(1, 2)
+}
+
+test4 { x, y ->
+    println("参数一：$x，参数二：$y")
+}
+
+//输出
+参数1：1，参数2：2
 ```
