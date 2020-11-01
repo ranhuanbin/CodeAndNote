@@ -67,22 +67,36 @@ project.gradle.startParameter.taskNames.any {
 }
 ```
 #### 6. apply
-```kotlin
-// example
-fun applyMethod():String = StringBuffer().apply { 
-    for (letter in 'A'..'Z') {
-        append(letter)
+```
+定义类People
+class People {
+    var name: String = "1"
+    var age: Int = 2
+    fun hello() {
+        println("name = $name, age = $age")
     }
-    append("\n Now I know the apply")
- }.toString()
+}
+使用方式java:
+public void test() {
+    People p = new People();
+    p.setName("1");
+    p.hello();
+    p.setAge(2);
+    p.hello();
+    p.hello();
+}
+使用方式kotlin:
+fun test() {
+    val p = People()
+    p.apply {
+        name = "1"
+        hello()
+        age = 2
+    }.hello()
+    p.hello()
+}
 
-// output
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
-Now I konw the alphabet
-
-apply被声明成一个扩展函数, 它的接受者变成作为实参的lambda的接受者. 执行apply的结果就是StringBuffer
-
-apply返回的值是lambda接受者的对象
+apply为扩展函数, {}内可以直接使用该对象的引用即this
 ```
 #### 7. Block(代替java中的事件回调)
 格式: 块名:(参数:参数类型) -> 返回值类型
