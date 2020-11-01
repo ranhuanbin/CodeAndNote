@@ -54,6 +54,10 @@ when {
     
 }
 ```
+##### 4.2 with函数
+```kotlin
+
+```
 #### 5. any
 Any类型是Kotlin中所有非空类型的根类型
 ```kotlin
@@ -225,4 +229,21 @@ test4 { x, y ->
 
 //输出
 参数1：1，参数2：2
+```
+
+#### 8. filter函数
+```
+java写法
+for (item in data.item) {
+    if (item.useStatus == ORDERSTATUS_WAIT_TO_PAY_ZERO && item.checkExpire == true && item.status == true) {
+        mList.add(item)
+    }
+}
+
+kotlin写法
+data.item.filter {
+    it.useStatus == ORDERSTATUS_WAIT_TO_PAY_ZERO && it.checkExpire == true && it.status == true
+}.foreach {
+    mList.add(t)
+}
 ```
