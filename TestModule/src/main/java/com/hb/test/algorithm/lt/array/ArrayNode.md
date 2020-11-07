@@ -28,3 +28,15 @@
 请你返回arr中所有奇数长度子数组的和。
 
 **`这个题有个很妙的地方, 总数为total奇数个数为total/2, 偶数个数为(total+1)/2, 这一步省略了判断如果total为奇偶的情况`**
+
+##### ArrayLt06 (搜索插入位置---二分查找问题---需要多加练习注意边界问题)
+[https://leetcode-cn.com/problems/search-insert-position/](https://leetcode-cn.com/problems/search-insert-position/)
+给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+你可以假设数组中无重复元素。
+
+##### ArrayLt07 (最大子序和---动态规划的问题---动态规划这类题型需要不间断的练习)
+[https://leetcode-cn.com/problems/maximum-subarray/](https://leetcode-cn.com/problems/maximum-subarray/)
+给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和
+
+
+
