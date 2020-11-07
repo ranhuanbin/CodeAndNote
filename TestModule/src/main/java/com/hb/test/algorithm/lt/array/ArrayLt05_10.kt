@@ -1,6 +1,6 @@
 package com.hb.test.algorithm.lt.array
 
-class ArrayLt05 {
+class ArrayLt05_10 {
     fun sumOddLengthSubarrays(arr: IntArray): Int {
         var sum = 0
         arr.indices.forEach { index ->
