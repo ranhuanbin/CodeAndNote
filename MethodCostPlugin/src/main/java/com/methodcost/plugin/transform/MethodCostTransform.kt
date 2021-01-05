@@ -28,7 +28,7 @@ class MethodCostTransform(project: Project) : Transform() {
     }
 
     override fun isIncremental(): Boolean {
-        return false
+        return true
     }
 
     override fun transform(invocation: TransformInvocation) {

@@ -20,6 +20,6 @@ object MethodCollector {
     }
 
     public fun containMethod(className: String, methodName: String): Boolean {
-        return methodCache.contains("$className&$methodName")
+        return methodCache.containsKey("$className&$methodName")
     }
 }

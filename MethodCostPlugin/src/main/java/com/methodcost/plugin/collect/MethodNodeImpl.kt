@@ -25,7 +25,8 @@ class MethodNodeImpl(var className: String, access: Int, name: String?, desc: St
          * 直接走了return方法, 所以为了方便测试, 这里先把isSingleMethod注释掉, 后续如果有时间再回过来
          * 搞
          */
-        if (isEmptyMethod() || isGetSetMethod() || isSingleMethod()) {
+        if (isEmptyMethod() || isGetSetMethod()) {
+//                || isSingleMethod()) {
             println("[MethodNodeImpl.visitEnd] [3] [className = $className, name = $name]")
             return
         }
