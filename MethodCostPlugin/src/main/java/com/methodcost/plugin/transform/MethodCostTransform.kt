@@ -9,6 +9,7 @@ import org.gradle.api.Project
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 import java.io.File
+import com.android.build.api.transform.Status.*
 
 class MethodCostTransform(project: Project) : Transform() {
     override fun getName(): String {
@@ -35,22 +36,46 @@ class MethodCostTransform(project: Project) : Transform() {
         super.transform(invocation)
         if (invocation.isIncremental) {//增量编译
             println("[增量编译]")
+            transformIncremental(invocation)
         } else {//全量编译
             println("[全量编译]")
             invocation.outputProvider?.deleteAll()
-            transformFully(invocation);
+            transformFully(invocation)
         }
     }
 
     //增量编译
+    private fun transformIncremental(invocation: TransformInvocation) {
+        invocation.inputs.forEach { input ->
+            input.directoryInputs.forEach { directoryInput ->
+                directoryInput.changedFiles.filter { (file, status) ->
+                    file.name.endsWith(".class")
+                }.forEach { (file, status) ->
+                    when (status) {
+                        REMOVED -> {
+                            println("增量更新, 文件删除, file = $file")
+                        }
+                        ADDED, CHANGED -> {
+                            println("增量更新, 文件增加或修改, file = $file")
+                            traceDirectory(file, directoryInput, outputProvider = invocation.outputProvider)
+                        }
+                        else -> {
+                            println("增量更新, 其他情况, file = $file, status = $status")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //全量编译
     private fun transformFully(invocation: TransformInvocation) {
-        val outputProvider = invocation.outputProvider
         invocation.inputs.forEach { input ->
             input.jarInputs.forEach { jarInput ->
-                handleJarInput(jarInput, outputProvider)
+                handleJarInput(jarInput, outputProvider = invocation.outputProvider)
             }
             input.directoryInputs.forEach { directoryInput ->
-                handleDirectoryInput(directoryInput, outputProvider)
+                handleDirectoryInput(directoryInput, outputProvider = invocation.outputProvider)
             }
         }
     }
