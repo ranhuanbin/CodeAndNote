@@ -5,13 +5,147 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
+/**
+ * 1. 买卖股票 {@link #maxProfit(int[])}
+ * 2. 买卖股票的最佳时机 {@link #maxProfit1(int[])}
+ */
 public class JavaLtTest extends TestCase {
     @Test
     public void test() {
         reverse(1463847412);
+        lengthOfLastWord("Hello world");
+    }
+
+    /**
+     * 最后一个单词的长度
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int lengthOfLastWord(String s) {
+        int length = 0;
+        int i = 0;
+        for (int j = 0; j < s.length(); j++) {
+            if (Character.isUpperCase(s.charAt(j)) || Character.isLowerCase(s.charAt(j))) {
+                i++;
+            } else if (i != 0) {
+                length = i;
+                i = 0;
+            }
+        }
+        if (i != 0) return i;
+        return length;
+    }
+
+    /**
+     * 买卖股票的最佳时机II
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int maxProfit1(int[] prices) {
+        int max = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            max += Math.max(0, prices[i + 1] - prices[i]);
+        }
+        return max;
+    }
+
+    /**
+     * 找出数组中重复的数字
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public int findRepeatNumber(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (set.contains(num)) {
+                return num;
+            }
+            set.add(num);
+        }
+        return -1;
+    }
+
+    /**
+     * 合并有序数组
+     * 时间复杂度 o(m + n)
+     * 空间复杂度 o(1)
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int p1 = m - 1;
+        int p2 = n - 1;
+        int p3 = m + n - 1;
+        while (p1 >= 0 || p2 >= 0) {
+            if (p1 >= 0 && p2 >= 0) {
+                if (nums1[p1] >= nums2[p2]) {
+                    nums1[p3--] = nums1[p1--];
+                } else {
+                    nums1[p3--] = nums2[p2--];
+                }
+            } else if (p1 >= 0) {
+                nums1[p3--] = nums1[p1--];
+            } else {
+                nums1[p3--] = nums2[p2--];
+            }
+        }
+    }
+
+    /**
+     * 加一
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int[] plusOne(int[] digits) {
+        int tmp = 1;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            digits[i] = digits[i] + tmp;
+            tmp = digits[i] / 10;
+            digits[i] %= 10;
+            if (tmp == 0) {
+                return digits;
+            }
+        }
+        int[] res = new int[digits.length + 1];
+        res[0] = 1;
+        return res;
+    }
+
+    /**
+     * 移动零
+     * 时间复杂度: o(n)
+     * 空间复杂度: o(1)
+     */
+    public void moveZeroes(int[] nums) {
+        for (int i = 0, j = 0; j < nums.length; j++) {
+            if (nums[j] != 0) {
+                int tmp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = tmp;
+                i++;
+            }
+        }
+    }
+
+    /**
+     * 买卖股票
+     * 时间复杂度: o(n)
+     * 空间复杂度: o(1)
+     */
+    public int maxProfit(int[] prices) {
+        int max = 0;
+        int curPrice = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] - curPrice > max) {
+                max = prices[i] - curPrice;
+            } else if (prices[i] - curPrice < 0) {
+                curPrice = prices[i];
+            }
+        }
+        return max;
     }
 
     /**
