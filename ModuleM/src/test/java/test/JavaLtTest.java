@@ -13,12 +13,44 @@ import java.util.Stack;
 /**
  * 1. 买卖股票 {@link #maxProfit(int[])}
  * 2. 买卖股票的最佳时机 {@link #maxProfit1(int[])}
+ * 3. 只出现一次的数字 {@link #singleNumber(int[])}
+ * 4. 投票算法: 多数元素 {@link #majorityElement(int[])}
  */
 public class JavaLtTest extends TestCase {
     @Test
     public void test() {
         reverse(1463847412);
         lengthOfLastWord("Hello world");
+    }
+
+    /**
+     * 多数元素
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int majorityElement(int[] nums) {
+        int res = 0;
+        int flag = 0;
+        for (int num : nums) {
+            if (flag == 0) {
+                res = num;
+            }
+            flag += (res == num) ? 1 : -1;
+        }
+        return res;
+    }
+
+    /**
+     * 只出现一次的数字
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        for (int num : nums) {
+            res ^= num;
+        }
+        return res;
     }
 
     /**
