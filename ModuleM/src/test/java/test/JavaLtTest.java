@@ -15,6 +15,13 @@ import java.util.Stack;
  * 2. 买卖股票的最佳时机 {@link #maxProfit1(int[])}
  * 3. 只出现一次的数字 {@link #singleNumber(int[])}
  * 4. 投票算法: 多数元素 {@link #majorityElement(int[])}
+ * 5. 贪心: 爬楼梯 {@link #climbStairs(int)}
+ * 6. 堆排序: 最小的K个数 {@link #getLeastNumbers(int[], int)}
+ * 7. 二分查找: 旋转数组的最小数字 {@link #minArray(int[])}
+ * <p>
+ * <p>
+ * 5. 未做出来
+ * (1) x的平方根 {@link #mySqrt(int)}
  */
 public class JavaLtTest extends TestCase {
     @Test
@@ -22,6 +29,120 @@ public class JavaLtTest extends TestCase {
         reverse(1463847412);
         lengthOfLastWord("Hello world");
     }
+
+    //    public int[] twoSum(int[] numbers, int target) {
+//
+//    }
+
+    /**
+     * 旋转数组的最小数字
+     * 时间复杂度 o(logN)
+     * 空间复杂度 o(1)
+     * https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/
+     */
+    public int minArray(int[] numbers) {
+        int l = 0;
+        int h = numbers.length - 1;
+        int m = l + (h - l) / 2;
+        while (l < h) {
+            if (numbers[m] > numbers[h]) {
+                l = m + 1;
+            } else if (numbers[m] < numbers[h]) {
+                h = m;
+            } else {
+                h--;
+            }
+            m = l + (h - l) / 2;
+        }
+        return numbers[m];
+    }
+
+    /**
+     * 判定字符串是否唯一
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public boolean isUnique(String astr) {
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < astr.length(); i++) {
+            if (set.contains(astr.charAt(i))) {
+                return false;
+            }
+            set.add(astr.charAt(i));
+        }
+        return true;
+    }
+
+    /**
+     * 字符串反转
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public void reverseString(char[] s) {
+        int i = 0, j = s.length - 1;
+        while (i < j) {
+            char tmp = s[i];
+            s[i++] = s[j];
+            s[j--] = tmp;
+        }
+    }
+
+    /**
+     * 堆排序
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+        return new int[2];
+    }
+
+    /**
+     * 爬楼梯
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int climbStairs(int n) {
+        if (n == 1) return 1;
+        if (n == 2) return 2;
+        int[] res = new int[n];
+        res[0] = 1;
+        res[1] = 2;
+        for (int i = 2; i < res.length; i++) {
+            res[i] = res[i - 1] + res[i - 2];
+        }
+        return res[n - 1];
+    }
+
+    /**
+     * 67. 二进制求和
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public String addBinary(String a, String b) {
+        char[] aChar = a.toCharArray();
+        char[] bChar = b.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        int flag = 0;
+        for (int i = aChar.length - 1, j = bChar.length - 1; i >= 0 || j >= 0; i--, j--) {
+            int res;
+            if (i >= 0 && j >= 0) {
+                res = aChar[i] + bChar[j] - '0' - '0';
+            } else if (i >= 0) {
+                res = aChar[i] - '0';
+            } else {
+                res = bChar[j] - '0';
+            }
+            builder.append((res + flag) % 2);
+            flag = (res + flag) / 2;
+        }
+        if (flag == 0) return builder.reverse().toString();
+        return builder.append("1").reverse().toString();
+    }
+
+    /**
+     *
+     */
+//    public boolean isPalindrome(String s) {
+//
+//    }
 
     /**
      * 多数元素
@@ -217,23 +338,6 @@ public class JavaLtTest extends TestCase {
     }
 
     /**
-     * 爬楼梯
-     * 时间复杂度: o(n)
-     * 空间复杂度: o(1)
-     */
-    public int climbStairs(int n) {
-        if (n == 1) return 1;
-        if (n == 2) return 2;
-        int[] res = new int[n];
-        res[0] = 1;
-        res[1] = 2;
-        for (int i = 2; i < n; i++) {
-            res[i] = res[i - 1] + res[i - 2];
-        }
-        return res[n - 1];
-    }
-
-    /**
      * 最大子序和
      * 时间复杂度: o(n)
      * 空间复杂度: o(1)
@@ -338,21 +442,6 @@ public class JavaLtTest extends TestCase {
             x /= 10;
         }
         return flag * res;
-    }
-
-    /**
-     * 两数之和
-     */
-    public int[] twoSum(int[] arrs, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < arrs.length; i++) {
-            if (map.containsKey(target - arrs[i])) {
-                return new int[]{i, map.get(target - arrs[i])};
-            } else {
-                map.put(arrs[i], i);
-            }
-        }
-        return new int[2];
     }
 
     public ListNode reverseList(ListNode head) {
