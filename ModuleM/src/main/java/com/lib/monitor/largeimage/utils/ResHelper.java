@@ -15,7 +15,7 @@ import androidx.annotation.RawRes;
 import androidx.annotation.StringRes;
 
 import com.lib.monitor.largeimage.LargeImage;
-import com.module.mst.R;
+import com.module.R;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;

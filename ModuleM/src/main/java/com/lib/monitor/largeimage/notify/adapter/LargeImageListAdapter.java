@@ -20,7 +20,7 @@ import com.lib.monitor.largeimage.LargeImage;
 import com.lib.monitor.largeimage.LargeImageInfo;
 import com.lib.monitor.largeimage.LargeImageManager;
 import com.lib.monitor.largeimage.utils.ResHelper;
-import com.module.mst.R;
+import com.module.R;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -74,39 +74,26 @@ public class LargeImageListAdapter extends RecyclerView.Adapter<LargeImageListAd
             tvImageUrl.setVisibility(View.GONE);
         } else {
             tvImageUrl.setVisibility(View.VISIBLE);
+            String tempUrl = url;
             if (!url.startsWith("http") && !url.startsWith("https")) {
-                String tempUrl = url;
-                if (url.contains("/")) {
-                    int index = url.lastIndexOf("/");
-                    tempUrl = url.substring(index + 1, url.length());
-                }
-                try {
-                    final String resourceName = LargeImage.APPLICATION.getApplicationContext().getResources().getResourceName(Integer.parseInt(tempUrl));
-                    if (TextUtils.isEmpty(resourceName)) {
+                if (TextUtils.isDigitsOnly(url)) {
+                    try {
+                        tempUrl = LargeImage.APPLICATION.getApplicationContext().getResources().getResourceName(Integer.parseInt(tempUrl));
+                    } catch (NumberFormatException e) {
+                        //不是请求网络，也没用resId,统一显示为本地图片
+                        e.printStackTrace();
                         tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, "本地图片"));
-                    } else {
-                        tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, resourceName));
                     }
-                    tvImageUrl.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            copyToClipboard(resourceName);
-                        }
-                    });
-                } catch (NumberFormatException e) {
-                    //不是请求网络，也没用resId,统一显示为本地图片
-                    e.printStackTrace();
-                    tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, "本地图片"));
                 }
-            } else {
-                tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, url));
-                tvImageUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        copyToClipboard(url);
-                    }
-                });
             }
+            String finalTempUrl = tempUrl;
+            tvImageUrl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    copyToClipboard(finalTempUrl);
+                }
+            });
+            tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, tempUrl));
         }
     }
 

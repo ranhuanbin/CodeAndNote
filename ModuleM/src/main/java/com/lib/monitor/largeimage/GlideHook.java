@@ -19,9 +19,9 @@ public class GlideHook {
             }
             if (requestListeners == null) {
                 requestListeners = new ArrayList<>();
-                requestListeners.add(new GlideLargeImageListener());
+                requestListeners.add(new LargeImageListener());
             } else {
-                requestListeners.add(new GlideLargeImageListener());
+                requestListeners.add(new LargeImageListener());
             }
             if (singleRequest instanceof SingleRequest) {
                 ReflectUtils.reflect(singleRequest).field("requestListeners", requestListeners);

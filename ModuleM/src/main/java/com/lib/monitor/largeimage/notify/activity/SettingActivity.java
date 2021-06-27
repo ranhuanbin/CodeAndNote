@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.lib.monitor.largeimage.LargeImageManager;
-import com.module.mst.R;
+import com.module.R;
 
 
 /**

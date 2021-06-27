@@ -144,4 +144,19 @@ public class LargeImageInfo implements Parcelable {
             return new LargeImageInfo[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "LargeImageInfo{" +
+                "url='" + url + '\'' +
+                ", fileSize=" + fileSize +
+                ", memorySize=" + memorySize +
+                ", width=" + width +
+                ", height=" + height +
+                ", framework='" + framework + '\'' +
+                ", targetWidth=" + targetWidth +
+                ", targetHeight=" + targetHeight +
+                ", unUseCount=" + unUseCount +
+                '}';
+    }
 }

@@ -7,7 +7,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 
 import com.lib.monitor.largeimage.notify.activity.LargeImageListActivity;
-import com.module.mst.R;
+import com.module.R;
 import com.tencent.mmkv.MMKV;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;

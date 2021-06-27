@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lib.monitor.largeimage.LargeImage;
-import com.module.mst.R;
+import com.module.R;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -31,6 +31,11 @@ public class LargeMonitorDialog {
 
 
     public static void showDialog(final String url, int width, int height, double fileSize, double memorySize, int targetWidth,
+                                  int targetHeigh) {
+    }
+
+    public static void showDialog(final String url, int width, int height, double fileSize,
+                                  double memorySize, int targetWidth,
                                   int targetHeigh, Bitmap bitmap) {
         //判断当前URL是否已经添加进去，如果已经添加进去，则不进行添加
         if (!alarmInfo.containsKey(url)) {

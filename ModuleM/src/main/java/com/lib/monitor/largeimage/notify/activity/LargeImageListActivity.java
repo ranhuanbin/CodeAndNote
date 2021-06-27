@@ -2,6 +2,7 @@ package com.lib.monitor.largeimage.notify.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.lib.monitor.largeimage.LargeImageInfo;
 import com.lib.monitor.largeimage.LargeImageManager;
 import com.lib.monitor.largeimage.notify.adapter.LargeImageListAdapter;
-import com.module.mst.R;
+import com.module.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +85,7 @@ public class LargeImageListActivity extends AppCompatActivity {
         Map<String, LargeImageInfo> stringLargeImageInfoMap = LargeImageManager.getInstance().getInfoCache();
         for (Map.Entry<String, LargeImageInfo> entry : stringLargeImageInfoMap.entrySet()) {
             mLargeImageList.add(entry.getValue());
+            Log.v("AndroidTest", "imageInfo = " + entry.getValue());
         }
         mLargeImageAdapter = new LargeImageListAdapter(this, mLargeImageList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
