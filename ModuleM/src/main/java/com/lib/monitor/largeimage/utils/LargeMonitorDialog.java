@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -30,14 +31,16 @@ public class LargeMonitorDialog {
     private static DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 
-    public static void showDialog(final String url, int width, int height, double fileSize, double memorySize, int targetWidth,
-                                  int targetHeigh) {
+    public static void showDialog(final String url, int width, int height, double fileSize,
+                                  double memorySize, int targetWidth, int targetHeigh) {
+        showDialog(url, width, height, fileSize, memorySize, targetWidth, targetHeigh, null);
     }
 
     public static void showDialog(final String url, int width, int height, double fileSize,
                                   double memorySize, int targetWidth,
                                   int targetHeigh, Bitmap bitmap) {
         //判断当前URL是否已经添加进去，如果已经添加进去，则不进行添加
+        Log.v("AndroidTest", "showDialog-1");
         if (!alarmInfo.containsKey(url)) {
             alarmInfo.put(url, false);
         }
@@ -75,27 +78,30 @@ public class LargeMonitorDialog {
         //设置图片地址
         setImageUrl(url, tvImageUrl);
         //设置图片
-        ivThumb.setImageBitmap(bitmap);
-        AlertDialog alertDialog = builder.setTitle("提示").setView(dialogView).setPositiveButton("关闭",
-                new DialogInterface.OnClickListener() {
+//        ivThumb.setImageBitmap(bitmap);
+        AlertDialog alertDialog = builder.setTitle("提示").setView(dialogView)
+                .setPositiveButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                alarmInfo.put(url, false);
+                                dialog.dismiss();
+                            }
+                        })
+                .setNegativeButton("不再提醒（直到下次重启）", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        alarmInfo.put(url, false);
+                        LargeImage.getInstance().setLargeImageOpen(false);
                         dialog.dismiss();
                     }
-                }).setNegativeButton("不再提醒（直到下次重启）", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                LargeImage.getInstance().setLargeImageOpen(false);
-                dialog.dismiss();
-            }
-        }).create();
+                }).create();
         //设置全局Dialog
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//8.0
             alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         } else {
             alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
         }
+        Log.v("AndroidTest", "showDialog-2");
         alertDialog.show();
         //标识正在显示警告
         alarmInfo.put(url, true);
@@ -106,39 +112,21 @@ public class LargeMonitorDialog {
             tvImageUrl.setVisibility(View.GONE);
         } else {
             tvImageUrl.setVisibility(View.VISIBLE);
+            String tempUrl = url;
             if (!url.startsWith("http") && !url.startsWith("https")) {
-                String tempUrl = url;
-                if (url.contains("/")) {
-                    int index = url.lastIndexOf("/");
-                    tempUrl = url.substring(index + 1, url.length());
-                }
-                try {
-                    final String resourceName = LargeImage.APPLICATION.getApplicationContext().getResources().getResourceName(Integer.parseInt(tempUrl));
-                    if (TextUtils.isEmpty(resourceName)) {
+                if (TextUtils.isDigitsOnly(url)) {
+                    try {
+                        tempUrl = LargeImage.APPLICATION.getApplicationContext().getResources().getResourceName(Integer.parseInt(tempUrl));
+                    } catch (NumberFormatException e) {
+                        //不是请求网络，也没用resId,统一显示为本地图片
+                        e.printStackTrace();
                         tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, "本地图片"));
-                    } else {
-                        tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, resourceName));
                     }
-                    tvImageUrl.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            copyToClipboard(resourceName);
-                        }
-                    });
-                } catch (NumberFormatException e) {
-                    //不是请求网络，也没用resId,统一显示为本地图片
-                    e.printStackTrace();
-                    tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, "本地图片"));
                 }
-            } else {
-                tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, url));
-                tvImageUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        copyToClipboard(url);
-                    }
-                });
             }
+            String finalTempUrl = tempUrl;
+            tvImageUrl.setOnClickListener(v -> copyToClipboard(finalTempUrl));
+            tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, tempUrl));
         }
     }
 

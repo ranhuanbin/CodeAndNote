@@ -1,20 +1,24 @@
-package com.lib.monitor.largeimage.new
+package com.lib.monitor.largeimage
 
 import android.os.Handler
 import android.os.Looper
-import com.lib.monitor.largeimage.LargeImage
-import com.lib.monitor.largeimage.LargeImageInfo
-import com.lib.monitor.largeimage.NewLargeImageManager
+import android.util.Log
 import com.lib.monitor.largeimage.utils.ConvertUtils
 import com.lib.monitor.largeimage.utils.LargeMonitorDialog
 import com.tencent.mmkv.MMKV
 
-class NewLargeImageManager(val mmkv: MMKV = MMKV.mmkvWithID("NewLargeImageManager")) {
+object NewLargeImageManager {
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val mmkv: MMKV = MMKV.mmkvWithID("NewLargeImageManager")
+    private val mmkvDialog: MMKV = MMKV.mmkvWithID("LargeImageDialogConfig")
 
-    // 是否开启弹窗
-    @Volatile
-    var openDialog = false
+    fun isLargeImageDialogEnable(): Boolean {
+        return mmkvDialog.decodeBool("largeImageDialogEnable", false)
+    }
+
+    fun setLargeImageDialogEnable(enable: Boolean) {
+        mmkvDialog.encode("largeImageDialogEnable", enable)
+    }
 
     /**
      * 处理图片数据
@@ -32,7 +36,29 @@ class NewLargeImageManager(val mmkv: MMKV = MMKV.mmkvWithID("NewLargeImageManage
         }
     }
 
-    fun saveImageInfo(
+    /**
+     * OKHTTP获取文件数据进行保存
+     */
+    fun saveImageInfo(imageUrl: String, fileSize: Long) {
+        Log.v("AndroidTest", "imageUrl = $imageUrl, fileSize = $fileSize")
+        if (fileSize <= 0) {
+            return
+        }
+        if (LargeImage.getInstance().isLargeImageOpen) {
+            val size = ConvertUtils.byte2MemorySize(fileSize, ConvertUtils.KB)
+            val largeImageInfo: LargeImageInfo
+            if (mmkv.containsKey(imageUrl)) {
+                largeImageInfo = mmkv.decodeParcelable(imageUrl, LargeImageInfo::class.java)
+            } else {
+                largeImageInfo = LargeImageInfo()
+                largeImageInfo.url = imageUrl
+            }
+            largeImageInfo.fileSize = size
+            mmkv.encode(imageUrl, largeImageInfo)
+        }
+    }
+
+    private fun saveImageInfo(
         imageUrl: String,
         width: Int,
         height: Int,
@@ -46,14 +72,18 @@ class NewLargeImageManager(val mmkv: MMKV = MMKV.mmkvWithID("NewLargeImageManage
         )
         if (mmkv.containsKey(imageUrl)) {
             val largeImageInfo = mmkv.decodeParcelable(imageUrl, LargeImageInfo::class.java)
-            if (largeImageInfo.fileSize > LargeImage.getInstance().fileSizeThreshold) {
+            if (largeImageInfo.fileSize > LargeImage.getInstance().fileSizeThreshold
+                || largeImageInfo.memorySize > LargeImage.getInstance().memorySizeThreshold
+            ) {
                 largeImageInfo.width = width
                 largeImageInfo.height = height
                 largeImageInfo.memorySize = size
                 largeImageInfo.targetWidth = viewWidth
                 largeImageInfo.targetHeight = viewHeight
+                Log.v("AndroidTest", "mmkv.encode($imageUrl)")
                 mmkv.encode(imageUrl, largeImageInfo)
             } else {
+                Log.v("AndroidTest", "mmkv.remove($imageUrl)")
                 mmkv.remove(imageUrl)
             }
         } else {
@@ -65,15 +95,22 @@ class NewLargeImageManager(val mmkv: MMKV = MMKV.mmkvWithID("NewLargeImageManage
                 largeImageInfo.memorySize = size
                 largeImageInfo.targetWidth = viewWidth
                 largeImageInfo.targetHeight = viewHeight
+                Log.v("AndroidTest", "mmkv.encode($imageUrl)")
                 mmkv.encode(imageUrl, largeImageInfo)
             }
         }
-        if (openDialog) {
+        Log.v("AndroidTest", "openDialog = ${isLargeImageDialogEnable()}")
+        if (isLargeImageDialogEnable()) {
             showAlarm(imageUrl)
         }
     }
 
     private fun showAlarm(imageUrl: String) {
+        //判断当前URL是否已经添加进去，如果已经添加进去，则不进行添加
+        Log.v(
+            "AndroidTest",
+            "showAlarm-1 ${mmkv.decodeParcelable(imageUrl, LargeImageInfo::class.java)}"
+        )
         mmkv.decodeParcelable(imageUrl, LargeImageInfo::class.java)?.let {
             if (it.fileSize >= LargeImage.getInstance().fileSizeThreshold
                 || it.memorySize >= LargeImage.getInstance().memorySizeThreshold
@@ -93,12 +130,13 @@ class NewLargeImageManager(val mmkv: MMKV = MMKV.mmkvWithID("NewLargeImageManage
         }
     }
 
-    fun getInstance(): NewLargeImageManager? {
-        return Holder.instance
+    fun getCacheOversizeImg(): List<LargeImageInfo> {
+        val largeImageInfos = mutableListOf<LargeImageInfo>()
+        Log.v("AndroidTest", "getCacheOversizeImg allKeys = ${mmkv.allKeys()}")
+        mmkv.allKeys()?.forEach {
+            val largeImageInfo = mmkv.decodeParcelable(it, LargeImageInfo::class.java)
+            largeImageInfos.add(largeImageInfo)
+        }
+        return largeImageInfos
     }
-
-    private object Holder {
-        val instance = NewLargeImageManager()
-    }
-
 }

@@ -87,12 +87,7 @@ public class LargeImageListAdapter extends RecyclerView.Adapter<LargeImageListAd
                 }
             }
             String finalTempUrl = tempUrl;
-            tvImageUrl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    copyToClipboard(finalTempUrl);
-                }
-            });
+            tvImageUrl.setOnClickListener(v -> copyToClipboard(finalTempUrl));
             tvImageUrl.setText(ResHelper.getString(R.string.large_image_url, tempUrl));
         }
     }

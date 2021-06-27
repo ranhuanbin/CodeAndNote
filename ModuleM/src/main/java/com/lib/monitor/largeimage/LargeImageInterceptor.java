@@ -1,6 +1,7 @@
 package com.lib.monitor.largeimage;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -12,6 +13,7 @@ public class LargeImageInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        Log.v("AndroidTest", "LargeImageInterceptor thread = " + Thread.currentThread().getName());
         // 发出请求时不拦截
         Request request = chain.request();
         Response response = chain.proceed(request);
@@ -28,7 +30,7 @@ public class LargeImageInterceptor implements Interceptor {
         String header = response.header("Content-Length");
         if (!TextUtils.isEmpty(header)) {
             try {
-                LargeImageManager.getInstance().saveImageInfo(response.request().url().toString(), Integer.parseInt(header));
+                NewLargeImageManager.INSTANCE.saveImageInfo(response.request().url().toString(), Integer.parseInt(header));
             } catch (Exception e) {
 
             }

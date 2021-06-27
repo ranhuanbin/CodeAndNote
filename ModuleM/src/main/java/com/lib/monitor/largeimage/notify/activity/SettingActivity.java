@@ -9,15 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.lib.monitor.largeimage.LargeImageManager;
+import com.lib.monitor.largeimage.NewLargeImageManager;
 import com.module.R;
 
 
-/**
- * ================================================
- * 描    述：设置界面
- * ================================================
- */
 public class SettingActivity extends AppCompatActivity {
     private Toolbar mToolBar;
     private CheckBox mMenuSwitch;
@@ -38,11 +33,11 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mMenuSwitch.setChecked(LargeImageManager.getInstance().isOpenDialog());
+        mMenuSwitch.setChecked(NewLargeImageManager.INSTANCE.isLargeImageDialogEnable());
         mMenuSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                LargeImageManager.getInstance().setOpenDialog(!LargeImageManager.getInstance().isOpenDialog());
+                NewLargeImageManager.INSTANCE.setLargeImageDialogEnable(!NewLargeImageManager.INSTANCE.isLargeImageDialogEnable());
             }
         });
     }

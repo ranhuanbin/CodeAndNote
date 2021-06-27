@@ -41,26 +41,34 @@ class LargeImageListener<R> : RequestListener<R> {
         if (resource is Bitmap) {
             imageWidth = resource.width
             imageHeight = resource.height
-            memorySize = ConvertUtils.byte2MemorySize(resource.byteCount.toLong(), ConvertUtils.KB)
-            LargeImageManager.getInstance()
-                .transform(model.toString(), resource as Bitmap, "Glide", width, height)
+            memorySize = resource.byteCount.toDouble()
+//            LargeImageManager.getInstance()
+//                .transform(model.toString(), resource as Bitmap, "Glide", width, height)
         } else if (resource is BitmapDrawable) {
             imageWidth = (resource as BitmapDrawable).intrinsicWidth
             imageHeight = (resource as BitmapDrawable).intrinsicHeight
-            memorySize =
-                ConvertUtils.byte2MemorySize(
-//                    (imageWidth * imageHeight * (if (resource.opacity != PixelFormat.OPAQUE) 4 else 2)).toLong(),
-                    resource.bitmap.byteCount.toLong(),
-                    ConvertUtils.KB
-                )
+            memorySize = resource.bitmap.byteCount.toDouble()
 //            LargeImageManager.getInstance()
 //                .transform(model.toString(), resource as BitmapDrawable, "Glide", width, height)
         }
+        NewLargeImageManager.process(
+            model.toString(),
+            imageWidth,
+            imageHeight,
+            width,
+            height,
+            memorySize
+        )
         Log.v(
             "AndroidTest", "[onResourceReady] " +
                     "\n{" +
-                    "\n\timageUrl = ${model.toString()}" +
-                    "\n\tsize = $memorySize" +
+                    "\n\timageUrl = $model" +
+                    "\n\tsize = ${
+                        ConvertUtils.byte2MemorySize(
+                            memorySize.toLong(),
+                            ConvertUtils.KB
+                        )
+                    }" +
                     "\n\timageWidth = $imageWidth" +
                     "\n\timageHeight = $imageHeight" +
                     "\n\tviewWidth = $width" +
