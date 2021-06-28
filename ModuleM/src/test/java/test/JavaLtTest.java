@@ -18,6 +18,9 @@ import java.util.Stack;
  * 5. 贪心: 爬楼梯 {@link #climbStairs(int)}
  * 6. 堆排序: 最小的K个数 {@link #getLeastNumbers(int[], int)}
  * 7. 二分查找: 旋转数组的最小数字 {@link #minArray(int[])}
+ * 8. 边界条件:
+ * <p>       (1) 调整数组顺序使奇数位于偶数前面
+ * 9. 种花问题
  * <p>
  * <p>
  * 5. 未做出来
@@ -26,13 +29,123 @@ import java.util.Stack;
 public class JavaLtTest extends TestCase {
     @Test
     public void test() {
-        reverse(1463847412);
-        lengthOfLastWord("Hello world");
+//        reverse(1463847412);
+//        lengthOfLastWord("Hello world");
+//        canPlaceFlowers(new int[]{1, 0, 0, 0, 1}, 2);
     }
 
     //    public int[] twoSum(int[] numbers, int target) {
 //
 //    }
+
+    /**
+     * 种花问题
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     * https://leetcode-cn.com/problems/can-place-flowers/
+     */
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        int count = 0;
+        for (int i = 0; i < flowerbed.length; i++) {
+            if (flowerbed[i] == 0) {
+                if (i == 0 && i == flowerbed.length - 1) {// 数组只有一个元素
+                    flowerbed[i] = 1;
+                    count++;
+                } else if (i == 0) {// 第一个元素
+                    if (flowerbed[i + 1] == 0) {
+                        flowerbed[i] = 1;
+                        count++;
+                    }
+                } else if (i == flowerbed.length - 1) {// 最后一个元素
+                    if (flowerbed[i - 1] == 0) {
+                        flowerbed[i] = 1;
+                        count++;
+                    }
+                } else {// 中间元素
+                    if (flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0) {
+                        flowerbed[i] = 1;
+                        count++;
+                    }
+                }
+            }
+        }
+        return count >= n;
+    }
+
+
+    /**
+     * 最长回文串
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public int longestPalindrome(String s) {
+        int count = 0;
+        char[] chs = s.toCharArray();
+        Set<Character> set = new HashSet<>();
+        for (char ch : chs) {
+            if (set.contains(ch)) {
+                count++;
+                set.remove(ch);
+            } else {
+                set.add(ch);
+            }
+        }
+        return set.isEmpty() ? count << 1 : (count << 1) + 1;
+    }
+
+    /**
+     * 存在重复元素
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (set.contains(num)) {
+                return true;
+            }
+            set.add(num);
+        }
+        return false;
+    }
+
+    /**
+     * 两数之和
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public int[] twoSum(int[] numbers, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < numbers.length; i++) {
+            if (map.containsKey(target - numbers[i])) {
+                return new int[]{map.get(target - numbers[i]) + 1, i + 1};
+            }
+            map.put(numbers[i], i);
+        }
+        return new int[2];
+    }
+
+    /**
+     * 调整数组顺序使奇数位于偶数前面
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int[] exchange(int[] nums) {
+        int i = 0;
+        int j = nums.length - 1;
+        while (i < j) {
+            if (nums[i] % 2 == 1 && nums[j] % 2 == 1) {
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+            } else if (nums[i] % 2 == 0) {
+                i++;
+            } else if (nums[j] % 2 == 1) {
+                j--;
+            }
+        }
+        return nums;
+    }
 
     /**
      * 旋转数组的最小数字
@@ -148,6 +261,7 @@ public class JavaLtTest extends TestCase {
      * 多数元素
      * 时间复杂度 o(n)
      * 空间复杂度 o(1)
+     * https://leetcode-cn.com/problems/majority-element/
      */
     public int majorityElement(int[] nums) {
         int res = 0;
