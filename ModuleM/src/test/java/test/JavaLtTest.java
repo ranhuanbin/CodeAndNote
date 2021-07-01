@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -21,10 +22,14 @@ import java.util.Stack;
  * 8. 边界条件:
  * <p>       (1) 调整数组顺序使奇数位于偶数前面
  * 9. 种花问题
+ * 10.分发饼干 {@link #findContentChildren(int[], int[])}
  * <p>
  * <p>
+ * 11.位运算, 需要关注char与int的关系
+ * <p>      (1) 找不同 {@link #findTheDifference(String, String)}
  * 5. 未做出来
  * (1) x的平方根 {@link #mySqrt(int)}
+ * (2) 有多少小于当前数字的数字 {@link #smallerNumbersThanCurrent(int[])}
  */
 public class JavaLtTest extends TestCase {
     @Test
@@ -32,11 +37,226 @@ public class JavaLtTest extends TestCase {
 //        reverse(1463847412);
 //        lengthOfLastWord("Hello world");
 //        canPlaceFlowers(new int[]{1, 0, 0, 0, 1}, 2);
+
+//        distributeCandies(7, 4);
+
+//        missingNumber(new int[]{3, 0, 1});
+        findTheDifference("abcd", "abcde");
     }
 
     //    public int[] twoSum(int[] numbers, int target) {
 //
 //    }
+
+    /**
+     * 找不同
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public char findTheDifference(String s, String t) {
+        char res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            res ^= s.charAt(i);
+            res ^= t.charAt(i);
+        }
+        res ^= t.charAt(t.length() - 1);
+        return res;
+    }
+
+    public String removeDuplicates(String S) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < S.length(); i++) {
+            if (stack.contains(S.charAt(i))) {
+                while (stack.contains(S.charAt(i))) {
+                    stack.pop();
+                }
+            } else {
+                stack.push(S.charAt(i));
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        while (!stack.isEmpty()) {
+            builder.append(stack.pop());
+        }
+        return builder.reverse().toString();
+    }
+
+    /**
+     * 丢失的数字
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public int missingNumber(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            res ^= nums[i];
+            res ^= i;
+        }
+        return res ^ nums.length;
+    }
+
+    /**
+     * 单词规律
+     * 时间复杂度 o(m)
+     * 空间复杂度 o(m)
+     */
+    public boolean wordPattern(String pattern, String s) {
+        String[] s1 = s.split(" ");
+        if (pattern.length() != s1.length) {
+            return false;
+        }
+        int i = 0;
+        Map<String, Character> map = new HashMap<>();
+        while (i < pattern.length()) {
+            if (!map.containsKey(s1[i])) {
+                if (map.containsValue(pattern.charAt(i))) {
+                    return false;
+                }
+                map.put(s1[i], pattern.charAt(i));
+            } else if (map.get(s1[i]) != pattern.charAt(i)) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
+
+    /**
+     * 字符串中的第一个唯一字符
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public int firstUniqChar(String s) {
+        int length = s.length();
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < length; i++) {
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
+        }
+        for (int i = 0; i < length; i++) {
+            if (map.containsKey(s.charAt(i))) {
+                if (map.get(s.charAt(i)) == 1) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 有多少小于当前数字的数字
+     * https://leetcode-cn.com/problems/how-many-numbers-are-smaller-than-the-current-number/
+     */
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        return new int[0];
+    }
+
+    /**
+     * 一维数组的动态和
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int[] runningSum(int[] nums) {
+        int sum = 0;
+        int[] res = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = nums[i] + sum;
+            sum = res[i];
+        }
+        return res;
+    }
+
+    /**
+     * 分发饼干
+     * https://leetcode-cn.com/problems/assign-cookies/
+     * 时间复杂度 o(mlogn + nlogm)
+     * 空间复杂度 o(logm + logn)
+     */
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int i = 0, j = 0;
+        int count = 0;
+        while (i < g.length && j < s.length) {
+            if (s[j] >= g[i]) {
+                count++;
+                i++;
+            }
+            j++;
+        }
+        return count;
+    }
+
+    /**
+     * 2的幂
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n <= 0) return false;
+        int l = 0;
+        int r = 32;
+        int m = (l + r) / 2;
+        while (l < r) {
+            if (Math.pow(2, m) == n) {
+                return true;
+            }
+            if (Math.pow(2, m) > n) {
+                r = m;
+            } else {
+                l = m + 1;
+            }
+            m = (l + r) / 2;
+        }
+        return false;
+    }
+
+    /**
+     * 宝石与石头
+     * 时间复杂度 o(m * n)
+     * 空间复杂度 o(1)
+     */
+    public int numJewelsInStones(String J, String S) {
+        int count = 0;
+        for (int i = 0; i < J.length(); i++) {
+            for (int j = 0; j < S.length(); j++) {
+                if (J.charAt(i) == S.charAt(j)) count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 位1的个数
+     */
+    public int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {
+            if ((n & 1) == 0) {
+                count++;
+            }
+            n = n >>> 1;
+        }
+        return count;
+    }
+
+    /**
+     * 分糖果
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int[] distributeCandies(int candies, int num_people) {
+        int[] p = new int[num_people];
+        int i = 0;
+        int n = p.length;
+        while (candies != 0) {
+            if (candies <= i + 1) {
+                p[i % n] += candies;
+                return p;
+            }
+            candies -= (i + 1);
+            p[i % n] += (i + 1);
+            i++;
+        }
+        return p;
+    }
 
     /**
      * 种花问题
@@ -250,9 +470,9 @@ public class JavaLtTest extends TestCase {
         return builder.append("1").reverse().toString();
     }
 
-    /**
-     *
-     */
+/**
+ *
+ */
 //    public boolean isPalindrome(String s) {
 //
 //    }
