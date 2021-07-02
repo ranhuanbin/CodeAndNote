@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.module.MainActivity">
+
+    <Button
+        android:id="@+id/sleep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="sleep"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/startFpsMonitor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="startFpsMonitor"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/stopFpsMonitor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="stopFpsMonitor"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/startLooper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="startLooper"
+        android:textAllCaps="false" />
+
+
+</LinearLayout>

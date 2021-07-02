@@ -1,0 +1,110 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.dokit.plugin'
+//apply plugin: 'com.plugin.ccregister'
+//apply plugin: 'com.register'
+// 大图检测
+apply plugin: 'com.monitor.largeimage'
+
+apply from: 'packPlugin.gradle'
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.module"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+
+    // Matrix
+//    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+
+    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
+
+    debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.14.7'
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.0'
+
+//    implementation 'me.weishu:epic:0.11.0'
+
+    implementation 'com.android.support:recyclerview-v7:30.0.1'
+
+    implementation 'android.arch.lifecycle:livedata:1.1.1'
+
+    implementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //基础的 OkSocket 功能集成包.您的Socket开发无论是客户端还是Java,都需要此包 (必须集成)
+    api 'com.tonystark.android:socket:4.1.0'
+    //如果您需要使用 OkSocketServer 功能在客户端或者Java程序,您还需要依赖下面的Server插件包和上面的一起依赖.
+    api 'com.tonystark.android:socket-server:4.1.0'
+
+//    api project(':LibTest')
+
+
+    implementation 'com.tencent:mmkv-static:1.1.0'
+
+    implementation 'com.github.yhaolpz:FloatWindow:1.0.9'
+
+    implementation 'com.blankj:utilcodex:1.29.0'
+}
+
+//dokitExt {
+//    slowMethod {
+//        stackMethod {
+//            thresholdTime 5
+//            enterMethods = ["com.module.MainActivity.test1"]
+//        }
+//        normalMethod {
+//            // 默认值为500ms, 小于该值的函数在运行时不会在控制台被打印
+//            thresholdTime 100
+//        }
+//    }
+//}
+
+largeImageMonitor {
+    largeImagePluginSwitch = true
+    mcBlackList = ["androidx/",
+                   "kotlin/",
+                   "io/reactivex",
+                   "okio/",
+                   "com/didichuxing/",
+                   "com/lib/monitor/methodcost/normal/MethodCostUtil"]
+}

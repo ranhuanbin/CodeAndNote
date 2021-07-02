@@ -1,4 +1,4 @@
-package com.module.mst.sf;
+package com.module.sf;
 
 import android.util.Log;
 

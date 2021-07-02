@@ -10,6 +10,61 @@ import java.util.List;
 import java.util.Stack;
 
 public class JavaTest extends TestCase {
+
+    @Test
+    public void test() {
+
+    }
+
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if (root == null) {
+            return false;
+        }
+
+        int d1 = 0, d2 = 0;
+        boolean f1 = false, f2 = false;
+        int d = 0;
+        TreeNode p1 = null, p2 = null;
+
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            d++;
+            while (size != 0) {
+                root = queue.poll();
+                if (root.val == x) {
+                    d1 = d;
+                    f1 = true;
+                } else if (root.val == y) {
+                    d2 = d;
+                    f2 = true;
+                }
+                if (root.left != null) {
+                    if (root.val == x) {
+                        d1 = d;
+                        f1 = true;
+                        p1 = root;
+                    }
+                    queue.offer(root.left);
+                }
+                if (root.right != null) {
+                    if (root.val == y) {
+                        d2 = d;
+                        f2 = true;
+                        p2 = root;
+                    }
+                    queue.offer(root.right);
+                }
+                size--;
+            }
+        }
+        if ((f1 && f2) && (p1 != p2)) {
+            return d1 == d2;
+        }
+        return false;
+    }
+
     //    @Test
 //    public void test() {
 //        int a = 1;
@@ -168,4 +223,6 @@ public class JavaTest extends TestCase {
             this.val = val;
         }
     }
+
+
 }

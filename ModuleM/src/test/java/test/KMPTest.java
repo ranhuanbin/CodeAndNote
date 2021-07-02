@@ -1,4 +1,6 @@
-package com.module.mst.sf;
+package test;
+
+import java.util.Arrays;
 
 public class KMPTest {
     public static int KMP(String ts, String ps) {
@@ -20,6 +22,12 @@ public class KMPTest {
         return -1;
     }
 
+    /**
+     * ABCDEEEEEABCEABCDEEEEEABCF
+     * ABCDEEEEEABCD
+     *   A  B  C  D  E  E  E  E  E  A  B  C  D
+     * [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3]
+     */
     public static int[] getNext(String ps) {
         char[] p = ps.toCharArray();
         int[] next = new int[p.length];
@@ -32,6 +40,7 @@ public class KMPTest {
                 k = next[k];
             }
         }
+        System.out.println("next = " + Arrays.toString(next));
         return next;
     }
 }

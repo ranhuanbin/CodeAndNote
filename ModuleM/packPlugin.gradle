@@ -1,0 +1,30 @@
+final String SDK_PACKAGE_NAME = sdkPackageName.replace('.', '/')
+final String SDK_PACKAGE_DIR = sdkPackageName.replace('.', File.separator)
+
+final String PACK_PREFIX = 'sdk_hotfix'
+
+final PATH = projectDir.toString() + File.separator + "robustjar" + File.separator + "release"
+
+hookBundle(PATH)
+
+private void hookBundle(sdkPackageDir) {
+    tasks.whenTaskAdded { task ->
+//        if (!isAppModule.toBoolean()) {
+//
+//        }
+        if (task.name != "processDebugResources") {
+            return
+        }
+
+        println '--监听task: ' + task.name
+
+        task.doLast {
+            String generatePath = buildDir.toString() + File.separator + "generated"
+
+            // R资源文件的路径
+            String rPath = generatePath + File.separator + "source" + File.separator + "r" + File.separator + "debug" + File.separator + sdkPackageDir + File.separator + "R.java"
+
+            println '-R文件路径: ' + rPath
+        }
+    }
+}

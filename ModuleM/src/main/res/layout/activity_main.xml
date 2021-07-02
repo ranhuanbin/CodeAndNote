@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/newThreadPool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="newThreadPool"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/newCachedThreadPool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="newCachedThreadPool"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/submitTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="submitTask"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/synchronousQueue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="synchronousQueue"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            tools:context="com.module.MainActivity">
+
+            <Button
+                android:id="@+id/startSleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="startSleep"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/interruptThread"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="interruptThread"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/slowMethodExt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="slowMethodExt"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/poll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="poll"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/largeImageMonitor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="largeImageMonitor"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/gotoFpsActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gotoFpsActivity"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/gotoHandleActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gotoHandleActivity"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/gotoAIDLActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gotoAIDLActivity"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/bfsTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="bfsTest"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/bfsAndDfs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="bfsAndDfs"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/threadTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="threadTest"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
