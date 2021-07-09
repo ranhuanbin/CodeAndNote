@@ -1,65 +1,83 @@
 package com.pattern.design;
 
-import android.text.TextUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.pattern.design.StrategyPatternDisign.StrategyManager.*;
-
 /**
  * 策略模式
- * 算法的变化独立于调用者
+ * 定义了算法族, 分别封装起来, 让他们之间可以相互替换, 此模式让算法的变化独立于使用算法的客户
+ *
  */
 public class StrategyPatternDisign {
-    public interface IStrategy {
-        void operator();
+    public interface FlyBehavior {
+        void fly();
     }
 
-    public static class StrategyA implements IStrategy {
+    public static class FlyWithWings implements FlyBehavior {
         @Override
-        public void operator() {
-            System.out.println("StrategyA operator");
+        public void fly() {
+            System.out.println("用翅膀飞");
         }
     }
 
-    public static class StrategyB implements IStrategy {
+    public static class FlyNoWay implements FlyBehavior {
         @Override
-        public void operator() {
-            System.out.println("StrategyB operator");
+        public void fly() {
+            System.out.println("不会飞");
         }
     }
 
-    public static class StrategyC implements IStrategy {
+    public interface QuackBehavior {
+        void quack();
+    }
+
+    public static class Quack implements QuackBehavior {
         @Override
-        public void operator() {
-            System.out.println("StrategyC operator");
+        public void quack() {
+            System.out.println("呱呱叫");
         }
     }
 
-    public static class StrategyManager {
-        public static String TAG_1 = "1";
-        public static String TAG_2 = "2";
-        public static String TAG_3 = "3";
-        private static Map<String, IStrategy> maps = new HashMap<>();
+    public static class MuteQuack implements QuackBehavior {
+        @Override
+        public void quack() {
+            System.out.println("不会叫");
+        }
+    }
 
-        static {
-            maps.put(TAG_1, new StrategyA());
-            maps.put(TAG_2, new StrategyA());
-            maps.put(TAG_3, new StrategyA());
+    public abstract static class Duck {
+        private FlyBehavior flyBehavior;
+        private QuackBehavior quackBehavior;
+
+        public abstract void display();
+
+        public void performQuack() {
+            quackBehavior.quack();
         }
 
-        public static void invoke(String name) {
-            if (TextUtils.isEmpty(name)) return;
-            IStrategy iStrategy = maps.get(name);
-            if (iStrategy == null) return;
-            iStrategy.operator();
+        public void performFly() {
+            flyBehavior.fly();
+        }
+
+        public void setFlyBehavior(FlyBehavior flyBehavior) {
+            this.flyBehavior = flyBehavior;
+        }
+
+        public void setQuackBehavior(QuackBehavior quackBehavior) {
+            this.quackBehavior = quackBehavior;
+        }
+    }
+
+    public static class Duck1 extends Duck {
+        @Override
+        public void display() {
+            System.out.println("我是Duck1");
         }
     }
 
     public static void test() {
-        StrategyManager.invoke(TAG_1);
-        StrategyManager.invoke(TAG_2);
-        StrategyManager.invoke(TAG_3);
+        Duck1 duck1 = new Duck1();
+        duck1.setFlyBehavior(new FlyNoWay());
+        duck1.setQuackBehavior(new Quack());
+
+        duck1.performFly();
+        duck1.performQuack();
     }
 }
