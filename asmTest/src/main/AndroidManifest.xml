@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.test">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".apm.memory.MemoryLeakActivity" />
+        <activity android:name=".apm.memory.MemoryLeakNormalActivity" />
+        <activity android:name=".apm.memory.MemoryLeakTestActivity" />
+        <activity android:name=".apm.matrix.resource.TestLeakActivity" />
+        <activity android:name=".apm.matrix.issue.IssuesListActivity" />
+        <activity android:name=".apm.matrix.MatrixActivity" />
+        <activity android:name=".apm.leak.android.DisplayLeakActivity" />
+        <activity android:name=".apm.matrix.trace.TestEnterActivity" />
+        <activity android:name=".apm.matrix.trace.TestFpsActivity" />
+        <activity android:name=".apm.matrix.trace.TestOtherProcessActivity" />
+        <activity android:name=".apm.matrix.trace.TestStartUpActivity" />
+        <activity android:name=".apm.matrix.trace.TestTraceMainActivity" />
+
+        <service android:name=".apm.leak.android.HeapAnalyzerService" />
+        <service android:name=".apm.leak.android.DisplayLeakService" />
+        <service android:name=".apm.matrix.trace.StartUpService" />
+
+        <receiver android:name=".apm.matrix.trace.StartUpBroadcastReceiver" />
+    </application>
+
+</manifest>

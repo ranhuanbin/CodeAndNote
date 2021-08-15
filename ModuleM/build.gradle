@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 //apply plugin: 'com.plugin.ccregister'
 //apply plugin: 'com.register'
 // 大图检测
-apply plugin: 'com.monitor.largeimage'
+//apply plugin: 'com.monitor.largeimage'
 
 apply from: 'packPlugin.gradle'
 android {
@@ -39,6 +39,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
     // Matrix
@@ -84,8 +85,8 @@ dependencies {
     implementation 'com.github.yhaolpz:FloatWindow:1.0.9'
 
     implementation 'com.blankj:utilcodex:1.29.0'
-}
 
+}
 //dokitExt {
 //    slowMethod {
 //        stackMethod {
@@ -99,12 +100,13 @@ dependencies {
 //    }
 //}
 
-largeImageMonitor {
-    largeImagePluginSwitch = true
-    mcBlackList = ["androidx/",
-                   "kotlin/",
-                   "io/reactivex",
-                   "okio/",
-                   "com/didichuxing/",
-                   "com/lib/monitor/methodcost/normal/MethodCostUtil"]
-}
+//largeImageMonitor {
+//    largeImagePluginSwitch = true
+//    mcBlackList = ["androidx/",
+//                   "kotlin/",
+//                   "io/reactivex",
+//                   "okio/",
+//                   "com/didichuxing/",
+//                   "com/lib/monitor/methodcost/normal/MethodCostUtil"]
+//    mcWhiteList = ["com/module"]
+//}

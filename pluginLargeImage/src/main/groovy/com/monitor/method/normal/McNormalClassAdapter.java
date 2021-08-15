@@ -33,6 +33,9 @@ public class McNormalClassAdapter extends ClassVisitor {
         if (McUtils.ignorePackageNames(className)) {
             return mv;
         }
+        if (!McUtils.whiteList(className)) {
+            return mv;
+        }
         System.out.println("classname = " + className + ", methodName = " + methodName);
         if (!methodName.equals("<init>")) {
             return new McNormalMethodAdapter(className, mv, access, methodName, desc);

@@ -17,4 +17,18 @@ public class McUtils {
         }
         return false;
     }
+
+    /**
+     * 是否为白名单. true: 是, false: 不是
+     */
+    public static boolean whiteList(String className) {
+        List<String> mcWhiteList = Config.getInstance().getMcWhiteList();
+        for (String white : mcWhiteList) {
+            if (className.contains(white)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

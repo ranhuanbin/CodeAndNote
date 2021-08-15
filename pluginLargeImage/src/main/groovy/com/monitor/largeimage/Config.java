@@ -55,6 +55,7 @@ public class Config {
         if (null != extension) {
             this.largeImagePluginSwitch = extension.largeImagePluginSwitch;
             setMcBlackList(extension.mcBlackList);
+            setMcWhiteList(extension.mcWhiteList);
         }
     }
 }

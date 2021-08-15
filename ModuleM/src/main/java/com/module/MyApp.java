@@ -2,6 +2,8 @@ package com.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Debug;
+import android.util.Log;
 
 import com.github.anrwatchdog.ANRWatchDog;
 import com.lib.monitor.largeimage.LargeImage;
@@ -18,6 +20,8 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.v("AndroidTest", "onCreate");
+        Debug.startMethodTracing();
 //        initMatrix();
 //        initAnrWatchDog();
 //        SystemClock.sleep(2000);
@@ -27,6 +31,7 @@ public class MyApp extends Application {
         LargeImage.getInstance().install(this)
                 .setFileSizeThreshold(400)
                 .setMemorySizeThreshold(100);
+
     }
 
 //    private void initEpicHook() {

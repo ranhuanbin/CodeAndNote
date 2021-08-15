@@ -6,34 +6,21 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
-import com.didichuxing.doraemonkit.plugin.loadTransformers
-import com.didiglobal.booster.annotations.Priority
-import com.didiglobal.booster.gradle.*
+import com.didiglobal.booster.gradle.SCOPE_FULL_PROJECT
+import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.transform.AbstractKlassPool
+import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
+import java.util.*
 
-/**
- * Represents the transform base
- * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
- */
 open class DoKitBaseTransform(val project: Project) : Transform() {
-
-    /*
-     * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
-     */
-    internal open val transformers = loadTransformers(project.buildscript.classLoader).sortedBy {
-        it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
-    }
-
-    internal val verifyEnabled = project.getProperty(OPT_TRANSFORM_VERIFY, false)
-
-    private val android: BaseExtension = project.getAndroid()
-
+    internal open val transformers = ServiceLoader.load(Transformer::class.java, javaClass.classLoader).toList()
     private lateinit var androidKlassPool: AbstractKlassPool
+    private val androidExt: BaseExtension = project.getAndroid()
 
     init {
         project.afterEvaluate {
-            androidKlassPool = object : AbstractKlassPool(android.bootClasspath) {}
+            androidKlassPool = object : AbstractKlassPool(androidExt.bootClasspath) {}
         }
     }
 
@@ -42,49 +29,26 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
 
     override fun getName() = this.javaClass.simpleName
 
-    override fun isIncremental() = !verifyEnabled
-
-    override fun isCacheable() = !verifyEnabled
-
     override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> = TransformManager.CONTENT_CLASS
 
-    override fun getScopes(): MutableSet<in QualifiedContent.Scope> = when {
-        transformers.isEmpty() -> mutableSetOf()
-        project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
-        project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
-        project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
-        else -> TODO("Not an Android project")
-    }
-
-    override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> = when {
-        transformers.isEmpty() -> when {
-            project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
+    override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
+        return when {
+            transformers.isEmpty() -> mutableSetOf()
             project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
-            project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
-            else -> TODO("Not an Android project")
+            else -> SCOPE_FULL_PROJECT
         }
-        else -> super.getReferencedScopes()
     }
 
-    final override fun transform(invocation: TransformInvocation) {
-        println("[DokitBaseTransform] [transform] [class = $name]")
-        // 当前编译是否为增量编译是由系统告知我们的
+    override fun isIncremental() = true
+
+    override fun transform(invocation: TransformInvocation) {
         DoKitTransformInvocation(invocation, this).apply {
-            if (isIncremental) {// 增量
-                println("[DokitBaseTransform] [transform] [增量编译] [class = $name]")
+            if (isIncremental) {
                 doIncrementalTransform()
-            } else {// 全量
-                println("[DokitBaseTransform] [transform] [全量编译] [class = $name]")
-                // 如果是全量编译, 首先清空缓存
+            } else {
                 outputProvider?.deleteAll()
                 doFullTransform()
             }
         }
     }
-
 }
-
-/**
- * The option for transform outputs verifying, default is false
- */
-private const val OPT_TRANSFORM_VERIFY = "dokit.transform.verify"

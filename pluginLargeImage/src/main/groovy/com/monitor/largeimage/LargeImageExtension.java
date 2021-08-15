@@ -6,4 +6,5 @@ import java.util.List;
 public class LargeImageExtension {
     public boolean largeImagePluginSwitch = true;
     public List<String> mcBlackList = new ArrayList<>();
+    public List<String> mcWhiteList = new ArrayList<>();
 }

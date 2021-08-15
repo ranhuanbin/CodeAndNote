@@ -14,7 +14,6 @@ public class MethodCostUtil {
         methodCostMap.put(methodName, System.currentTimeMillis());
     }
 
-
     public static synchronized void recordObjectMethodCostEnd(int thresholdTime, String methodName) {
         if (!Thread.currentThread().getName().equals("main")) {
             return;
@@ -22,7 +21,6 @@ public class MethodCostUtil {
         if (!methodCostMap.containsKey(methodName)) {
             return;
         }
-
         long starttime = methodCostMap.get(methodName);
         long cost = System.currentTimeMillis() - starttime;
         if (cost < thresholdTime) {

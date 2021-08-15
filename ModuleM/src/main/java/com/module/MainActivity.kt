@@ -2,6 +2,7 @@ package com.module
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Debug
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -56,10 +57,11 @@ class MainActivity : FragmentActivity() {
         newCachedThreadPool.setOnClickListener { ThreadPoolTest.newCachedThreadPool() }
         submitTask.setOnClickListener { ThreadPoolTest.submitTask() }
         synchronousQueue.setOnClickListener { NetManager.request() }
+        Debug.stopMethodTracing()
     }
 
     fun test() {
-         MethodCostTest().test()
+        MethodCostTest().test()
 
 //        ThreadPoolTest.newScheduledThreadPool()
 //        Heapsort.test()

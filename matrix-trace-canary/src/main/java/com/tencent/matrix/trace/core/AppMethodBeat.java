@@ -306,7 +306,7 @@ public class AppMethodBeat implements BeatLifecycle {
         }
         trueId |= (long) methodId << 43;
         trueId |= sCurrentDiffTime & 0x7FFFFFFFFFFL;
-        MatrixLog.i(TAG, "[mergeData] methodId[%d], index[%d], isIn[%s], sCurrentDiffTime[%d], trueId[%d]", methodId, index, "" + isIn, sCurrentDiffTime, trueId);
+//        MatrixLog.i(TAG, "[mergeData] methodId[%d], index[%d], isIn[%s], sCurrentDiffTime[%d], trueId[%d]", methodId, index, "" + isIn, sCurrentDiffTime, trueId);
         sBuffer[index] = trueId;
         checkPileup(index);
         sLastIndex = index;
@@ -443,7 +443,7 @@ public class AppMethodBeat implements BeatLifecycle {
             MatrixLog.e(TAG, e.toString());
             return data;
         } finally {
-            MatrixLog.i(TAG, "[copyData] index[start:%s, end:%s] data[length:%s, 0:%d, 1:%d] cost:%sms", Math.max(0, startRecord.index), endRecord.index, data.length, data[0], data[1], System.currentTimeMillis() - current);
+//            MatrixLog.i(TAG, "[copyData] index[start:%s, end:%s] data[length:%s, 0:%d, 1:%d] cost:%sms", Math.max(0, startRecord.index), endRecord.index, data.length, data[0], data[1], System.currentTimeMillis() - current);
         }
     }
 

@@ -76,4 +76,30 @@ public class MyApp extends Application {
         return set.size() == map.size();
     }
 
+    public String defangIPaddr(String address) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < address.length(); i++) {
+            if (address.charAt(i) == '.') {
+                sb.append("[").append(".").append("]");
+            } else {
+                sb.append(address.charAt(i));
+            }
+        }
+        return sb.toString().trim();
+    }
+
+    public int balancedStringSplit(String s) {
+        int dis = 0, count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == 'R') {
+                dis++;
+            } else {
+                dis--;
+            }
+            if (dis == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

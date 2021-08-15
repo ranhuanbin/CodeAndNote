@@ -4,10 +4,14 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -27,9 +31,14 @@ import java.util.Stack;
  * <p>
  * 11.位运算, 需要关注char与int的关系
  * <p>      (1) 找不同 {@link #findTheDifference(String, String)}
+ * 12.堆排序
+ * <p>      (1) 最后一块石头的重量 {@link #lastStoneWeight(int[])}
+ * 13.递归
+ * <p>      (1) 链表反转 {@link #reverseList(ListNode)}
  * 5. 未做出来
  * (1) x的平方根 {@link #mySqrt(int)}
  * (2) 有多少小于当前数字的数字 {@link #smallerNumbersThanCurrent(int[])}
+ * (3) 将数组分成和相等的三个部分 {@link #canThreePartsEqualSum(int[])}
  */
 public class JavaLtTest extends TestCase {
     @Test
@@ -41,12 +50,301 @@ public class JavaLtTest extends TestCase {
 //        distributeCandies(7, 4);
 
 //        missingNumber(new int[]{3, 0, 1});
-        findTheDifference("abcd", "abcde");
+//        findTheDifference("abcd", "abcde");
+
+//        lastStoneWeight(new int[]{2, 7, 4, 8, 1, 1});
+
     }
 
-    //    public int[] twoSum(int[] numbers, int target) {
-//
-//    }
+    /**
+     * 只出现一次的数字
+     * https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public int singleNumber1(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+        for (Map.Entry<Integer, Integer> next : entries) {
+            if (next.getValue() == 1) {
+                return next.getKey();
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 数组中出现次数超过一半的数字
+     * https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int majorityElement(int[] nums) {
+        int x = 0, y = 0;
+        for (int num : nums) {
+            if (x == 0) {
+                y = num;
+            }
+            x += (y == num ? 1 : -1);
+        }
+        return x > 0 ? y : -1;
+    }
+
+    /**
+     * 合并两个排序的链表
+     * https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode pre = new ListNode(-1);
+        ListNode head = pre;
+        pre.next = head;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                head.next = l1;
+                l1 = l1.next;
+            } else {
+                head.next = l2;
+                l2 = l2.next;
+            }
+            head = head.next;
+        }
+        if (l1 == null) {
+            head.next = l2;
+        } else {
+            head.next = l1;
+        }
+        return pre.next;
+    }
+
+    /**
+     * 反转链表
+     * https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/
+     */
+    public ListNode reverseList(ListNode head) {
+        // 迭代
+//        if (head == null) return null;
+//        ListNode pre = null;
+//        ListNode cur = head;
+//        while (cur != null) {
+//            ListNode next = cur.next;
+//            cur.next = pre;
+//            pre = cur;
+//            cur = next;
+//        }
+//        return pre;
+
+        // 递归
+        if (head == null || head.next == null) return head;
+        ListNode newHead = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+
+    public int[] reversePrint(ListNode head) {
+        // 迭代
+        List<Integer> arr = new ArrayList<>();
+        if (head == null) return new int[0];
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur != null) {
+            arr.add(cur.val);
+            ListNode next = cur.next;
+            cur.next = pre;
+            cur = next;
+            pre = cur;
+        }
+        int[] res = new int[arr.size()];
+        for (int i = 0; i < arr.size(); i++) {
+            res[i] = arr.get(arr.size() - i - 1);
+        }
+        return res;
+    }
+
+    /**
+     * 存在重复元素 II
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                if ((i - map.get(nums[i])) <= k) {
+                    return true;
+                }
+            }
+            map.put(nums[i], i);
+        }
+        return false;
+    }
+
+    /**
+     * 独一无二的出现次数
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(n)
+     */
+    public boolean uniqueOccurrences(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int j : arr) {
+            map.put(j, map.getOrDefault(j, 0) + 1);
+        }
+        Set<Integer> set = new HashSet<>();
+        Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+        for (Map.Entry<Integer, Integer> next : entries) {
+            if (set.contains(next.getValue())) {
+                return false;
+            }
+            set.add(next.getValue());
+        }
+        return true;
+    }
+
+    public boolean backspaceCompare(String S, String T) {
+        Stack<Character> stack1 = new Stack<>();
+        Stack<Character> stack2 = new Stack<>();
+        for (int i = 0; i < S.length(); i++) {
+            if ('#' == S.charAt(i)) {
+                if (!stack1.isEmpty()) {
+                    stack1.pop();
+                }
+            } else {
+                stack1.push(S.charAt(i));
+            }
+        }
+        for (int i = 0; i < T.length(); i++) {
+            if ('#' == T.charAt(i)) {
+                if (!stack2.isEmpty()) {
+                    stack2.pop();
+                }
+            } else {
+                stack2.push(T.charAt(i));
+            }
+        }
+        if (stack1.size() != stack2.size()) return false;
+        while (!stack1.isEmpty()) {
+            if (stack1.pop() != stack2.pop()) return false;
+        }
+        return true;
+    }
+
+    /**
+     * 最后一块石头的重量
+     * 时间复杂度 o(nlogn)
+     * 空间复杂度 o(n)
+     */
+    public int lastStoneWeight(int[] stones) {
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        for (int stone : stones) {
+            queue.offer(stone);
+        }
+        while (queue.size() > 1) {
+            int a = queue.poll();
+            int b = queue.poll();
+            if (a != b) {
+                queue.offer(Math.abs(a - b));
+            }
+        }
+        return queue.isEmpty() ? 0 : queue.poll();
+    }
+
+    /**
+     * 最大连续 1 的个数
+     * 时间复杂度 o(n)
+     * 空间复杂度 o(1)
+     */
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int temp = 0;
+        for (int num : nums) {
+            if (num == 0) {
+                if (temp > max) {
+                    max = temp;
+                }
+                temp = 0;
+            } else {
+                temp++;
+            }
+        }
+        return Math.max(max, temp);
+    }
+
+    /**
+     * 拼写单词
+     * 时间复杂度 o(n²)
+     * 空间复杂度 o(m)
+     */
+    public int countCharacters(String[] words, String chars) {
+        int count = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < chars.length(); i++) {
+            map.put(chars.charAt(i), map.getOrDefault(chars.charAt(i), 0) + 1);
+        }
+        for (String s : words) {
+            if (s.length() > chars.length()) {
+                continue;
+            }
+            Map<Character, Integer> backMap = new HashMap<>(map);
+            int innerCount = 0;
+            for (int j = 0; j < s.length(); j++) {
+                if (backMap.containsKey(s.charAt(j)) && backMap.getOrDefault(s.charAt(j), 0) > 0) {
+                    innerCount++;
+                    backMap.put(s.charAt(j), backMap.getOrDefault(s.charAt(j), 0) - 1);
+                } else {
+                    innerCount = 0;
+                    break;
+                }
+            }
+            count += innerCount;
+        }
+        return count;
+    }
+
+    /**
+     * 将数组分成和相等的三个部分
+     * https://leetcode-cn.com/problems/partition-array-into-three-parts-with-equal-sum/
+     */
+    public boolean canThreePartsEqualSum(int[] arr) {
+        int sum = 0;
+        for (int num : arr) {
+            sum += num;
+        }
+        return false;
+    }
+
+    /**
+     * 翻转图像
+     * 时间复杂度o(n²)
+     * 空间复杂度o(1)
+     */
+    public int[][] flipAndInvertImage(int[][] image) {
+        for (int i = 0; i < image.length; i++) {
+            int l = 0, r = image[i].length - 1;
+            while (l < r) {
+                int temp = image[i][l];
+                image[i][l] = image[i][r];
+                image[i][r] = temp;
+                l++;
+                r--;
+            }
+        }
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image[i].length; j++) {
+                image[i][j] ^= 1;
+            }
+        }
+        return image;
+    }
 
     /**
      * 找不同
@@ -478,24 +776,6 @@ public class JavaLtTest extends TestCase {
 //    }
 
     /**
-     * 多数元素
-     * 时间复杂度 o(n)
-     * 空间复杂度 o(1)
-     * https://leetcode-cn.com/problems/majority-element/
-     */
-    public int majorityElement(int[] nums) {
-        int res = 0;
-        int flag = 0;
-        for (int num : nums) {
-            if (flag == 0) {
-                res = num;
-            }
-            flag += (res == num) ? 1 : -1;
-        }
-        return res;
-    }
-
-    /**
      * 只出现一次的数字
      * 时间复杂度 o(n)
      * 空间复杂度 o(1)
@@ -745,6 +1025,7 @@ public class JavaLtTest extends TestCase {
                 put('}', '{');
             }
         };
+
         Stack<Character> stack = new Stack<>();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -776,28 +1057,6 @@ public class JavaLtTest extends TestCase {
             x /= 10;
         }
         return flag * res;
-    }
-
-    public ListNode reverseList(ListNode head) {
-        //迭代
-        ListNode cur = head;
-        ListNode pre = null;
-        while (cur != null) {
-            ListNode next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
-        }
-        return pre;
-
-        // 递归
-//        if (head == null) {
-//            return head;
-//        }
-//        ListNode newHead = reverseList(head.next);
-//        head.next.next = head;
-//        head.next = null;
-//        return newHead;
     }
 
     private static class ListNode {

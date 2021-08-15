@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/gotoTestLeakActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="gotoTestLeakActivity"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/gotoIssuesListActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="gotoIssuesListActivity"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/gotoTestTraceMainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="gotoTestTraceMainActivity"
+        android:textAllCaps="false" />
+</LinearLayout>

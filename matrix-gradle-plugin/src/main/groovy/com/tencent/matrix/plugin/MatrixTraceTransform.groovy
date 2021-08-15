@@ -31,69 +31,84 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import static com.android.builder.model.AndroidProject.FD_OUTPUTS
 
+/**
+ * 该类hook了系统构建Dex的Transform并配合ASM框架，插入方法执行时间记录的字节码
+ * todo:
+ * 1. 编译时混淆对应哪个task, 在什么时间执行
+ */
 class MatrixTraceTransform extends Transform {
 
-    private static final String TAG = "MatrixTraceTransform";
-    private Configuration config;
-    private Transform origTransform;
+    private static final String TAG = "MatrixTraceTransform"
+    private Configuration config
+    private Transform origTransform
+    // 创建线程大小为16的线程池
     private ExecutorService executor = Executors.newFixedThreadPool(16);
 
     static void inject(Project project, MatrixTraceExtension extension, VariantScope variantScope) {
 
-        GlobalScope globalScope = variantScope.getGlobalScope();
-        BaseVariantData variant = variantScope.getVariantData();
+        GlobalScope globalScope = variantScope.getGlobalScope()
+        BaseVariantData variant = variantScope.getVariantData()
+        /**
+         * mapping文件存储目录 如： app\build\outputs\mapping\debug
+         * 在该目录下Trace会生成两个mapping文件 一个是methodMapping.txt，一个是ignoreMethodMapping.txt
+         */
         String mappingOut = Joiner.on(File.separatorChar).join(
                 String.valueOf(globalScope.getBuildDir()),
                 FD_OUTPUTS,
                 "mapping",
-                variantScope.getVariantConfiguration().getDirName());
-
+                variantScope.getVariantConfiguration().getDirName())
+        /**
+         * 插桩后的class存储目录 如：app\build\outputs\mapping\debug\traceClass
+         */
         String traceClassOut = Joiner.on(File.separatorChar).join(
                 String.valueOf(globalScope.getBuildDir()),
                 FD_OUTPUTS,
                 "traceClassOut",
-                variantScope.getVariantConfiguration().getDirName());
+                variantScope.getVariantConfiguration().getDirName())
+        println("[MatrixTraceTransform] [inject] [mappintOut: $mappingOut, traceClassOut: $traceClassOut]")
+        /**
+         * 收集配置信息
+         */
         Configuration config = new Configuration.Builder()
-                .setPackageName(variant.getApplicationId())
-                .setBaseMethodMap(extension.getBaseMethodMapFile())
-                .setBlackListFile(extension.getBlackListFile())
-                .setMethodMapFilePath(mappingOut + "/methodMapping.txt")
-                .setIgnoreMethodMapFilePath(mappingOut + "/ignoreMethodMapping.txt")
-                .setMappingPath(mappingOut)
-                .setTraceClassOut(traceClassOut)
-                .build();
-
+                .setPackageName(variant.getApplicationId())//包名
+                .setBaseMethodMap(extension.getBaseMethodMapFile())// build.gradle中配置的baseMethodMapFile, 保存的是我们指定要插桩的方法
+                .setBlackListFile(extension.getBlackListFile())// build.gradle中配置的blackListFile, 保存的是不需要插桩的文件
+                .setMethodMapFilePath(mappingOut + "/methodMapping.txt")// 记录插桩的methodId和method的关系
+                .setIgnoreMethodMapFilePath(mappingOut + "/ignoreMethodMapping.txt")// 记录没有被插桩的方法
+                .setMappingPath(mappingOut)// mapping文件存储目录
+                .setTraceClassOut(traceClassOut)// 插桩后的class存储目录
+                .build()
         try {
+            /**
+             * 获取 TransformTask.. 具体名称 如：transformClassesWithDexBuilderForDebug 和 transformClassesWithDexForDebug
+             */
             String[] hardTask = getTransformTaskName(extension.getCustomDexTransformName(), variant.getName());
             for (Task task : project.getTasks()) {
                 for (String str : hardTask) {
+                    // 找到task并进行hook
                     if (task.getName().equalsIgnoreCase(str) && task instanceof TransformTask) {
-                        TransformTask transformTask = (TransformTask) task;
-                        Log.i(TAG, "successfully inject task:" + transformTask.getName());
-                        Field field = TransformTask.class.getDeclaredField("transform");
-                        field.setAccessible(true);
-                        field.set(task, new MatrixTraceTransform(config, transformTask.getTransform()));
-                        break;
+                        TransformTask transformTask = (TransformTask) task
+                        Log.i(TAG, "successfully inject task:" + transformTask.getName())
+                        Field field = TransformTask.class.getDeclaredField("transform")
+                        field.setAccessible(true)
+                        // 将指定的task转换为MatrixTraceTransform
+                        // todo {RHB} 暂时有一个疑问, 直接用MatrixTraceTransform进行插桩不可以吗? 为什么要进行hook?
+                        field.set(task, new MatrixTraceTransform(config, transformTask.getTransform()))
+                        break
                     }
                 }
             }
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-
     }
 
 
     private static String[] getTransformTaskName(String customDexTransformName, String buildTypeSuffix) {
         if (!Util.isNullOrNil(customDexTransformName)) {
             return [customDexTransformName + "For" + buildTypeSuffix]
-//            return new String[]{customDexTransformName + "For" + buildTypeSuffix}
         } else {
             String[] names = ["transformClassesWithDexBuilderFor" + buildTypeSuffix, "transformClassesWithDexFor" + buildTypeSuffix]
-//            String[] names = new String[]{
-//                    ("transformClassesWithDexBuilderFor" + buildTypeSuffix),
-//                    "transformClassesWithDexFor" + buildTypeSuffix
-//            }
             return names
         }
     }
@@ -125,83 +140,88 @@ class MatrixTraceTransform extends Transform {
 
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
-        super.transform(transformInvocation);
-        long start = System.currentTimeMillis();
+        super.transform(transformInvocation)
+        long start = System.currentTimeMillis()
         try {
-            doTransform(transformInvocation); // hack
+            doTransform(transformInvocation) // hack
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            e.printStackTrace()
         }
-        long cost = System.currentTimeMillis() - start;
-        long begin = System.currentTimeMillis();
-        origTransform.transform(transformInvocation);
-        long origTransformCost = System.currentTimeMillis() - begin;
+        long cost = System.currentTimeMillis() - start
+        long begin = System.currentTimeMillis()
+        /**
+         * 执行原origTransform的transform方法, 包括virtualApk的hook, 都是构造函数里面持有原对象的引用,
+         * 在特定场景触发
+         */
+        origTransform.transform(transformInvocation)
+        long origTransformCost = System.currentTimeMillis() - begin
         Log.i("Matrix." + getName(), "[transform] cost time: %dms %s:%sms MatrixTraceTransform:%sms", System.currentTimeMillis() - start, origTransform.getClass().getSimpleName(), origTransformCost, cost);
     }
 
     private void doTransform(TransformInvocation transformInvocation) throws ExecutionException, InterruptedException {
-        final boolean isIncremental = transformInvocation.isIncremental() && this.isIncremental();
-
+        final boolean isIncremental = transformInvocation.isIncremental() && this.isIncremental()
         /**
          * step 1
          */
-        long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis()
 
-        List<Future> futures = new LinkedList<>();
-
-        final MappingCollector mappingCollector = new MappingCollector();
-        final AtomicInteger methodId = new AtomicInteger(0);
-        final ConcurrentHashMap<String, TraceMethod> collectedMethodMap = new ConcurrentHashMap<>();
-
-        futures.add(executor.submit(new ParseMappingTask(mappingCollector, collectedMethodMap, methodId)));
-
-        Map<File, File> dirInputOutMap = new ConcurrentHashMap<>();
-        Map<File, File> jarInputOutMap = new ConcurrentHashMap<>();
-        Collection<TransformInput> inputs = transformInvocation.getInputs();
+        List<Future> futures = new LinkedList<>()
+        // 存储方法混淆前后的映射关系
+        final MappingCollector mappingCollector = new MappingCollector()
+        // methodId计数器
+        final AtomicInteger methodId = new AtomicInteger(0)
+        // 存储需要插桩的方法名和方法封装的方法对象
+        final ConcurrentHashMap<String, TraceMethod> collectedMethodMap = new ConcurrentHashMap<>()
+        // 将ParseMappingTask放入线程池
+        futures.add(executor.submit(new ParseMappingTask(mappingCollector, collectedMethodMap, methodId)))
+        // 存储原始jar文件和输出jar文件的对应关系
+        Map<File, File> dirInputOutMap = new ConcurrentHashMap<>()
+        Map<File, File> jarInputOutMap = new ConcurrentHashMap<>()
+        Collection<TransformInput> inputs = transformInvocation.getInputs()
 
         for (TransformInput input : inputs) {
-
             for (DirectoryInput directoryInput : input.getDirectoryInputs()) {
-                futures.add(executor.submit(new CollectDirectoryInputTask(dirInputOutMap, directoryInput, isIncremental)));
+                futures.add(executor.submit(new CollectDirectoryInputTask(dirInputOutMap, directoryInput, isIncremental)))
             }
-
             for (JarInput inputJar : input.getJarInputs()) {
-                futures.add(executor.submit(new CollectJarInputTask(inputJar, isIncremental, jarInputOutMap, dirInputOutMap)));
+                futures.add(executor.submit(new CollectJarInputTask(inputJar, isIncremental, jarInputOutMap, dirInputOutMap)))
             }
         }
-
         for (Future future : futures) {
-            future.get();
+            // 等待所有线程运行完毕
+            future.get()
         }
-        futures.clear();
-
-        Log.i(TAG, "[doTransform] Step(1)[Parse]... cost:%sms", System.currentTimeMillis() - start);
-
-
+        futures.clear()
+        Log.i(TAG, "[doTransform] Step(1)[Parse]... cost:%sms", System.currentTimeMillis() - start)
         /**
          * step 2
+         * 1. 收集需要插桩和不需要插桩的方法, 并记录在mapping文件中
+         * 2. 收集类之间的继承关系
          */
-        start = System.currentTimeMillis();
-        MethodCollector methodCollector = new MethodCollector(executor, mappingCollector, methodId, config, collectedMethodMap);
+        start = System.currentTimeMillis()
+        // 收集需要插桩的方法信息, 将该方法信息封装到TraceMethod中
+        MethodCollector methodCollector = new MethodCollector(executor, mappingCollector, methodId, config, collectedMethodMap)
         methodCollector.collect(dirInputOutMap.keySet(), jarInputOutMap.keySet());
-        Log.i(TAG, "[doTransform] Step(2)[Collection]... cost:%sms", System.currentTimeMillis() - start);
+        Log.i(TAG, "[doTransform] Step(2)[Collection]... cost:%sms", System.currentTimeMillis() - start)
 
         /**
-         * step 3
+         * step 3 进行插桩
          */
-        start = System.currentTimeMillis();
+        start = System.currentTimeMillis()
+        // 执行插桩逻辑, 在需要进行插桩的方法的入口与结束处分别调用AppMethodBeat的i/o方法
         MethodTracer methodTracer = new MethodTracer(executor, mappingCollector, config, methodCollector.getCollectedMethodMap(), methodCollector.getCollectedClassExtendMap());
         methodTracer.trace(dirInputOutMap, jarInputOutMap);
         Log.i(TAG, "[doTransform] Step(3)[Trace]... cost:%sms", System.currentTimeMillis() - start);
-
     }
 
-
+    // 解析app\build\outputs\mapping\debug\mapping.txt文件
     private class ParseMappingTask implements Runnable {
-
-        final MappingCollector mappingCollector;
-        final ConcurrentHashMap<String, TraceMethod> collectedMethodMap;
-        private final AtomicInteger methodId;
+        // 存储混淆前和混淆后方法的映射关系
+        final MappingCollector mappingCollector
+        // String: 需要插桩的方法名, TraceMethod将方法相关信息进行封装
+        final ConcurrentHashMap<String, TraceMethod> collectedMethodMap
+        // 计数器
+        private final AtomicInteger methodId
 
         ParseMappingTask(MappingCollector mappingCollector, ConcurrentHashMap<String, TraceMethod> collectedMethodMap, AtomicInteger methodId) {
             this.mappingCollector = mappingCollector;
@@ -212,18 +232,20 @@ class MatrixTraceTransform extends Transform {
         @Override
         public void run() {
             try {
-                long start = System.currentTimeMillis();
-
-                File mappingFile = new File(config.mappingDir, "mapping.txt");
+                long start = System.currentTimeMillis()
+                // 获取mapping.txt文件(该文件记录了混淆前后的映射关系)
+                File mappingFile = new File(config.mappingDir, "mapping.txt")
                 if (mappingFile.exists() && mappingFile.isFile()) {
-                    MappingReader mappingReader = new MappingReader(mappingFile);
-                    mappingReader.read(mappingCollector);
+                    // 如果文件存在, 解析该文件, 并将解析结果保存到MappingCollector中
+                    MappingReader mappingReader = new MappingReader(mappingFile)
+                    mappingReader.read(mappingCollector)
                 }
-                int size = config.parseBlackFile(mappingCollector);
-
-                File baseMethodMapFile = new File(config.baseMethodMapPath);
-                getMethodFromBaseMethod(baseMethodMapFile, collectedMethodMap);
-                retraceMethodMap(mappingCollector, collectedMethodMap);
+                // 解析黑名单文件并保存到Configuration.blackSet中
+                int size = config.parseBlackFile(mappingCollector)
+                //
+                File baseMethodMapFile = new File(config.baseMethodMapPath)
+                getMethodFromBaseMethod(baseMethodMapFile, collectedMethodMap)
+                retraceMethodMap(mappingCollector, collectedMethodMap)
 
                 Log.i(TAG, "[ParseMappingTask#run] cost:%sms, black size:%s, collect %s method from %s", System.currentTimeMillis() - start, size, collectedMethodMap.size(), config.baseMethodMapPath);
 

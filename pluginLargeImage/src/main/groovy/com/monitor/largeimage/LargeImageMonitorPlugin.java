@@ -3,7 +3,7 @@ package com.monitor.largeimage;
 import com.android.build.gradle.AppExtension;
 import com.monitor.largeimage.glide.GlideTransform;
 import com.monitor.largeimage.okhttp.OkHttpTransform;
-import com.monitor.method.stack.McStackTransform;
+import com.monitor.method.normal.McNormalTransform;
 
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
@@ -31,6 +31,6 @@ public class LargeImageMonitorPlugin implements Plugin<Project> {
         });
         appExtension.registerTransform(new OkHttpTransform(project), Collections.EMPTY_LIST);
         appExtension.registerTransform(new GlideTransform(project), Collections.EMPTY_LIST);
-        appExtension.registerTransform(new McStackTransform(project), Collections.EMPTY_LIST);
+        appExtension.registerTransform(new McNormalTransform(project), Collections.EMPTY_LIST);
     }
 }

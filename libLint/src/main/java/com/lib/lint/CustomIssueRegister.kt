@@ -16,6 +16,7 @@ class CustomIssueRegister : IssueRegistry() {
             PngDetector.ISSUE_PNG_IN_XML,
             ThreadDetector.ISSUE
         )
+//        get() = mutableListOf()
 
     override val api: Int
         get() = KotlinAdapter.getApi()

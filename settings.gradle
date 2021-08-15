@@ -1,2 +1,22 @@
-include ':app'
-rootProject.name = "MyApp"
+include ':lib'
+include ':LibTest'
+include ':myapplication'
+include ':ModuleM'//include ':RobustDemo'
+
+include ':ModulePlugin'
+include ':ModuleAPM'
+include ':APMLeakDetect'
+//include ':TestDokit'
+include ':TestDokitPlugin'
+include ':pluginLargeImage'
+include ':pluginCCRegister'
+include ':pluginRouterRegister'
+
+//include ':matrix-trace-canary'
+//include ':matrix-gradle-plugin'
+//include ':matrix-commons'
+//include ':matrix-arscutil'
+
+include ':ModuleLint'
+include ':libLint'
+include ':ModuleAsm'

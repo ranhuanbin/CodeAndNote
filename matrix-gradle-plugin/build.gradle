@@ -7,11 +7,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation gradleApi()
     implementation localGroovy()
-    implementation project(':matrix-commons')
-    implementation group: 'org.ow2.asm', name: 'asm', version: '7.0'
     implementation group: 'org.ow2.asm', name: 'asm-commons', version: '7.0'
     implementation 'com.android.tools.build:gradle:4.0.1'
-    implementation project(':matrix-arscutil')
+//    implementation project(':matrix-arscutil')
+//    implementation project(':matrix-commons')
+    implementation group: 'org.ow2.asm', name: 'asm', version: '7.0'
+    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-arscutil", version: MATRIX_VERSION, changing: true
 }
 repositories {
     jcenter()
@@ -40,7 +42,7 @@ compileGroovy {
 uploadArchives {
     repositories.mavenDeployer {
         pom.groupId = 'com.tencent.matrix.plugin' //自行定义, 一般是包名
-        pom.version = '1.0.0' //版本号
+        pom.version = '1.0.11' //版本号
         pom.artifactId = 'matrixPlugin' //自行定义
         //指定本地maven的路径, 在项目根目录下
         repository(url: uri('../repos'))
