@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <type_extension name="type_extension_url">
+    <extension>UrlExtension1</extension>
+    <extension>UrlExtension2</extension>
+    <extension>UrlExtension3</extension>
+  </type_extension>
+
+  <type_extension name="type_extension_browser">
+    <extension>BrowserExtension1</extension>
+    <extension>BrowserExtension2</extension>
+    <extension>BrowserExtension3</extension>
+  </type_extension>
+
+  <type_extension name="type_extension_view">
+    <extension>ViewExtension1</extension>
+    <extension>ViewExtension2</extension>
+    <extension>ViewExtension3</extension>
+  </type_extension>
+</resources>

@@ -29,26 +29,6 @@ class GlobalSlowMethodTransformer : AbsClassTransformer() {
         if (onCommInterceptor(context, klass)) {
             return klass
         }
-        // 统计Extension的类，放进集合中
-        if (klass.name.contains("ExtensionImpl")) {
-            println(
-                "【ClassNode】{" +
-                        "name = ${klass.name}，" +
-                        "interfaces = ${klass.interfaces}，" +
-                        "supers = ${klass.superName}" +
-                        "}"
-            )
-            println("【visibleAnnotations.size】= ${klass.visibleAnnotations.size}")
-            klass.visibleAnnotations.forEach {
-                println(
-                    "【visibleAnnotations】{" +
-                            "desc = ${it.desc}，" +
-                            "values = ${it.values}" +
-                            "}"
-                )
-            }
-            ExtensionUtils.extensions.add(klass.name)
-        }
         if (!DoKitExtUtil.dokitSlowMethodSwitchOpen()) {
             return klass
         }
@@ -60,7 +40,6 @@ class GlobalSlowMethodTransformer : AbsClassTransformer() {
         if (DoKitExtUtil.ignorePackageNames(klass.className)) {
             return klass
         }
-
 
         val className = klass.className
         //没有自定义设置插装包名 默认是以packageName为包名 即全局业务代码插桩

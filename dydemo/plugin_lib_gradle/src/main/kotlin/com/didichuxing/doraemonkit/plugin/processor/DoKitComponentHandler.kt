@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.plugin.processor
 import com.didichuxing.doraemonkit.plugin.println
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
-import temp.PluginProxyKt
 
 /**
  * ================================================
@@ -17,8 +16,6 @@ import temp.PluginProxyKt
 const val ATTR_NAME = "android:name"
 
 const val MANIFEST_ATTR_NAME = "package"
-
-const val ATTR_VALUE = "android:value"
 
 class DoKitComponentHandler : DefaultHandler() {
     var appPackageName: String = ""
@@ -57,13 +54,7 @@ class DoKitComponentHandler : DefaultHandler() {
             "receiver" -> {
                 receivers.add(name)
             }
-            "meta-data" -> {
-                val value = attributes.getValue(ATTR_VALUE)
-                value?.let { it ->
-                    "name = $name，value = $it".println()
-                    PluginProxyKt.parseExtensionMetaData(name, value)
-                }
-            }
+
         }
     }
 

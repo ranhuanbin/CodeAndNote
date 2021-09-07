@@ -1,15 +1,20 @@
 package com.didichuxing.doraemonkit.plugin.processor
 
-import com.android.build.api.variant.ApplicationVariant
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.BaseVariant
-import com.didichuxing.doraemonkit.plugin.*
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.ThirdLibInfo
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
-import com.didiglobal.booster.gradle.*
+import com.didichuxing.doraemonkit.plugin.isRelease
+import com.didichuxing.doraemonkit.plugin.println
+import com.didiglobal.booster.gradle.dependencies
+import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.mergedManifests
+import com.didiglobal.booster.gradle.project
 import com.didiglobal.booster.task.spi.VariantProcessor
 import org.gradle.api.Project
 import org.gradle.api.artifacts.result.ResolvedArtifactResult
+import temp.PluginProxyKt
 import java.io.File
 import javax.xml.parsers.SAXParserFactory
 
@@ -71,11 +76,9 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
             }
         }
 
-        println("===DoKitPluginConfigProcessor.process===【variant = $variant】")
-        println("===DoKitPluginConfigProcessor.process===【variant is ApplicationVariant】= ${variant is ApplicationVariant}")
         //查找application module下的配置
         if (variant is BaseVariant) {
-            println("===DoKitPluginConfigProcessor.process===【1=====】")
+            println("===DoKitPluginConfigProcessor.process===【1=====】variant.name = ${variant.name}")
             project.tasks.find {
                 //"===task Name is ${it.name}".println()
                 it.name == "processDebugManifest"
@@ -94,22 +97,10 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                         val file: File = manifest
                         val readText = file.readText()
                         "【doFirst】readText = $readText".println()
-//                        val replace = readText.replace("12345", "12345_12345")
-                        val replace = readText.replace(
-                            "<meta-data\n" +
-                                    "            android:name=\"123456\"\n" +
-                                    "            android:value=\"54321\" />", ""
-                        )
-                        file.writeText(replace)
-
-//                        PluginProxyKt.printExtension()
                     }
                 }
                 transformTask.doLast {
                     println("===processDebugManifest task doLast===")
-
-//                    PluginProxyKt.readPluginXML(project.projectDir.path)
-
                     //查找AndroidManifest.xml 文件路径
                     variant.mergedManifests.forEach { manifest ->
                         val parser = SAXParserFactory.newInstance().newSAXParser()
@@ -123,7 +114,9 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                         val file: File = manifest
                         val readText = file.readText()
 
-                        "【doLast】readText = $readText".println()
+                        val replace = PluginProxyKt.readPluginXML(readText, project.projectDir.path)
+                        file.writeText(replace)
+                        "【doLast】readText = $replace".println()
                     }
 
                     //读取插件配置

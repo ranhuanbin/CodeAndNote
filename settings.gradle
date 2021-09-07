@@ -1,4 +1,2 @@
-include ':moduleBase'
-include ':plugin-apm'
-include ':ModuleAPM'
 include ':dydemo:plugin_lib_gradle'
+include ':dydemo:lib_template'

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.demo.plugin2">
+
+  <application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name="com.lib.template.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <meta-data
+      android:name="type_extension"
+      android:value="type_extension_url type_extension_browser type_extension_view" />
+
+    <meta-data
+      android:name="type_extension_url"
+      android:value="pit_type_extension_url" />
+
+    <meta-data
+      android:name="type_extension_browser"
+      android:value="pit_type_extension_browser" />
+
+    <meta-data
+      android:name="type_extension_view"
+      android:value="pit_type_extension_view" />
+
+  </application>
+</manifest>

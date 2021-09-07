@@ -13,6 +13,7 @@ import com.didiglobal.booster.gradle.getProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import temp.XMLParserHandler.Companion.extensionMap
 
 /**
  * ================================================
@@ -25,6 +26,7 @@ import org.gradle.api.Task
  */
 class DoKitPlugin : Plugin<Project> {
     override fun apply(project: Project) {
+        extensionMap.clear()
         //创建指定扩展 并将project 传入构造函数
         val doKitExt = project.extensions.create("dokitExt", DoKitExt::class.java)
 
@@ -70,7 +72,6 @@ class DoKitPlugin : Plugin<Project> {
          */
         when {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
-                ExtensionUtils.extensions.clear()
                 if (!isReleaseTask(project)) {
                     project.getAndroid<AppExtension>().let { androidExt ->
                         val pluginSwitch = project.getProperty("DOKIT_PLUGIN_SWITCH", true)
@@ -93,9 +94,7 @@ class DoKitPlugin : Plugin<Project> {
                         MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
                         if (DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
                             //注册transform
-
-                            val commNewInstance = commNewInstance(project)
-                            androidExt.registerTransform(commNewInstance)
+                            androidExt.registerTransform(commNewInstance(project))
                             if (slowMethodSwitch && slowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
                                 MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
                                 val methodStackRange = 1 until methodStackLevel
@@ -137,7 +136,7 @@ class DoKitPlugin : Plugin<Project> {
                          *
                          * **/
                         project.gradle.projectsEvaluated {
-                            println("===projectsEvaluated===")
+                            "===projectsEvaluated===".println()
                             androidExt.applicationVariants.forEach { variant ->
                                 DoKitPluginConfigProcessor(project).process(variant)
                             }
