@@ -26,23 +26,23 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 //        classpath 'com.plugin.test:ccRegisterPlugin:1.0.58'
 //        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
-        classpath 'com.dokit.plugin:DokitPlugin:1.0.29'
+//        classpath 'com.dokit.plugin:DokitPlugin:1.0.29'
 //        classpath 'com.plugin.ccregister:CCRegister:1.0.3'
 //        classpath 'com.register:RegisterPlugin:1.0.4'
 
 
         // 大图检测
-        classpath 'com.monitor.largeimage:LargeImageMonitorPlugin:1.3.0'
+//        classpath 'com.monitor.largeimage:LargeImageMonitorPlugin:1.3.0'
 
 
-        classpath 'com.methodcost.plugin:MethodCostPlugin:1.0.33'
+//        classpath 'com.methodcost.plugin:MethodCostPlugin:1.0.33'
 
         //Robust
-        classpath "com.meituan.robust:gradle-plugin:0.4.99"
-        classpath "com.meituan.robust:auto-patch-plugin:0.4.99"
+//        classpath "com.meituan.robust:gradle-plugin:0.4.99"
+//        classpath "com.meituan.robust:auto-patch-plugin:0.4.99"
 
 //        classpath "com.module.plugin:ModulePlugin:1.0.0"
-        classpath rootProject.ext.dependencie["ModulePlugin"]
+//        classpath rootProject.ext.dependencie["ModulePlugin"]
     }
 }
 ext {
