@@ -1,2 +1,3 @@
 include ':dydemo:plugin_lib_gradle'
 include ':dydemo:lib_template'
+include ':asm-plugin:dokit-plugin'
