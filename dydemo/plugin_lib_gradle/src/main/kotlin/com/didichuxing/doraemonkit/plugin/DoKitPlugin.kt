@@ -2,18 +2,17 @@ package com.didichuxing.doraemonkit.plugin
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
-import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
-import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
 import com.didichuxing.doraemonkit.plugin.processor.DoKitPluginConfigProcessor
-import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
-import com.didichuxing.doraemonkit.plugin.transform.*
+import com.didichuxing.doraemonkit.plugin.transform.DoKitBaseTransform
+import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransform
+import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransformV34
 import com.didiglobal.booster.gradle.GTE_V3_4
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
-import temp.XMLParserHandler.Companion.extensionMap
+import com.didichuxing.doraemonkit.plugin.processor.XMLParserHandler.Companion.extensionMap
 
 /**
  * ================================================
@@ -27,8 +26,6 @@ import temp.XMLParserHandler.Companion.extensionMap
 class DoKitPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         extensionMap.clear()
-        //创建指定扩展 并将project 传入构造函数
-        val doKitExt = project.extensions.create("dokitExt", DoKitExt::class.java)
 
         project.gradle.addListener(DoKitTransformTaskExecutionListener(project))
 
@@ -76,40 +73,14 @@ class DoKitPlugin : Plugin<Project> {
                     project.getAndroid<AppExtension>().let { androidExt ->
                         val pluginSwitch = project.getProperty("DOKIT_PLUGIN_SWITCH", true)
                         val logSwitch = project.getProperty("DOKIT_LOG_SWITCH", false)
-                        val slowMethodSwitch = project.getProperty("DOKIT_METHOD_SWITCH", false)
-                        val slowMethodStrategy = project.getProperty("DOKIT_METHOD_STRATEGY", 0)
-                        val methodStackLevel = project.getProperty("DOKIT_METHOD_STACK_LEVEL", 5)
-                        val webViewClassName = project.getProperty("DOKIT_WEBVIEW_CLASS_NAME", "")
-                        val thirdLibInfo = project.getProperty("DOKIT_THIRD_LIB_SWITCH", true)
                         DoKitExtUtil.DOKIT_PLUGIN_SWITCH = pluginSwitch
                         DoKitExtUtil.DOKIT_LOG_SWITCH = logSwitch
-                        DoKitExtUtil.SLOW_METHOD_SWITCH = slowMethodSwitch
-                        DoKitExtUtil.SLOW_METHOD_STRATEGY = slowMethodStrategy
-                        DoKitExtUtil.STACK_METHOD_LEVEL = methodStackLevel
-                        DoKitExtUtil.WEBVIEW_CLASS_NAME = webViewClassName
-                        DoKitExtUtil.THIRD_LIBINFO_SWITCH = thirdLibInfo
 
                         "application module ${project.name} is executing...".println()
 
-                        MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
                         if (DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
                             //注册transform
                             androidExt.registerTransform(commNewInstance(project))
-                            if (slowMethodSwitch && slowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
-                                MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
-                                val methodStackRange = 1 until methodStackLevel
-                                if (methodStackLevel > 1) {
-                                    for (index in methodStackRange) {
-                                        MethodStackNodeUtil.METHOD_STACK_KEYS.add(
-                                            index,
-                                            mutableSetOf<String>()
-                                        )
-                                        androidExt.registerTransform(
-                                            dependNewInstance(project, index)
-                                        )
-                                    }
-                                }
-                            }
                         }
 
                         //项目评估完毕回调
@@ -179,11 +150,4 @@ class DoKitPlugin : Plugin<Project> {
         GTE_V3_4 -> DoKitCommTransformV34(project)
         else -> DoKitCommTransform(project)
     }
-
-    private fun dependNewInstance(project: Project, index: Int): DoKitBaseTransform = when {
-        GTE_V3_4 -> DoKitDependTransformV34(project, index)
-        else -> DoKitDependTransform(project, index)
-    }
-
-
 }

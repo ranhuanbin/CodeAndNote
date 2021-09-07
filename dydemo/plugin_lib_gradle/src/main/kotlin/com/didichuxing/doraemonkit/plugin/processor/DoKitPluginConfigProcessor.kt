@@ -1,32 +1,16 @@
 package com.didichuxing.doraemonkit.plugin.processor
 
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.BaseVariant
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
-import com.didichuxing.doraemonkit.plugin.ThirdLibInfo
-import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.isRelease
 import com.didichuxing.doraemonkit.plugin.println
-import com.didiglobal.booster.gradle.dependencies
-import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.mergedManifests
 import com.didiglobal.booster.gradle.project
 import com.didiglobal.booster.task.spi.VariantProcessor
 import org.gradle.api.Project
-import org.gradle.api.artifacts.result.ResolvedArtifactResult
-import temp.PluginProxyKt
 import java.io.File
 import javax.xml.parsers.SAXParserFactory
 
-/**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：2020/5/15-11:28
- * 描    述：
- * 修订历史：
- * ================================================
- */
 class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
     override fun process(variant: BaseVariant) {
         if (!DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
@@ -37,51 +21,13 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
             return
         }
 
-        //统计三方库信息
-        if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
-            //遍历三方库
-            val dependencies = variant.dependencies
-            DoKitExtUtil.THIRD_LIB_INFOS.clear()
-            for (artifactResult: ResolvedArtifactResult in dependencies) {
-                //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
-                ///Users/didi/project/android/dokit_github/DoraemonKit/Android/java/app/libs/BaiduLBS_Android.jar
-                ///Users/didi/.gradle/caches/modules-2/files-2.1/androidx.activity/activity-ktx/1.2.0/c16aac66e6c4617b01118ab2509f009bb7919b3b/activity-ktx-1.2.0.aar
-                //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
-//                "artifactResult===>${artifactResult.file}|${artifactResult.variant}|${artifactResult.id}|${artifactResult.type}".println()
-                //"artifactResult===>${artifactResult.variant.owner}|${artifactResult.variant.attributes}|${artifactResult.variant.displayName}|${artifactResult.variant.capabilities}|${artifactResult.variant.externalVariant}".println()
-                //"artifactResult===>${artifactResult.variant.displayName}".println()
-                val variants = artifactResult.variant.displayName.split(" ")
-                var thirdLibInfo: ThirdLibInfo? = null
-                if (variants.size == 3) {
-                    thirdLibInfo = ThirdLibInfo(
-                        variants[0],
-                        artifactResult.file.length()
-                    )
-                    if (thirdLibInfo.variant.contains("dokitx-rpc")) {
-                        DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
-                    }
-//                    "thirdLibInfo.variant===>${thirdLibInfo.variant}".println()
-                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
-                } else if (variants.size == 4) {
-                    thirdLibInfo = ThirdLibInfo(
-                        "porject ${variants[1]}",
-                        artifactResult.file.length()
-                    )
-                    if (thirdLibInfo.variant.contains("doraemonkit-rpc")) {
-                        DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
-                    }
-//                    "thirdLibInfo.variant===>${thirdLibInfo.variant}".println()
-                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
-                }
-            }
-        }
-
         //查找application module下的配置
         if (variant is BaseVariant) {
             println("===DoKitPluginConfigProcessor.process===【1=====】variant.name = ${variant.name}")
             project.tasks.find {
                 //"===task Name is ${it.name}".println()
-                it.name == "processDebugManifest"
+                val variantName = variant.name.capitalize()
+                it.name == "process${variantName}Manifest"
             }?.let { transformTask ->
                 transformTask.doFirst {
                     println("===processDebugManifest task doFirst===")
@@ -96,7 +42,9 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                         DoKitExtUtil.setApplications(handler.applications)
                         val file: File = manifest
                         val readText = file.readText()
-                        "【doFirst】readText = $readText".println()
+                        val replace = PluginProxyKt.readPluginXML(readText, project.projectDir.path)
+                        file.writeText(replace)
+                        "【doFirst】readText = $replace".println()
                     }
                 }
                 transformTask.doLast {
@@ -113,17 +61,7 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                         DoKitExtUtil.setApplications(handler.applications)
                         val file: File = manifest
                         val readText = file.readText()
-
-                        val replace = PluginProxyKt.readPluginXML(readText, project.projectDir.path)
-                        file.writeText(replace)
-                        "【doLast】readText = $replace".println()
-                    }
-
-                    //读取插件配置
-                    variant.project.getAndroid<AppExtension>().let { appExt ->
-                        //查找Application路径
-                        val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
-                        DoKitExtUtil.init(doKitExt)
+                        "【doLast】readText = $readText".println()
                     }
                 }
             }

@@ -2,9 +2,6 @@ package com.didichuxing.doraemonkit.plugin.transform
 
 import com.android.build.api.variant.VariantInfo
 import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.BigImgTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.CommTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.EnterMethodStackTransformer
 import com.didichuxing.doraemonkit.plugin.classtransformer.GlobalSlowMethodTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
@@ -15,10 +12,7 @@ internal class DoKitCommTransformV34(project: Project) : DoKitBaseTransform(proj
     override val transformers = listOf<Transformer>(
         DoKitAsmTransformer(
             listOf(
-                CommTransformer(),
-                BigImgTransformer(),
-                GlobalSlowMethodTransformer(),
-                EnterMethodStackTransformer()
+                GlobalSlowMethodTransformer()
             )
         )
     )

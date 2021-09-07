@@ -8,20 +8,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        findViewById(R.id.testSlowMethod).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testSlowMethod();
-            }
-        });
-        String[] split = "".split("");
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    findViewById(R.id.testSlowMethod).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        testSlowMethod();
+      }
+    });
+    String[] split = "".split("");
+  }
 
-    private void testSlowMethod() {
-        SystemClock.sleep(1000);
-    }
 }
