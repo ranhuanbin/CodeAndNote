@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin
+package com.dywx.plugin
 
 import java.net.URL
 import java.nio.charset.StandardCharsets

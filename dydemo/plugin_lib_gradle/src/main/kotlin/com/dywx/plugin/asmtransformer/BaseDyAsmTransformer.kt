@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.asmtransformer
+package com.dywx.plugin.asmtransformer
 
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
@@ -11,7 +11,7 @@ import java.lang.management.ManagementFactory
 import java.lang.management.ThreadMXBean
 import java.util.*
 
-open class BaseDoKitAsmTransformer : Transformer {
+open class BaseDyAsmTransformer : Transformer {
   private val threadMxBean = ManagementFactory.getThreadMXBean()
 
   private val durations = mutableMapOf<ClassTransformer, Long>()

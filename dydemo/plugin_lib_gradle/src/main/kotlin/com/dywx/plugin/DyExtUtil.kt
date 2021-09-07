@@ -1,22 +1,13 @@
-package com.didichuxing.doraemonkit.plugin
+package com.dywx.plugin
 
-/**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：2020/3/24-14:58
- * 描    述：
- * 修订历史：
- * ================================================
- */
-object DoKitExtUtil {
+object DyExtUtil {
 
 
     /**
-     * dokit 插件开关 字段权限必须为public 否则无法进行赋值
+     * 插件开关 字段权限必须为public 否则无法进行赋值
      */
-    var DOKIT_PLUGIN_SWITCH = true
-    var DOKIT_LOG_SWITCH = false
+    var DY_PLUGIN_SWITCH = true
+    var DY_LOG_SWITCH = false
 
 
     private val applications: MutableSet<String> = mutableSetOf()
@@ -27,13 +18,13 @@ object DoKitExtUtil {
     private var appPackageName: String = ""
 
 
-    fun dokitPluginSwitchOpen(): Boolean {
-        return DOKIT_PLUGIN_SWITCH
+    fun dyPluginSwitchOpen(): Boolean {
+        return DY_PLUGIN_SWITCH
     }
 
 
-    fun dokitLogSwitchOpen(): Boolean {
-        return DOKIT_LOG_SWITCH
+    fun dyLogSwitchOpen(): Boolean {
+        return DY_LOG_SWITCH
     }
 
 
@@ -41,9 +32,9 @@ object DoKitExtUtil {
         if (applications.isEmpty()) {
             return
         }
-        this.applications.clear()
+        DyExtUtil.applications.clear()
         for (application in applications) {
-            this.applications.add(application)
+            DyExtUtil.applications.add(application)
         }
     }
 
@@ -76,19 +67,13 @@ object DoKitExtUtil {
     /**
      * 白名单
      */
-    private val whitePackageNames = arrayOf(
-        "com.didichuxing.doraemonkit.DoraemonKit",
-        "com.didichuxing.doraemonkit.DoKit",
-        "com.didichuxing.doraemonkit.DoKitReal"
-
-    )
+    private val whitePackageNames = arrayOf<String>()
 
 
     /**
      * 黑名单
      */
     private val blackPackageNames = arrayOf(
-        "com.didichuxing.doraemonkit.",
         "kotlin.",
         "java.",
         "android.",
@@ -104,7 +89,7 @@ object DoKitExtUtil {
         signature: String,
         thresholdTime: Int
     ) {
-        if (DOKIT_LOG_SWITCH) {
+        if (DY_LOG_SWITCH) {
             println("$tag===matched====>  className===$className   methodName===$methodName   access===$access   desc===$desc   signature===$signature    thresholdTime===$thresholdTime")
         }
     }

@@ -1,23 +1,13 @@
-package com.didichuxing.doraemonkit.plugin.processor
+package com.dywx.plugin.processor
 
-import com.didichuxing.doraemonkit.plugin.println
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
 
-/**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：3/2/21-17:26
- * 描    述：
- * 修订历史：
- * ================================================
- */
 const val ATTR_NAME = "android:name"
 
 const val MANIFEST_ATTR_NAME = "package"
 
-class DoKitComponentHandler : DefaultHandler() {
+class DyComponentHandler : DefaultHandler() {
     var appPackageName: String = ""
     val applications = mutableSetOf<String>()
     val activities = mutableSetOf<String>()

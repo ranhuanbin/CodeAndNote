@@ -1,10 +1,9 @@
-package com.didichuxing.doraemonkit.plugin
+package com.dywx.plugin
 
 import com.android.build.api.transform.*
 import com.android.build.api.transform.Status.*
 import com.android.dex.DexFormat
-import com.android.dx.command.dexer.Main
-import com.didichuxing.doraemonkit.plugin.transform.DoKitBaseTransform
+import com.dywx.plugin.transform.DyBaseTransform
 import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.kotlinx.NCPU
 import com.didiglobal.booster.kotlinx.file
@@ -19,14 +18,9 @@ import java.io.File
 import java.net.URI
 import java.util.concurrent.*
 
-/**
- * Represents a delegate of TransformInvocation
- *
- * @author johnsonlee
- */
-internal class DoKitTransformInvocation(
+internal class DyTransformInvocation(
     private val delegate: TransformInvocation,
-    internal val transform: DoKitBaseTransform
+    internal val transform: DyBaseTransform
 ) : TransformInvocation by delegate, TransformContext, ArtifactManager {
 
     private val project = transform.project
@@ -219,7 +213,7 @@ internal class DoKitTransformInvocation(
     private fun QualifiedContent.transform(output: File) {
         outputs += output
         try {
-            this.file.dokitTransform(output) { bytecode ->
+            this.file.dyTransform(output) { bytecode ->
                 bytecode.transform()
             }
         } catch (e: Exception) {
@@ -231,7 +225,7 @@ internal class DoKitTransformInvocation(
 
     private fun ByteArray.transform(): ByteArray {
         return transform.transformers.fold(this) { bytes, transformer ->
-            transformer.transform(this@DoKitTransformInvocation, bytes)
+            transformer.transform(this@DyTransformInvocation, bytes)
         }
     }
 }

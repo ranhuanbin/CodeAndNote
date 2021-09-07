@@ -1,16 +1,16 @@
-package com.didichuxing.doraemonkit.plugin.transform
+package com.dywx.plugin.transform
 
 import com.android.build.api.variant.VariantInfo
-import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.GlobalSlowMethodTransformer
+import com.dywx.plugin.asmtransformer.DyAsmTransformer
+import com.dywx.plugin.classtransformer.GlobalSlowMethodTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
-internal class DoKitCommTransformV34(project: Project) : DoKitBaseTransform(project) {
+internal class DyCommTransformV34(project: Project) : DyBaseTransform(project) {
 
 
     override val transformers = listOf<Transformer>(
-        DoKitAsmTransformer(
+        DyAsmTransformer(
             listOf(
                 GlobalSlowMethodTransformer()
             )

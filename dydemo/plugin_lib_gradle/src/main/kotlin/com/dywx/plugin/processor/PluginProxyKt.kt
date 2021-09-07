@@ -1,6 +1,6 @@
-package com.didichuxing.doraemonkit.plugin.processor
+package com.dywx.plugin.processor
 
-import com.didichuxing.doraemonkit.plugin.println
+import com.dywx.plugin.println
 import java.io.File
 import javax.xml.parsers.SAXParserFactory
 

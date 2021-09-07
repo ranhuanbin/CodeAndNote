@@ -1,8 +1,7 @@
-package com.didichuxing.doraemonkit.plugin.classtransformer
+package com.dywx.plugin.classtransformer
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
-import com.didichuxing.doraemonkit.plugin.isRelease
-import com.didichuxing.doraemonkit.plugin.println
+import com.dywx.plugin.DyExtUtil
+import com.dywx.plugin.isRelease
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
 import com.didiglobal.booster.transform.asm.className
@@ -16,7 +15,7 @@ open class AbsClassTransformer : ClassTransformer {
       return true
     }
 
-    if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
+    if (!DyExtUtil.dyPluginSwitchOpen()) {
       return true
     }
     //过滤kotlin module-info

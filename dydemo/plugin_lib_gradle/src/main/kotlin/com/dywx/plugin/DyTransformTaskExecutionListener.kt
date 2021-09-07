@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin
+package com.dywx.plugin
 
 import com.android.build.gradle.internal.pipeline.TransformTask
 import com.didiglobal.booster.kotlinx.call
@@ -7,10 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionAdapter
 
-/**
- * @author neighbWang
- */
-class DoKitTransformTaskExecutionListener(private val project: Project) : TaskExecutionAdapter() {
+class DyTransformTaskExecutionListener(private val project: Project) : TaskExecutionAdapter() {
 
     override fun beforeExecute(task: Task) {
         task.takeIf {

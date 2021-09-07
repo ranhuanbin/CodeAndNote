@@ -1,29 +1,18 @@
-package com.didichuxing.doraemonkit.plugin.transform
+package com.dywx.plugin.transform
 
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
-import com.didichuxing.doraemonkit.plugin.println
-import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.transform.AbstractKlassPool
 import com.didiglobal.booster.transform.Transformer
+import com.dywx.plugin.DyTransformInvocation
 import org.gradle.api.Project
 
-/**
- * Represents the transform base
- * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
- * @author johnsonlee
- */
-open class DoKitBaseTransform protected constructor(val project: Project) : Transform() {
+open class DyBaseTransform protected constructor(val project: Project) : Transform() {
 
-    /*transformers
-     * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
-     * booster 的默认出炉逻辑 DoKit已重写自处理
-     */
     internal open val transformers = listOf<Transformer>()
 
     internal val verifyEnabled = project.getProperty(OPT_TRANSFORM_VERIFY, false)
@@ -69,7 +58,7 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
     }
 
     final override fun transform(invocation: TransformInvocation) {
-        DoKitTransformInvocation(invocation, this).apply {
+        DyTransformInvocation(invocation, this).apply {
             if (isIncremental) {
                 doIncrementalTransform()
             } else {
@@ -80,10 +69,7 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
     }
 
 
-
 }
 
-/**
- * The option for transform outputs verifying, default is false
- */
-private const val OPT_TRANSFORM_VERIFY = "dokit.transform.verify"
+// todo 临时修改
+private const val OPT_TRANSFORM_VERIFY = "dy.transform.verify"

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin
+package com.dywx.plugin
 
 import com.android.build.gradle.api.BaseVariant
 import com.android.dex.DexFormat
@@ -24,15 +24,6 @@ import java.util.jar.JarFile
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-/**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：2020/5/19-18:00
- * 描    述：dokit 对象扩展
- * 修订历史：
- * ================================================
- */
 
 fun MethodNode.isGetSetMethod(): Boolean {
     var ignoreCount = 0
@@ -124,8 +115,8 @@ fun TransformContext.isRelease(): Boolean {
 
 
 fun String.println() {
-    if (DoKitExtUtil.dokitLogSwitchOpen()) {
-        println("[dokit plugin]===>$this")
+    if (DyExtUtil.dyLogSwitchOpen()) {
+        println("[dywx plugin]===>$this")
     }
 }
 
@@ -161,13 +152,7 @@ internal fun File.dex(output: File, api: Int = DexFormat.API_NO_EXTENDED_OPCODES
     }
 }
 
-/**
- * Transform this file or directory to the output by the specified transformer
- *
- * @param output The output location
- * @param transformer The byte data transformer
- */
-fun File.dokitTransform(output: File, transformer: (ByteArray) -> ByteArray = { it -> it }) {
+fun File.dyTransform(output: File, transformer: (ByteArray) -> ByteArray = { it -> it }) {
     when {
         isDirectory -> this.toURI().let { base ->
             this.search().parallelStream().forEach {
@@ -176,7 +161,7 @@ fun File.dokitTransform(output: File, transformer: (ByteArray) -> ByteArray = { 
         }
         isFile -> when (extension.toLowerCase()) {
             "jar" -> JarFile(this).use {
-                it.dokitTransform(output, ::JarArchiveEntry, transformer)
+                it.dyTransform(output, ::JarArchiveEntry, transformer)
             }
             "class" -> this.inputStream().use {
                 it.transform(transformer).redirect(output)
@@ -187,16 +172,16 @@ fun File.dokitTransform(output: File, transformer: (ByteArray) -> ByteArray = { 
     }
 }
 
-fun ZipFile.dokitTransform(
+fun ZipFile.dyTransform(
     output: File,
     entryFactory: (ZipEntry) -> ZipArchiveEntry = ::ZipArchiveEntry,
     transformer: (ByteArray) -> ByteArray = { it -> it }
 ) = output.touch().outputStream().buffered().use {
-    this.dokitTransform(it, entryFactory, transformer)
+    this.dyTransform(it, entryFactory, transformer)
 }
 
 
-fun ZipFile.dokitTransform(
+fun ZipFile.dyTransform(
     output: OutputStream,
     entryFactory: (ZipEntry) -> ZipArchiveEntry = ::ZipArchiveEntry,
     transformer: (ByteArray) -> ByteArray = { it -> it }
@@ -246,8 +231,6 @@ fun ZipFile.dokitTransform(
             zipStream.close()
         } catch (e: Exception) {
             zipStream.close()
-//            e.printStackTrace()
-//            "e===>${e.message}".println()
             System.err.println("Duplicated jar entry: ${this.name}!")
         }
     }
