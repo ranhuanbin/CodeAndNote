@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
@@ -16,7 +17,6 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -33,12 +33,11 @@ android {
     lintOptions {
         abortOnError false
     }
-
     buildFeatures {
         viewBinding = true
     }
 }
-//apply plugin: 'com.plugin.lib'
+apply plugin: 'com.plugin.lib'
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.1'
 //    debugImplementation "io.github.didi.dokit:dokitx:3.5.0-beta01"

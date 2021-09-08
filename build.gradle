@@ -19,7 +19,7 @@ buildscript {
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
         classpath 'com.billy.android:autoregister:1.2.0'
-//        classpath 'com.plugin.lib:Plugin:1.0.10'
+        classpath 'com.plugin.lib:Plugin:1.0.1'
     }
 }
 allprojects {

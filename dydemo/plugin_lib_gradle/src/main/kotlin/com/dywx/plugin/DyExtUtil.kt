@@ -63,6 +63,8 @@ object DyExtUtil {
         return false
     }
 
+    fun uiNameWhiteList(className: String): Boolean = uiNameWhiteList.contains(className)
+
 
     /**
      * 白名单
@@ -93,5 +95,13 @@ object DyExtUtil {
             println("$tag===matched====>  className===$className   methodName===$methodName   access===$access   desc===$desc   signature===$signature    thresholdTime===$thresholdTime")
         }
     }
+
+    /**
+     * 插件中的BaseDialogFragment
+     */
+    private const val CLASSNAME_BASE_DIALOG_FRAGMENT = "com/dywx/plugin/lib/BaseDialogFragment"
+
+    private val uiNameWhiteList = mutableListOf(CLASSNAME_BASE_DIALOG_FRAGMENT)
+
 
 }
