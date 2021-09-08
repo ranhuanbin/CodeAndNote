@@ -11,7 +11,13 @@ import org.objectweb.asm.tree.InsnList
 import org.objectweb.asm.tree.MethodInsnNode
 import org.objectweb.asm.tree.VarInsnNode
 
-class GlobalSlowMethodTransformer : AbsClassTransformer() {
+/**
+ * 对 UI 模块进行插桩，将资源引用进行重定向
+ * 目前需要支持插桩的功能清单如下：
+ * （1）DialogFragment、Fragment PluginContext进行插桩
+ * （2）
+ */
+class UIEnvTransformer : AbsClassTransformer() {
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         if (onCommInterceptor(context, klass)) {

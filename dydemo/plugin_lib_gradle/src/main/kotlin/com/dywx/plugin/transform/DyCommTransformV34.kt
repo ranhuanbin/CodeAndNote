@@ -2,7 +2,7 @@ package com.dywx.plugin.transform
 
 import com.android.build.api.variant.VariantInfo
 import com.dywx.plugin.asmtransformer.DyAsmTransformer
-import com.dywx.plugin.classtransformer.GlobalSlowMethodTransformer
+import com.dywx.plugin.classtransformer.UIEnvTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
@@ -12,7 +12,7 @@ internal class DyCommTransformV34(project: Project) : DyBaseTransform(project) {
     override val transformers = listOf<Transformer>(
         DyAsmTransformer(
             listOf(
-                GlobalSlowMethodTransformer()
+                UIEnvTransformer()
             )
         )
     )
