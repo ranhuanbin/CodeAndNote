@@ -14,10 +14,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
   private View rootView;
 
-  public BaseDialogFragment() {
-
-  }
-
   protected final void setPluginContext(Context pluginContext) {
     this.pluginContext = pluginContext;
   }
@@ -26,10 +22,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
   public Context getPluginContext() {
     return pluginContext;
-  }
-
-  public BaseDialogFragment(Context context) {
-    this.pluginContext = context;
   }
 
   @Nullable
@@ -51,6 +43,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
   protected abstract void initView();
 
   protected void initData() {
+
+//getText();
+//getString();
+
   }
 
   @LayoutRes

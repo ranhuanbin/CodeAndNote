@@ -4,6 +4,7 @@ import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.asIterable
 import com.didiglobal.booster.transform.asm.className
 import com.dywx.plugin.DyExtUtil
+import com.dywx.plugin.ownerClassName
 import com.dywx.plugin.println
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.ClassNode
@@ -30,23 +31,28 @@ class UIEnvTransformer : AbsClassTransformer() {
             return klass
         }
         klass.methods.forEach {
-            "【GlobalSlowMethodTransformer】methodName = ${it.name}".println()
+            "【UIEnvTransformer】methodName = ${it.name}".println()
+            it.instructions.asIterable().filterIsInstance(MethodInsnNode::class.java).forEach { methodInsnNode ->
+                "【UIEnvTransformer】methodInsnNode =====> name= ${methodInsnNode.name}，desc = ${methodInsnNode.desc}，owner = ${methodInsnNode.owner}，ownerClassName = ${methodInsnNode.ownerClassName}".println()
+            }
         }
+
+        "【UIEnvTransformer】klass =====> name = ${klass.name}, className = ${klass.className}, superName = ${klass.superName}".println()
         klass.methods.find {
 //            it.name == "getLayoutId"
             it.name == "<init>"
         }?.let { methodNode ->
             methodNode.instructions.asIterable()
-                .filterIsInstance(MethodInsnNode::class.java).let { methodInsnNodes ->
-                    "【GlobalSlowMethodTransformer】1=====>".println()
+                .filterIsInstance(MethodInsnNode::class.java).let {
+                    "【UIEnvTransformer】1=====>".println()
                     // 方法入口插入，为当前Fragment设置PluginContext
-                    methodNode.instructions.insert(insertPluginContext(klass.className, methodNode.name))
+                    methodNode.instructions.insert(insertPluginContext(klass.name))
                 }
         }
         return klass
     }
 
-    fun insertPluginContext(className: String, methodName: String): InsnList {
+    fun insertPluginContext(name: String): InsnList {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 0))
             add(
@@ -61,7 +67,7 @@ class UIEnvTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKEVIRTUAL,
-                    "com/lib/template/FragImpl",
+                    name,
                     "setPluginContext",
                     "(Landroid/content/Context;)V",
                     false
