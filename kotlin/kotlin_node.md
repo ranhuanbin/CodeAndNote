@@ -1,3 +1,7 @@
+# 文章收藏
+
+[【kotlin】高阶函数详解](https://blog.csdn.net/u010356768/article/details/108490612)
+
 # 一、高阶函数
 
 如果一个函数接收另一个函数作为参数，或者返回值的类型是另一个函数，那么该函数就称为高阶函数。
@@ -57,4 +61,28 @@ fun main() {
 // result2 = 20
 ```
 
-第三个参数使用了::plus和::minus 的写法，这是一种函数引用方式的写法，表示将 **`plus()`** 和 minus() 函数作为参数传递给 num1AndNum2() 函数
+第三个参数使用了::plus和::minus 的写法，这是一种函数引用方式的写法，表示将 **`plus()`** 和 **`minus()`** 函数作为参数传递给 **`num1AndNum2()`** 函数
+
+## 3、高阶函数：进阶demo（Lambda表达式）
+
+如果每次调用任何高阶函数时都还得先定义一个与其函数类型参数相匹配的函数，就会显得特别复杂，因此 Kotlin 还支持其他多种方式来调用高阶函数，比如 Lambda 表达式，匿名函数，成员引用等。 Lambda 表达式实现上面 demo：
+
+```kotlin
+fun main() {
+    val num1 = 100
+    val num2 = 80
+    val result1 = num1AndNum2(num1, num2) { n1, n2 ->
+        n1 + n2
+    }
+    val result2 = num1AndNum2(num1, num2) { n1, n2 ->
+        n1 - n2
+    }
+    println("result1 = $result1")
+    println("result2 = $result2")
+}
+
+fun num1AndNum2(num1: Int, num2: Int, operation: (Int, Int) -> Int): Int {
+    return operation(num1, num2)
+}
+```
+
