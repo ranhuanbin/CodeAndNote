@@ -15,9 +15,8 @@ import org.gradle.api.Project
 class DyPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         extensionMap.clear()
-
         project.gradle.addListener(DyTransformTaskExecutionListener(project))
-
+        val a = HashSet<>()
         when {
             project.plugins.hasPlugin("com.android.application") -> {
                 if (!isReleaseTask(project)) {

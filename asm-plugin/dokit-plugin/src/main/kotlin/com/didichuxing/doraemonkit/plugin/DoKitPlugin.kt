@@ -8,12 +8,10 @@ import com.didichuxing.doraemonkit.plugin.processor.DoKitPluginConfigProcessor
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didichuxing.doraemonkit.plugin.transform.*
 import com.didiglobal.booster.gradle.GTE_V3_4
-import com.didiglobal.booster.gradle.dependencies
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.result.ResolvedArtifactResult
 
 /**
  * ================================================
