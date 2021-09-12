@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.DialogFragment;
 
 public abstract class BaseDialogFragment extends DialogFragment {
@@ -40,12 +41,21 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
   protected void initData() {
 
-//getText();
-//getString();
-
   }
 
   @LayoutRes
   protected abstract int getLayoutId();
+
+  protected final String getStringInner(@StringRes int resId) {
+    return getPluginContext().getString(resId);
+  }
+
+  protected final String getStringInner(@StringRes int resId, @Nullable Object... formatArgs) {
+    return getPluginContext().getString(resId, formatArgs);
+  }
+
+  public final CharSequence getTextInner(@StringRes int resId) {
+    return getPluginContext().getText(resId);
+  }
 
 }
