@@ -16,7 +16,6 @@ class DyPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         extensionMap.clear()
         project.gradle.addListener(DyTransformTaskExecutionListener(project))
-        val a = HashSet<>()
         when {
             project.plugins.hasPlugin("com.android.application") -> {
                 if (!isReleaseTask(project)) {
@@ -32,14 +31,6 @@ class DyPlugin : Plugin<Project> {
                             //注册transform
                             androidExt.registerTransform(commNewInstance(project))
                         }
-
-                        //项目评估完毕回调
-//                        project.afterEvaluate { project ->
-//                            "===afterEvaluate===".println()
-//                            androidExt.applicationVariants.forEach { variant ->
-//                            }
-//                        }
-
                         /**
                          * 所有项目的build.gradle执行完毕
                          * wiki:https://juejin.im/post/6844903607679057934

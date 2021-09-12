@@ -110,3 +110,15 @@ allprojects {
     }
 }
 ```
+
+## 8、Transform 和 Task 之间的关系
+
+* 1、自定义 Transform 和其他系统 Transform 执行的顺序
+* 2、Transform 和 Task 的关系
+* 3、Transform 是如何被执行的
+
+```java
+AppExtension appExtension = project.getExtensions().getByType(AppExtension.class);
+appExtension.registerTransform(new DemoTransform(project));
+```
+当编写一个含有 **`Transform`** 的 **`plugin`** 插件的时候，只是对安卓的 **`AppExtension 注册了一个 **`Transform`**，那么 **`Transform`** 的本质到底是什么？

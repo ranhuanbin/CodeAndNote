@@ -14,13 +14,9 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
   private View rootView;
 
-  protected final void setPluginContext(Context pluginContext) {
-    this.pluginContext = pluginContext;
-  }
-
   private Context pluginContext;
 
-  public Context getPluginContext() {
+  protected Context getPluginContext() {
     return pluginContext;
   }
 

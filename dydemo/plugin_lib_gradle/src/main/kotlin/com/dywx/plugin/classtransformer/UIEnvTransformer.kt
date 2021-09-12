@@ -4,9 +4,11 @@ import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.asIterable
 import com.didiglobal.booster.transform.asm.className
 import com.dywx.plugin.DyExtUtil
+import com.dywx.plugin.config.HeGuiHuaConfig
 import com.dywx.plugin.ownerClassName
 import com.dywx.plugin.println
-import org.objectweb.asm.Opcodes.*
+import org.objectweb.asm.Opcodes.ALOAD
+import org.objectweb.asm.Opcodes.INVOKESTATIC
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.InsnList
 import org.objectweb.asm.tree.MethodInsnNode
@@ -58,18 +60,9 @@ class UIEnvTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/dywx/plugin/lib/ContextHolder",
-                    "getContext",
-                    "()Landroid/content/Context;",
-                    false
-                )
-            )
-            add(
-                MethodInsnNode(
-                    INVOKEVIRTUAL,
-                    name,
-                    "setPluginContext",
-                    "(Landroid/content/Context;)V",
+                    HeGuiHuaConfig.reflectUtil,
+                    HeGuiHuaConfig.setPluginContext,
+                    HeGuiHuaConfig.setPluginContextDesc,
                     false
                 )
             )

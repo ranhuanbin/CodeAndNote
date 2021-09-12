@@ -8,6 +8,10 @@
 
 [一个Java9特性导致的编译失败 | 疑难杂症](https://juejin.cn/post/6988756346426376222)
 
+[还在用build.gradle吗？试试build.gradle.kts吧](https://juejin.cn/post/6942859907586588685)
+
+[gradle迁到kts, 以及module管理](https://juejin.cn/post/7002034268557803551)
+
 # 问题遗留
 
 ## 1、ASM二次扫描
@@ -54,6 +58,15 @@ AGP700 版本之后，**`Transform`** 已经被标识被废弃了。
 ## 5、结合 ASM 实现对隐私权限的治理
 
 ## 6、AGP 升级 4.1.1 的天坑
+
 ### 6.1 Manifest PlaceHolder 无法在 Variant 中被插入
 
+## 7、Groovy 开发中碰到的问题
 
+* 因为是一门动态语言而且也没有强类型判断，所以并不会出现编译报错，只会运行到对应代码的时候才出现问题。
+* 没有任何语法提示，很多时候除了系统生成的那部分代码，学习成本和调试成本其实非常高。
+* 不方便调试 build.gradle
+
+在写 gradle脚本的时候，没有任何提示，唯一的调试手段就是使用 print 方法打印调试日志，如果能使用 **`kotlin`** 编写 **`Gradle`** 脚本，上面的问题都不再是问题。
+
+## 8、build.gradle.kts

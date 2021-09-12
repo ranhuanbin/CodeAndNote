@@ -15,3 +15,4 @@
 ./build
 /dydemo/plugin_lib_gradle/build/
 /dydemo/plugin_lib_gradle/.gradle/
+/.idea/
