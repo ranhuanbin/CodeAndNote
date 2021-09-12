@@ -1,6 +1,7 @@
 # 文章收藏
 
 [【kotlin】高阶函数详解](https://blog.csdn.net/u010356768/article/details/108490612)
+[hi-dhl/Binding](https://github.com/hi-dhl/Binding)
 
 # 一、高阶函数
 
@@ -86,3 +87,4 @@ fun num1AndNum2(num1: Int, num2: Int, operation: (Int, Int) -> Int): Int {
 }
 ```
 
+## 4、Kotlin 委托模式
