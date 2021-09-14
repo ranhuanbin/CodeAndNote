@@ -4,6 +4,7 @@ import com.android.build.gradle.AppExtension
 import com.didiglobal.booster.gradle.GTE_V3_4
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
+import com.dywx.plugin.config.ApkInfo
 import com.dywx.plugin.processor.DyPluginConfigProcessor
 import com.dywx.plugin.processor.XMLParserHandler.Companion.extensionMap
 import com.dywx.plugin.transform.DyBaseTransform
@@ -41,6 +42,19 @@ class DyPlugin : Plugin<Project> {
                             androidExt.applicationVariants.forEach { variant ->
                                 DyPluginConfigProcessor(project).process(variant)
                             }
+                        }
+
+                        project.afterEvaluate {
+                            ApkInfo.buildToolsVersio = androidExt.buildToolsVersion
+                            val compileSdkVersion = androidExt.compileSdkVersion.toString().trim()
+                            ApkInfo.compileSdkVersion = if (compileSdkVersion.startsWith("android-")) {
+                                compileSdkVersion.substring("android-".length)
+                            } else {
+                                compileSdkVersion
+                            }
+                            ApkInfo.minSdkVersion = androidExt.defaultConfig.minSdkVersion?.apiLevel.toString()
+                            ApkInfo.targetSdkVersion = androidExt.defaultConfig.targetSdkVersion?.apiLevel.toString()
+                            "【DyPlugin afterEvaluate】buildToolsVersion = ${ApkInfo.buildToolsVersio}, compileSdkVersion = ${ApkInfo.compileSdkVersion}, minSdkVersion = ${ApkInfo.minSdkVersion}, targetSdkVersion = ${ApkInfo.targetSdkVersion}".println()
                         }
 
                         //task依赖关系图建立完毕

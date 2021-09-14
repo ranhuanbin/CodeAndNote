@@ -1,11 +1,12 @@
 package com.dywx.plugin.processor
 
 import com.android.build.gradle.api.BaseVariant
+import com.didiglobal.booster.gradle.mergedManifests
+import com.didiglobal.booster.gradle.minSdkVersion
+import com.didiglobal.booster.task.spi.VariantProcessor
 import com.dywx.plugin.DyExtUtil
 import com.dywx.plugin.isRelease
 import com.dywx.plugin.println
-import com.didiglobal.booster.gradle.mergedManifests
-import com.didiglobal.booster.task.spi.VariantProcessor
 import org.gradle.api.Project
 import java.io.File
 import javax.xml.parsers.SAXParserFactory
@@ -22,7 +23,7 @@ class DyPluginConfigProcessor(val project: Project) : VariantProcessor {
 
         //查找application module下的配置
         if (variant is BaseVariant) {
-            println("===DyPluginConfigProcessor.process===【1=====】variant.name = ${variant.name}")
+//            "【DyPlugin】compileSdkVersion = ${variant.minSdkVersion}".println()
             project.tasks.find {
                 //"===task Name is ${it.name}".println()
                 val variantName = variant.name.capitalize()

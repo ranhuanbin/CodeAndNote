@@ -33,6 +33,12 @@
     <meta-data
       android:name="type_extension_view"
       android:value="pit_type_extension_view" />
+    <meta-data
+      android:name="compileSdkVersion"
+      android:value="pit_compileSdkVersion" />
+    <meta-data
+      android:name="minSdkVersion"
+      android:value="pit_minSdkVersion" />
 
   </application>
 </manifest>

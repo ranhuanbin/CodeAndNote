@@ -1,5 +1,6 @@
 package com.dywx.plugin.processor
 
+import com.dywx.plugin.config.ApkInfo
 import com.dywx.plugin.println
 import java.io.File
 import javax.xml.parsers.SAXParserFactory
@@ -20,6 +21,9 @@ object PluginProxyKt {
             "【plugin.xml文件解析】key = $key，value = $value".println()
             replace = replace.replace("pit_$key", value)
         }
+        replace = replace
+            .replace("pit_minSdkVersion", ApkInfo.minSdkVersion)
+            .replace("pit_compileSdkVersion", ApkInfo.compileSdkVersion)
         return replace
     }
 }
