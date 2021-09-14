@@ -2,7 +2,8 @@ package com.module.base_android
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import com.module.base_android.double_proxy.java.DoubleProxyTest
+import com.module.base_android.feature.FeatureImpl
+import com.module.base_android.feature.IFeature
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.reflect.Proxy
 import java.util.*
@@ -40,19 +41,20 @@ class MainActivity : FragmentActivity() {
 
     private fun doubleDynamicProxy() {
 //        val featureImpl: FeatureImpl = features["featureImpl"] as FeatureImpl
-//        "【doubleDynamicProxy】feature = $featureImpl".println()
+//        "feature = $featureImpl".println()
 //
-//        val proxy = DemoFeatureProxy()
-//
+//        val proxy = FeatureProxy()
 //        val feature: IFeature = proxy.newProxy(featureImpl) as IFeature
 //
-//        val proxy1 = DemoFeatureProxy()
-//
-//        val feature1: IFeature = proxy1.newProxy(feature) as IFeature
-//
-//        feature1.getString(1, 2)
+//        feature.getString(1, 2)
 
-        DoubleProxyTest.test()
+//        DoubleProxyTest.test1()
 
+//        val feature: AbstractFeature = DoubleProxyTest.getFeature() as AbstractFeature
+//        feature.test()
+//        feature.getString(1, 2)
+
+        val featureImpl = FeatureImpl()
+        "interfaces = ${featureImpl.javaClass.interfaces.contentToString()}".println()
     }
 }
