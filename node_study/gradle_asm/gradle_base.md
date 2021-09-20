@@ -2,6 +2,7 @@ Table of Contents
 =================
 
 * [gradle笔记尝试记录以下内容](#gradle笔记尝试记录以下内容)
+    * [初始化阶段](#初始化阶段)
 * [Gradle生命周期](#Gradle生命周期)
 
 # gradle笔记尝试记录以下内容
