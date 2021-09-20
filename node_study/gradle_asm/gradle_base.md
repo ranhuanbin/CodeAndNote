@@ -1,7 +1,7 @@
 Table of Contents
 =================
 
-* [gradle笔记尝试记录以下内容](#gradle笔记尝试记录以下内容)
+* [Gradle基础概念](#Gradle基础概念)
 
 
 
