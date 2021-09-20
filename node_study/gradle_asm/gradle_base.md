@@ -38,4 +38,35 @@ Task中配置的代码
 ```
 结合上面日志可以看出，在配置阶段，不仅执行build.gradle中的语句，还包括了 **`Task`** 中的配置语句。
 
-从上面的执行结果可以看出，在配置阶段，除了 `Task中` 除了Action外的代码段都在配置阶段执行。
+从上面的执行结果可以看出，在配置阶段，除了 **`Task`** 中除了Action外的代码段都在配置阶段执行。
+
+## gradle 生命周期相关的一些API
+```
+Project 提供的生命周期回调方法：
+> beforeEvaluate()          // project 开始配置前回调
+> afterEvaluate()           // project 配置成功回调
+
+Gradle 提供的生命周期回调方法：
+> beforeProject()           // 每一个 project 配置前回调
+> afterProject()            // 每一个 project 配置结束回调
+> projectsEvaluated()       // 所有的 project 都配置完成后回调
+> projectsLoaded()          // Project 初始化完成
+> settingsEvaluated()       // settings.gradle 脚本执行完毕
+> taskGraph.whenReady()
+> taskGraph.beforeTask()
+> taskGraph.afterTask()
+```
+### deforeEvaluate容易被误用
+**`beforeEvalute`** 是在 project 开始配置前调用，当前的 project 作为参数传递给闭包。
+
+这个方法容易被误用，如果是直接在当前子模块的 build.gradle 中使用是肯定不会调用到的，因为 project 开始配置以后，才会进入到 project 对应的gradle.build的代码块中，此时配置已经开始了。所以需要在根目录的 build.gradle 中配置才可以接收到回调。
+```groovy
+project.subprojects { sub ->
+    sub.beforeEvaluate { project ->
+        println "Evaluate before of " + project.path 
+    }
+}
+```
+
+
+![img.png](img.png)
