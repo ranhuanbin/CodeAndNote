@@ -1,7 +1,7 @@
 Table of Contents
 =================
 
-# gradle笔记尝试记录以下内容
+* # gradle笔记尝试记录以下内容
 gradle 目前尝试从以下几个方向记录笔记，后续如果有新增知识，在提纲处继续添加完善
 * 1、Gradle基础入门
 * 2、Gradle如何创建Task
