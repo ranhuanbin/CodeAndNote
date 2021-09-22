@@ -14,7 +14,7 @@
 [快速理解-设计模式六大原则](https://www.jianshu.com/p/807bc228dbc2)
 [你应该了解的 Java SPI 机制](https://zhuanlan.zhihu.com/p/108736961)
 [反思 | 事件总线的局限性，及组件化开发流程中通信机制的设计与实现](https://juejin.cn/post/6918335171381067790)
-
+[Google Gson用法详解](https://juejin.cn/post/6844904175835283469#heading-40)
 
 
 
