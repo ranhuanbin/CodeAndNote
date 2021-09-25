@@ -40,10 +40,13 @@ class UIEnvTransformer : AbsClassTransformer() {
             it.name == "<init>"
         }?.let { methodNode ->
             methodNode.instructions.asIterable()
-                .filterIsInstance(MethodInsnNode::class.java).let {
+                .filterIsInstance(MethodInsnNode::class.java).let { methodInsnNodeList ->
                     "【UIEnvTransformer】1=====>".println()
                     // 方法入口插入，为当前Fragment设置PluginContext
-                    methodNode.instructions.insert(insertPluginContext())
+//                    methodNode.instructions.insert(insertPluginContext())
+                    methodInsnNodeList.forEach {
+                        "[init node] owner = ${it.owner}, desc = ${it.desc}, name = ${it.name}, ownerClassName = ${it.ownerClassName}".println()
+                    }
                 }
         }
         klass.methods.find {
