@@ -12,17 +12,21 @@ class MainActivity : FragmentActivity() {
         setContentView(R.layout.activity_main)
         blockTest.setOnClickListener {
             BlockTest.test1 {
-                Log.v("AndroidTest", "test1")
+                Log.v("AndroidTest", "MainActivity===>test1")
             }
 
             BlockTest.test2 {
-                Log.v("AndroidTest", "test2")
+                Log.v("AndroidTest", "MainActivity===>test2")
                 "1"
             }
 
             BlockTest.test3 { x, y ->
-                Log.v("AndroidTest", "test3")
+                Log.v("AndroidTest", "MainActivity===>test3===>x = $x, y = $y")
                 x + y
+            }
+
+            BlockTest.test4 { x, y ->
+                Log.v("AndroidTest", "MainActivity===>test4===>x = $x, y = $y")
             }
         }
     }

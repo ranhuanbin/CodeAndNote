@@ -1,5 +1,7 @@
 package com.test.kotlin.block
 
+import android.util.Log
+
 /**
  * https://juejin.cn/post/6844904162782609416
  */
@@ -9,6 +11,7 @@ object BlockTest {
      */
     fun test1(block: () -> Unit) {
         block()
+        Log.v("AndroidTest", "BlockTest===>test1")
     }
 
     /**
@@ -16,7 +19,7 @@ object BlockTest {
      */
     fun test2(block: () -> String) {
         val result = block()
-        println("test2 ===> result = $result")
+        Log.v("AndroidTest", "BlockTest===>test2===>result = $result")
     }
 
     /**
@@ -24,7 +27,7 @@ object BlockTest {
      */
     fun test3(block: (x: Int, y: Int) -> Int) {
         val result = block(1, 2)
-        println("test3 ===> result = $result")
+        Log.v("AndroidTest", "BlockTest===>test3===>result = $result")
     }
 
     /**
@@ -32,5 +35,6 @@ object BlockTest {
      */
     fun test4(block: (x: Int, y: Int) -> Unit) {
         block(1, 2)
+        Log.v("AndroidTest", "BlockTest===>test4")
     }
 }
