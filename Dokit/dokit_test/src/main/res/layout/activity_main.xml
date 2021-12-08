@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.dokit.test.MainActivity">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/blockTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="blockTest"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/btnTest" />
 </androidx.constraintlayout.widget.ConstraintLayout>
