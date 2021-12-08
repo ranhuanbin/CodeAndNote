@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="common_white_10">#1eFFFFFF</color>
+    <color name="common_white_20">#33FFFFFF</color>
+    <color name="common_white_30">#4cFFFFFF</color>
+    <color name="common_white_40">#66FFFFFF</color>
+    <color name="common_white_50">#7fFFFFFF</color>
+    <color name="common_white_60">#99FFFFFF</color>
+    <color name="common_white_70">#b2FFFFFF</color>
+    <color name="common_white_80">#cbFFFFFF</color>
+    <color name="common_white_90">#e5FFFFFF</color>
+    <color name="common_white_95">#f2FFFFFF</color>
+
+    <color name="common_black_10">#1e000000</color>
+    <color name="common_black_6">#10000000</color>
+    <color name="common_black_20">#33000000</color>
+    <color name="common_black_30">#4c000000</color>
+    <color name="common_black_40">#66000000</color>
+    <color name="common_black_50">#7000000F</color>
+    <color name="common_black_60">#99000000</color>
+    <color name="common_black_70">#b2000000</color>
+    <color name="common_black_80">#cb000000</color>
+    <color name="common_black_90">#e5000000</color>
+    <color name="common_black_95">#f2000000</color>
+
+    <color name="common_000000">#000000</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#538CFB</color>
+    <color name="bb_gray_dark">#424C55</color>
+    <color name="themes_color">#D60545</color>
+    <color name="all_bg_color">#f6f6f6</color>
+    <color name="calendar_selected_day_bg">#ff379bff</color>
+    <color name="calendar_bg">#ffffffff</color>
+
+    <color name="week_bg_color">#EFEFEF</color>
+    <color name="week_font_color">#A0A0A0</color>
+    <color name="select_bg_color">#FC6E51</color>
+    <color name="select_not_bg_color">#FFFFFF</color>
+    <color name="effect_font_color">#222222</color>
+    <color name="effect_not_font_color">#999999</color>
+    <color name="select_font_color">#FFFFFF</color>
+    <color name="calendar_head_text_color">#FFFFFF</color>
+    <color name="calendar_monther_color">#999999</color>
+    <color name="place_holder">#E0A8A8A8</color>
+    <color name="hint">#B3FFFFFF</color>
+    <color name="white_20_alpha">#B3FFFFFF</color>
+    <color name="seek_thumb_color">#F87995</color>
+    <color name="filter_time_color">#ADAEB4</color>
+    <color name="range_text_color">#B2B4B7</color>
+    <color name="select_calendar_date">#FCE2E8</color>
+    <color name="common_666666">#666666</color>
+    <color name="common_F4F4F4">#F4F4F4</color>
+    <color name="common_EB3E64">#EB3E64</color>
+
+    <color name="line">#EBEBEB</color>
+
+    <color name="bg_text">#797979</color>
+    <color name="gray">#C5CCD4</color>
+    <color name="title_bg">#5A75F2</color>
+    <color name="lineColor">#d9d9d9</color>
+    <color name="color_line_E0E0E0">#E0E0E0</color>
+    <color name="common_E9E9E9">#AAE9E9E9</color>
+
+    <!--此处以上的颜色都已废弃，但不可删除，很多其他地方用到，暂不删除,直接使用下边的字体颜色即可-->
+    <!--颜色主题从此开始-->
+    <!--颜色主题从此开始-->
+    <!--颜色主题从此开始-->
+
+    <!--主颜色-->
+    <color name="common_color">#538CFB</color>
+    <color name="common_blue">#538CFB</color>
+    <color name="common_red">#F15B38</color>
+
+    <!--占位符颜色-->
+    <color name="color_place">#F2F2F2</color>
+    <!--水波纹颜色-->
+    <color name="color_common_ripple">#1e000000</color>
+    <!--水波纹颜色 首页导航栏-->
+    <color name="color_navigation_ripple">#0F000000</color>
+    <!--主渐变色-->
+    <color name="common_color_2">#56A4FF</color>
+    <color name="common_color_3">#56A4FF</color>
+    <!--拆票详情卡片顶部渐变色-->
+    <color name="common_color_4">#5182F8</color>
+    <color name="common_color_5">#5697FF</color>
+
+    <color name="common_color_light">#AA5B7FEF</color>
+    <color name="common_color_blue_bg">#3E75E6</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_white_light">#E9E9E9</color>
+    <color name="color_black">#000000</color>
+    <color name="color_transparent">#00000000</color>
+    <color name="color_warning">#FB5353</color>
+
+    <!--分割线颜色-->
+    <color name="color_line">#F7F7F7</color>
+    <!--主页背景颜色-->
+    <color name="color_bg">#F3F3F3</color>
+    <!--页面小标题栏背景颜色-->
+    <color name="color_bg_gray">#F2F2F2</color>
+    <!--选择弹出窗的背景颜色-->
+    <color name="color_bg_gray_2">#F4F4F4</color>
+    <!--订单详情页面行程卡片背景颜色-->
+    <color name="color_bg_gray_3">#F7F7F7</color>
+    <!--F6F6F6-->
+    <color name="color_bg_F6F6F6">#F6F6F6</color>
+    <!--浸入状态栏颜色-->
+    <color name="color_statusbar">#538CFB</color>
+    <!--底部导航栏颜色-->
+    <color name="color_main_tab">#F6F6F6</color>
+    <!--标题栏背景颜色-->
+    <color name="color_title_bg">#5B7FEF</color>
+    <!--标题栏标题字颜色-->
+    <color name="color_title_text">#E0E0E0</color>
+    <color name="color_CCCCCC">#CCCCCC</color>
+    <color name="color_shadow">#cc222222</color>
+    <!--遮罩颜色-->
+    <color name="color_guide">@color/common_black_70</color>
+
+
+    <!--主字体颜色-->
+    <color name="color_main_text">#000000</color>
+    <!--副字体颜色-->
+    <color name="color_second_text">#333333</color>
+    <!--副字体颜色 222222-->
+    <color name="color_second_text_222222">#222222</color>
+    <!--第三字体颜色-->
+    <color name="color_third_text">#666666</color>
+    <!--第四字体颜色-->
+    <color name="color_fourth_text">#999999</color>
+    <!--第5字体颜色-->
+    <color name="color_fifth_text">#BBBBBB</color>
+    <!--主灰色字体颜色-->
+    <color name="color_gray">#888888</color>
+    <!--主橙色字体颜色-->
+    <color name="color_orange">#F15B38</color>
+    <!--浅橙色字体颜色-->
+    <color name="color_orange_light">#F2E6E3</color>
+    <!--主橙黄色字体颜色-->
+    <color name="color_yellow">#FCA600</color>
+    <!--主橙黄色字体颜色-->
+    <color name="color_yellow_light">#FFFDEA</color>
+    <!--不可用的字体颜色-->
+    <color name="color_not_avliable">#BBBBBB</color>
+    <!--蓝色按钮颜色-->
+    <color name="color_button_blue">#5B7FEF</color>
+    <!--蓝色按钮按下的颜色-->
+    <color name="color_button_blue_light">#885B7FEF</color>
+    <!--加载圈颜色-->
+    <color name="color_loading">#0000ff</color>
+    <!--最便宜字体颜色-->
+    <color name="color_cheaper_text">#FF8501</color>
+    <!--最便宜字体颜色-->
+    <color name="color_cheapest_text">#F15B38</color>
+    <!--红色字体颜色-->
+    <color name="color_red">#F13856</color>
+    <!--列表页角标颜色-->
+    <color name="color_tab_list">#ED9154</color>
+    <!--填写页底部价格颜色-->
+    <color name="color_book_price">#F15B38</color>
+    <!--填写页顶部提示栏背景颜色-->
+    <color name="color_tip">#FFF8DD</color>
+    <color name="color_tip_FFF7EB">#FFF7EB</color>
+    <color name="color_tip_FF773B">#FF773B</color>
+    <!-- 提示颜色-->
+    <color name="color_tips_railcard">#FFF8DD</color>
+    <color name="color_tips_edit">#EA4164</color>
+    <!-- 卡颜色-->
+    <color name="color_tips_railcard_text">#FF9913</color>
+    <color name="color_price_line">#CCCCCC</color>
+    <color name="color_coupon_line">#1A000000</color>
+    <color name="color_coupon_red">#FF0000</color>
+    <!--主橙黄色字体颜色-->
+    <color name="color_paypal">#FFC621</color>
+    <!--警示字体颜色-->
+    <color name="color_text_tip">#FF773B</color>
+
+    <!--主题颜色-->
+    <!--1.复活节主题评论弹窗颜色-->
+    <color name="color_theme_easter">#5D8AF1</color>
+
+    <!--模块颜色-->
+    <!--Barcode Tab 二维码中间部分未激活颜色-->
+    <color name="color_mTicket_barcode_expire_center">#D2D2D2</color>
+    <!--Barcode Tab 二维码激活颜色-->
+    <color name="color_mTicket_barcode_activate_center">#FFFFFF</color>
+    <!--Ticket Tab 过期颜色-->
+    <color name="color_mTicket_ticket_expire_1">#C8C8C8</color>
+    <color name="color_mTicket_ticket_expire_2">#D2D2D2</color>
+    <color name="color_mTicket_ticket_expire_status">#000000
+    </color> <!--Expired状态下的状态显示背景为黑色 过期颜色-->
+    <color name="color_mTicket_ticket_expire_3">#D9D9D9</color>
+    <!--Ticket Tab 激活颜色-->
+    <color name="color_mTicket_ticket_activate_orange">#FF8501</color>
+    <!--<color name="color_mTicket_ticket_activate_orange">#FF2AC8</color>-->
+    <color name="color_mTicket_ticket_activate_pink">#D89594</color>
+    <color name="color_mTicket_ticket_activate_blue">#578DD5</color>
+    <color name="color_mTicket_ticket_activate_green">#C3D69C</color>
+    <color name="color_mTicket_ticket_activate_white">#FFFFFF</color>
+    <color name="color_mTicket_ticket_activate_dirt">#FFF1E1</color>
+
+    <color name="color_mTicket_ticket_text">#cb000000</color>
+
+    <!--各种交通工具颜色-->
+    <color name="color_railbus">#FF6DD400</color>
+    <color name="color_ship">#FF3DAAFF</color>
+    <color name="color_taxi">#FFEF2FA0</color>
+    <color name="color_flight">#FF538CFB</color>
+    <color name="color_train">#FF538CFB</color>
+    <color name="color_walk">#FFFFA900</color>
+    <color name="color_tube">#FFFF5C5C</color>
+    <color name="color_bus">#FF39C3A8</color>
+    <color name="color_unknown">#FF888888</color>
+
+    <color name="color_divider_line">#E5E5E5</color>
+    <color name="color_drop_line_normal">#E0E0E0</color>
+    <color name="color_drop_line_active">#538CFB</color>
+    <color name="color_edit_text_hint">#B3B3B3</color>
+    <color name="color_google_font">#8a000000</color>
+    <color name="color_light_gray">#EEEEEE</color>
+
+    <color name="color_live_tracker_past">#FF999999</color>
+    <color name="color_live_tracker_past_alpha">#FFF0F0F0</color>
+    <color name="color_live_tracker_train">#FF538CFB</color>
+    <color name="color_live_tracker_train_past">#FFDDDDDD</color>
+    <color name="color_live_tracker_train_alpha">#33538CFB</color>
+    <color name="color_live_tracker_train_segment">#66538CFB</color>
+    <color name="color_live_tracker_tube">#FFFF5C5C</color>
+    <color name="color_live_tracker_tube_alpha">#33FF5C5C</color>
+    <color name="color_live_tracker_tube_segment">#66FF5C5C</color>
+    <color name="color_live_tracker_flight">#FF00B0FF</color>
+    <color name="color_live_tracker_flight_alpha">#3300B0FF</color>
+    <color name="color_live_tracker_flight_segment">#6600B0FF</color>
+    <color name="color_live_tracker_walk">#FFFE9D45</color>
+    <color name="color_live_tracker_walk_alpha">#33FE9D45</color>
+    <color name="color_live_tracker_walk_segment">#66FE9D45</color>
+    <color name="color_live_tracker_bus">#FF5C78B0</color>
+    <color name="color_live_tracker_bus_alpha">#335C78B0</color>
+    <color name="color_live_tracker_bus_segment">#335C78B0</color>
+    <color name="color_live_tracker_taxi">#FF06C1BD</color>
+    <color name="color_live_tracker_taxi_alpha">#3306C1BD</color>
+    <color name="color_live_tracker_taxi_segment">#6606C1BD</color>
+    <color name="color_live_tracker_tram">#FF6BCF00</color>
+    <color name="color_live_tracker_tram_alpha">#336BCF00</color>
+    <color name="color_live_tracker_tram_segment">#666BCF00</color>
+    <color name="color_live_tracker_ship">#FFB671FE</color>
+    <color name="color_live_tracker_ship_alpha">#33B671FE</color>
+    <color name="color_live_tracker_ship_segment">#66B671FE</color>
+    <color name="color_live_tracker_transfer">#FF619B74</color>
+    <color name="color_live_tracker_transfer_alpha">#33619B74</color>
+    <color name="color_live_tracker_transfer_segment">#66619B74</color>
+
+    <color name="color_live_tracker_segment_bg">#0D538CFB</color>
+    <color name="color_live_tracker_text_past_dark">#FF333333</color>
+    <color name="color_live_tracker_text_past_gray">#FF999999</color>
+    <color name="color_live_tracker_text_past_light">#FFCCCCCC</color>
+
+    <color name="color_adapter_default_point">#80538CFB</color>
+    <color name="color_adapter_now_point">#FF538CFB</color>
+
+    <color name="color_cheapest_red">#FFFB5353</color>
+    <color name="color_group_save_red">#FFFF773B</color>
+    <color name="color_journey_black">#FF444444</color>
+    <color name="color_light_blue">#14538CFB</color>
+    <color name="color_light_greed">#FF77D321</color>
+    <color name="color_bg_hint_red">#FFFFF7EB</color>
+    <color name="color_red_text">#FFE55050</color>
+    <color name="color_bg_alabaster">#FFFCFCFC</color>
+    <color name="color_sunset_orange">#FFFF4E4E</color>
+    <color name="color_gallery">#FFECECEC</color>
+
+    <color name="color_photos_bar_primary">#393a3f</color>
+    <color name="color_unavailable_text">#AAAAAA</color>
+    <color name="color_navigation_selected">#5183F9</color>
+
+    <color name="color_delayed">#FFDC3D</color>
+
+    <!--railCard 背景颜色-->
+    <color name="color_railcard_16_17_1">#FFE802</color>
+    <color name="color_railcard_16_25_1">#E87400</color>
+    <color name="color_railcard_16_25_2">#D15300</color>
+    <color name="color_railcard_26_30_1">#D14D00</color>
+    <color name="color_railcard_26_30_2">#D13700</color>
+    <color name="color_railcard_family_1">#E3032D</color>
+    <color name="color_railcard_family_2">#A60000</color>
+    <color name="color_railcard_two_together_1">#71217F</color>
+    <color name="color_railcard_two_together_2">#370068</color>
+    <color name="color_railcard_senior_1">#1A0959</color>
+    <color name="color_railcard_senior_2">#040635</color>
+    <color name="color_railcard_network_1">#1077D1</color>
+    <color name="color_railcard_network_2">#1858A6</color>
+
+    <!--railCard 字段颜色-->
+    <color name="color_railcard_issued_to_header">#b2FFFFFF</color>
+    <color name="color_railcard_issued_field">#FFFFFF</color>
+
+    <color name="color_railcard_16_17_issued_to_header">#b2000000</color>
+    <color name="color_railcard_16_17_issued_field">#000000</color>
+    <color name="color_railcard_16_17_qr_other">#00000000</color>
+
+    <!--16-17 部分过期的颜色-->
+    <color name="color_railcard_16_17_issued_to_part">#2A8639</color>
+    <color name="color_railcard_16_17_exp_par">#F94F63</color>
+
+    <!--Crop View-->
+    <color name="ucrop_color_default_crop_grid">#80ffffff</color>
+    <color name="ucrop_color_default_crop_frame">#ffffff</color>
+    <color name="ucrop_color_default_dimmed">#8c000000</color>
+    <color name="ucrop_color_default_logo">#4f212121</color>
+
+
+    <!--2.0.0 版本视觉升级 统一颜色-->
+    <color name="color_common_text_1">#182357</color>
+    <color name="color_common_text_2">#5B5E7D</color>
+    <color name="color_common_text_3">#9090A3</color>
+    <color name="color_common_text_4">#BBBBC9</color>
+    <color name="color_common_text_5">#66BBBBC9</color>
+    <color name="color_common_line">#DEDEE3</color>
+    <color name="color_price_red">#F04352</color>
+    <color name="color_price_orange">#FC6A3A</color>
+    <color name="color_voucher_orange">#FA6F41</color>
+    <color name="color_price_blue">#2B6DF0</color>
+    <color name="color_common_bg">#F5F7FA</color>
+    <color name="color_place_bg">#EDEFF2</color>
+    <color name="color_tag_orange">#FA794D</color>
+    <color name="color_title_yellow">#FFE043</color>
+    <color name="color_button_brown">#BE1038</color>
+    <color name="color_image_placeholder">#ECEDF1</color>
+    <color name="color_price_brown">#9B360D</color>
+    <color name="color_date_brown">#F09218</color>
+
+    <color name="color_railcard_apply">#02A09D</color>
+    <color name="color_railcard_apply_bg">#C8E8E8</color>
+
+    <color name="color_F5F7FA">#F5F7FA</color>
+    <color name="color_DEDEE3">#DEDEE3</color>
+    <color name="color_F8F9FC">#F8F9FC</color>
+    <color name="color_F2F6FC">#f2f6fc</color>
+    <color name="color_F04352">#F04352</color>
+    <color name="color_2A6DF0">#2a6df0</color>
+    <color name="color_002263">#66002263</color>
+</resources>

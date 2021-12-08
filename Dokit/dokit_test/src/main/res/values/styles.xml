@@ -1,0 +1,358 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--    ————————————————————    通用主题  ————————————————————     -->
+    <!--    ————————————————————    通用主题  ————————————————————     -->
+    <!--    ————————————————————    通用主题  ————————————————————     -->
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:listDivider">@mipmap/ic_launcher</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <!--ToolBar-->
+    <style name="BaseToolbar" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <!--根布局-->
+    <style name="ViewGroup_Theme_Style">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    <!--activity完全沉浸主题-->
+    <style name="TranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <!--Material Design 弹窗上的(TextView)按钮的Style-->
+    <style name="Style_Material_Dialog_TextView">
+        <item name="android:padding">@dimen/common_8</item>
+        <item name="android:background">@mipmap/ic_launcher</item>
+        <item name="android:textColor">@color/common_blue</item>
+        <item name="android:textSize">@dimen/common_15</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--Material Design 弹窗上的(Button)按钮的Style,效果同上-->
+    <style name="Style_Material_Dialog_Button" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:padding">@dimen/common_8</item>
+        <item name="android:background">@mipmap/ic_launcher</item>
+        <item name="android:textColor">@color/common_blue</item>
+        <item name="android:textSize">@dimen/common_15</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--Material Design的蓝色主按钮的Style-->
+    <style name="Style_Common_Button" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/common_15</item>
+        <item name="android:layout_marginLeft">@dimen/common_10</item>
+        <item name="android:layout_marginRight">@dimen/common_10</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/common_45</item>
+        <item name="android:padding">@dimen/common_8</item>
+        <item name="android:background">@mipmap/ic_launcher</item>
+    </style>
+
+    <!--Toolbar Theme的设置-->
+    <style name="ToolbarTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/white</item><!--设置标题文字颜色-->
+        <item name="android:textColorSecondary">@color/white</item><!--设置右侧文字颜色-->
+        <item name="actionMenuTextColor">@color/white</item> <!--设置菜单文字颜色-->
+        <item name="android:textSize">@dimen/common_16</item><!--设置文字大小的-->
+        <item name="textAllCaps">false</item> <!--是否强制全大写-->
+    </style>
+
+    <!--Toolbar 标题文字设置-->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/common_18</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--SearchView 主题设置-->
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!--&lt;!&ndash;修改图标的图片&ndash;&gt;-->
+        <!--<item name="searchIcon">@mipmap/ic_launcher</item>-->
+        <!--去掉图标-->
+        <item name="searchHintIcon">@null</item>
+    </style>
+
+    <!--SearchView cursor 设置-->
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+        <!--<item name="android:textCursorDrawable">@drawable/cursor</item>-->
+    </style>
+
+    <!--标题与NavigationIcon的距离-->
+    <style name="Toolbar.MyStyle" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
+    <!--  Full Dialog  -->
+    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
+
+    <!-- lucky box fragment dialog   -->
+    <style name="Dialog.LuckyBox" parent="Dialog.FullScreen">
+        <item name="android:backgroundDimAmount">0.8</item>
+    </style>
+
+    <!--Dialog-->
+    <style name="dialog_style" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!--Dialog-->
+    <style name="Base_Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">#00000000</item>
+        <!-- 设置自定义布局的背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 设置window背景透明，也就是去边框 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <!--TPDialog专用-->
+    <style name="common_dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">50%</item>
+        <item name="android:windowMinWidthMinor">50%</item>
+    </style>
+
+    <!--Dialog Activity-->
+    <style name="DialogActivityTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:listDivider">@mipmap/ic_launcher</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!--通用TextView-->
+    <style name="BaseTextStyle">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--通用TabLayout-->
+    <style name="TabLayout_Normal" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabIndicatorColor">@color/color_white</item>
+        <item name="tabIndicatorHeight">@dimen/common_3</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabBackground">@color/color_transparent</item>
+        <item name="tabSelectedTextColor">@color/color_white</item>
+        <item name="tabTextColor">@color/common_white_60</item>
+        <item name="android:textSize">@dimen/common_15</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="TabLayout_navigation" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabIndicatorColor">@color/color_transparent</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabRippleColor">@color/color_navigation_ripple</item>
+    </style>
+
+    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/common_15</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <!--通用TextInputEditText-->
+    <style name="TextInputEditText_CommonStyle">
+        <item name="android:paddingBottom">@dimen/common_16</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textSize">@dimen/common_16</item>
+    </style>
+
+    <!--通用TextInputLayout-->
+    <style name="TextInputLayout_CommonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/color_edit_text_hint</item>
+        <item name="android:theme">@style/customDropLine</item>
+    </style>
+
+    <!--    ————————————————————    各种通用主题写在上面  ————————————————————     -->
+    <!--    ————————————————————    各种通用主题写在上面  ————————————————————     -->
+    <!--    ————————————————————    各种通用主题写在上面  ————————————————————     -->
+    <!--    ————————————————————    以下是非通用主题     ————————————————————     -->
+
+    <style name="noAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="loading">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item> <!-- 模糊 -->
+        <item name="android:windowIsFloating">true</item><!-- 类似windows的弹出Dialog -->
+        <item name="android:windowContentOverlay">@null</item><!-- 不要头部阴影 -->
+        <item name="android:windowBackground">@color/transparent</item>   <!-- 背景颜色设置透明-->
+    </style>
+
+    <style name="TextStyle_Collect_bold">
+        <item name="android:textSize">@dimen/common_13</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextStyle_seat_1">
+        <item name="android:textSize">@dimen/common_14</item>
+        <item name="android:textColor">@color/color_gray</item>
+    </style>
+
+    <style name="TextStyle_seat_2">
+        <item name="android:textSize">@dimen/common_14</item>
+        <item name="android:textColor">@color/color_second_text</item>
+    </style>
+
+    <style name="TextStyle_order_details_1">
+        <item name="android:textSize">@dimen/common_12</item>
+        <item name="android:textColor">@color/color_gray</item>
+    </style>
+
+    <style name="TextStyle_order_details_2">
+        <item name="android:textSize">@dimen/common_12</item>
+        <item name="android:textColor">#151515</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextStyle_span_blue">
+        <item name="android:textColor">#538CFB</item>
+    </style>
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">@dimen/common_150</item>
+        <item name="tabIndicatorColor">@color/common_color</item>
+        <item name="tabIndicatorHeight">@dimen/common_4</item>
+        <item name="tabPaddingStart">@dimen/common_30</item>
+        <item name="tabPaddingEnd">@dimen/common_30</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/common_color</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/common_13</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="TextStyle_book_openReturn_inbound">
+        <item name="android:textSize">@dimen/common_12</item>
+        <item name="android:textColor">@color/color_second_text</item>
+    </style>
+
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/common_black_10</item>
+        <item name="colorControlActivated">@color/color_title_bg</item>
+    </style>
+
+    <style name="TextInputAppTheme" parent="Base.TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/color_title_bg</item>
+    </style>
+
+    <style name="TestTextStyle">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/common_color_2</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
+
+    <style name="customDropLine" parent="AppTheme">
+        <item name="colorControlNormal">@color/lineColor</item>
+        <item name="colorControlActivated">@color/color_drop_line_active</item>
+    </style>
+
+    <style name="customHintText" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">@dimen/common_12</item>
+    </style>
+
+    <style name="StyleMyCustomTagLayout" parent="Widget.Design.TabLayout">
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+    </style>
+
+    <style name="NumberPicker" parent="@style/Theme.AppCompat.Empty">
+        <item name="android:textSize">@dimen/common_16</item>
+    </style>
+
+    <style name="MySpinnerDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
+    </style>
+
+    <style name="MySpinnerDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
+    <style name="style_dialog_no_background" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>  <!--  设置背景透明-->
+        <item name="android:windowFrame">@null</item> <!--设置是否有边框-->
+        <item name="android:windowNoTitle">true</item> <!--设置是否有标题栏-->
+        <item name="android:windowContentOverlay">@null</item> <!-- 设置是否有遮盖-->
+        <item name="android:windowIsFloating">true</item><!-- 设置是否浮在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+    </style>
+
+</resources>

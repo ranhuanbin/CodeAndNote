@@ -1,0 +1,41 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    apply from: "config.gradle"
+    def kotlinVersion = rootProject.ext.android["kotlin_version_v13"]
+    def gradlePluginVersion = rootProject.ext.android["agp_module_version"]
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url uri('./repos') }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+
+        classpath 'com.dokit.plugin:DoKitPlugin:1.0.1'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url uri('./repos') }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
