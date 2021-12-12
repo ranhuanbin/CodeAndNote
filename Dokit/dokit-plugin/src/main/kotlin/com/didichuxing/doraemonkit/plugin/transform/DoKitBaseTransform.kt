@@ -13,7 +13,7 @@ import org.gradle.api.Project
 import org.gradle.internal.impldep.com.amazonaws.services.s3.transfer.TransferManager
 
 open class DoKitBaseTransform protected constructor(val project: Project) : Transform() {
-    internal open val transforms = listOf<Transformer>()
+    internal open val transformers = listOf<Transformer>()
 
     internal val verifyEnabled = project.getProperty(OPT_TRANSFORM_VERIFY, false)
 
@@ -28,7 +28,7 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
     }
 
     val bootKlassPool: AbstractKlassPool
-        get() = return androidKlassPool
+        get() = androidKlassPool
 
     override fun getName() = this.javaClass.simpleName
 
@@ -40,7 +40,7 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
         TransformManager.CONTENT_CLASS
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> = when {
-        transforms.isEmpty() -> mutableSetOf()
+        transformers.isEmpty() -> mutableSetOf()
         project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
         project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
         project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
