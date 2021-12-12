@@ -4,6 +4,9 @@ import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.Transformer
 import com.didiglobal.booster.transform.asm.ClassTransformer
+import org.objectweb.asm.ClassReader
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.tree.ClassNode
 import java.lang.management.ManagementFactory
 import java.lang.management.ThreadMXBean
 import java.util.*
@@ -43,7 +46,30 @@ open class BaseDoKitAsmTransformer : Transformer {
     }
 
     override fun transform(context: TransformContext, bytecode: ByteArray): ByteArray {
-        TODO("Not yet implemented")
+        return ClassWriter(ClassWriter.COMPUTE_MAXS).also { writer ->
+            this.transformers.fold(ClassNode().also { klass ->
+                ClassReader(bytecode).accept(klass, 0)
+            }) { klass, transformer ->
+                this.threadMxBean.sumCpuTime(transformer) {
+                    transformer.transform(context, klass)
+                }
+            }.accept(writer)
+        }.toByteArray()
+    }
+
+    override fun onPostTransform(context: TransformContext) {
+        this.transformers.forEach { transformer ->
+            this.threadMxBean.sumCpuTime(transformer) {
+                transformer.onPostTransform(context)
+            }
+        }
+
+        val w1 = this.durations.keys.map {
+            it.javaClass.name.length
+        }.max() ?: 20
+        this.durations.forEach { (transformer, ns) ->
+            println("${transformer.javaClass.name.padEnd(w1 + 1)}:${ns / 1000000} ms")
+        }
     }
 
     private fun <R> ThreadMXBean.sumCpuTime(transformer: ClassTransformer, action: () -> R): R {
