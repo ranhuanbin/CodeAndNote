@@ -12,7 +12,13 @@ import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.artifacts
 import java.io.File
 import com.android.build.api.transform.*
+import com.didiglobal.booster.kotlinx.NCPU
 import org.gradle.internal.impldep.org.simpleframework.http.Form
+import java.util.concurrent.*
+import com.android.build.api.transform.Status.*
+import com.didiglobal.booster.kotlinx.file
+import com.didiglobal.booster.transform.util.transform
+import java.net.URI
 
 class DoKitTransformInvocation(
     private val delegate: TransformInvocation,
@@ -63,28 +69,68 @@ class DoKitTransformInvocation(
 
     override fun get(type: String) = variant.artifacts.get(type)
 
-    interface fun doFullTransform() = doTransform(this::transformFully)
+    internal fun doFullTransform() = doTransform(this::transformFully)
 
-    interface fun doIncrementalTransform() = doTransform(this::transformIncrementally)
+    internal fun doIncrementalTransform() = doTransform(this::transformIncrementally)
 
     private fun onPreTransform() {
+        transform.transformers.forEach {
+            it.onPreTransform(this)
+        }
+    }
 
+    private fun onPostTransform() {
+        transform.transformers.forEach {
+            it.onPostTransform(this)
+        }
     }
 
     private fun doTransform(block: (ExecutorService) -> Iterable<Future<*>>) {
+        this.outputs.clear()
+        this.onPreTransform()
 
+        val executor = Executors.newFixedThreadPool(NCPU)
+        try {
+            block(executor).forEach {
+                it.get()
+            }
+        } finally {
+            executor.shutdown()
+            executor.awaitTermination(1, TimeUnit.HOURS)
+        }
+
+        this.onPostTransform()
+
+        if (transform.verifyEnabled) {
+            this.doVerify()
+        }
     }
 
-    private fun transformFully(executor:ExecutorService) = this.inputs.map{
-
+    private fun transformFully(executor: ExecutorService) = this.inputs.map {
+        it.jarInputs + it.directoryInputs
+    }.flatten().map { input ->
+        executor.submit {
+            val format = if (input is DirectoryInput) Format.DIRECTORY else Format.JAR
+            outputProvider?.let { provider ->
+                project.logger.info("Transforming ${input.file}")
+                input.transform(
+                    provider.getContentLocation(
+                        input.name,
+                        input.contentTypes,
+                        input.scopes,
+                        format
+                    )
+                )
+            }
+        }
     }
 
-    private fun transformIncrementally(executor:ExecutorService) = this.inputs.map{input->
+    private fun transformIncrementally(executor: ExecutorService) = this.inputs.map { input ->
         input.jarInputs.filter { it.status != Status.NOTCHANGED }.map { jarInput ->
             executor.submit {
                 doIncrementalTransform(jarInput)
             }
-        } + input.directoryInputs.filter { it.changedFile.isNotEmpty() }.map {dirInput ->
+        } + input.directoryInputs.filter { it.changedFiles.isNotEmpty() }.map { dirInput ->
             val base = dirInput.file.toURI()
             executor.submit {
                 doIncrementalTransform(dirInput, base)
@@ -92,11 +138,11 @@ class DoKitTransformInvocation(
         }
     }.flatten()
 
-    @Suppress("NON_EXHAUSIVE_WHEN")
+    @Suppress("NON_EXHAUSTIVE_WHEN")
     private fun doIncrementalTransform(jarInput: JarInput) {
         when (jarInput.status) {
-            Status.REMOVED -> jarInput.file.delete()
-            Status.CHANGED, Status.ADDED -> {
+            REMOVED -> jarInput.file.delete()
+            CHANGED, ADDED -> {
                 outputProvider?.let { provider ->
                     jarInput.transform(
                         provider.getContentLocation(
@@ -132,6 +178,7 @@ class DoKitTransformInvocation(
                     file.delete()
                 }
                 ADDED, CHANGED -> {
+                    project.logger.info("Transforming $file")
                     outputProvider?.let { provider ->
                         val root = provider.getContentLocation(
                             dirInput.name,
@@ -141,7 +188,7 @@ class DoKitTransformInvocation(
                         )
                         val output = File(root, base.relativize(file.toURI()).path)
                         outputs += output
-                        file.transform(output) {bytecode ->
+                        file.transform(output) { bytecode ->
                             bytecode.transform()
                         }
                     }
@@ -174,8 +221,8 @@ class DoKitTransformInvocation(
         }
     }
 
-    private fun ByteArray.transform():ByteArray{
-        return transform.transformers.fold(this){bytes,transformer->
+    private fun ByteArray.transform(): ByteArray {
+        return transform.transformers.fold(this) { bytes, transformer ->
             transformer.transform(this@DoKitTransformInvocation, bytes)
         }
     }
