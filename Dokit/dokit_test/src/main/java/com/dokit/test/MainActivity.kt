@@ -11,21 +11,26 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         blockTest.setOnClickListener {
-            BlockTest.test1 {
+            val blockTest = BlockTest()
+            blockTest.test1 {
                 Log.v("AndroidTest", "MainActivity===>test1")
             }
 
-            BlockTest.test2 {
+            blockTest.test2 {
+                Log.v("AndroidTest", "MainActivity===>test1")
+            }
+
+            blockTest.test3 {
                 Log.v("AndroidTest", "MainActivity===>test2")
                 "1"
             }
 
-            BlockTest.test3 { x, y ->
+            blockTest.test4 { x, y ->
                 Log.v("AndroidTest", "MainActivity===>test3===>x = $x, y = $y")
                 x + y
             }
 
-            BlockTest.test4 { x, y ->
+            blockTest.test5 { x, y ->
                 Log.v("AndroidTest", "MainActivity===>test4===>x = $x, y = $y")
             }
         }
