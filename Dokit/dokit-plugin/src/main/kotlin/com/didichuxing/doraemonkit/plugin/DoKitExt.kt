@@ -7,12 +7,19 @@ import com.didiglobal.booster.kotlinx.NCPU
 import com.didiglobal.booster.kotlinx.redirect
 import com.didiglobal.booster.kotlinx.search
 import com.didiglobal.booster.kotlinx.touch
+import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.util.transform
+import com.sun.org.apache.bcel.internal.generic.GETFIELD
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC
 import org.apache.commons.compress.archivers.jar.JarArchiveEntry
 import org.apache.commons.compress.archivers.zip.ParallelScatterZipCreator
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream
 import org.apache.commons.compress.parallel.InputStreamSupplier
+import org.objectweb.asm.Opcodes.*
+import org.objectweb.asm.tree.InsnList
+import org.objectweb.asm.tree.InsnNode
+import org.objectweb.asm.tree.MethodNode
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
@@ -26,11 +33,93 @@ import java.util.jar.JarFile
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
+fun MethodNode.isGetSetMethod(): Boolean {
+    var ignoreCount = 0
+    val iterator = instructions.iterator()
+    while (iterator.hasNext()) {
+        val insnNode = iterator.next()
+        val opcode = insnNode.opcode
+        if (-1 == opcode) {
+            continue
+        }
+        if (opcode != GETFIELD && opcode != GETSTATIC && opcode != H_GETFIELD
+            && opcode != H_GETSTATIC && opcode != RETURN && opcode != ARETURN
+            && opcode != DRETURN && opcode != FRETURN && opcode != LRETURN
+            && opcode != IRETURN && opcode != PUTFIELD && opcode != PUTSTATIC
+            && opcode != H_PUTFIELD && opcode != H_PUTSTATIC && opcode > SALOAD
+        ) {
+            if (name.equals("<init>") && opcode == INVOKESPECIAL) {
+                ignoreCount++
+                if (ignoreCount > 1) {
+                    return false
+                }
+                continue
+            }
+            return false
+        }
+    }
+    return true
+}
+
+fun MethodNode.isSingleMethod(): Boolean {
+    val iterator = instructions.iterator()
+    while (iterator.hasNext()) {
+        val insnNode = iterator.next()
+        val opcode = insnNode.opcode
+        if (-1 == opcode) {
+            continue
+        } else if (INVOKEVIRTUAL <= opcode && opcode <= INVOKEDYNAMIC) {
+            return false
+        }
+    }
+    return true
+}
+
+fun MethodNode.isEmptyMethod(): Boolean {
+    val iterator = instructions.iterator()
+    while (iterator.hasNext()) {
+        val insnNode = iterator.next()
+        val opcode = insnNode.opcode
+        return if (-1 == opcode) {
+            continue
+        } else {
+            false
+        }
+    }
+    return true
+}
+
+fun MethodNode.isMainMethod(className: String): Boolean {
+    if (this.name == "main" && this.desc == "([Ljava/lang/String;])V") {
+        return true
+    }
+    return false
+}
+
 fun String.println() {
     println("[dokit plugin]===>$this")
 }
 
+fun InsnList.getMethodExitInsnNodes(): Sequence<InsnNode>? {
+    return this.iterator()?.asSequence()?.filterIsInstance(InsnNode::class.java)?.filter {
+        it.opcode == RETURN ||
+                it.opcode == IRETURN ||
+                it.opcode == FRETURN ||
+                it.opcode == ARETURN ||
+                it.opcode == LRETURN ||
+                it.opcode == DRETURN ||
+                it.opcode == ATHROW
+    }
+}
+
 fun BaseVariant.isRelease(): Boolean {
+    if (this.name.contains("release") || this.name.contains("Release")) {
+        return true
+    }
+    return false
+}
+
+fun TransformContext.isRelease(): Boolean {
     if (this.name.contains("release") || this.name.contains("Release")) {
         return true
     }

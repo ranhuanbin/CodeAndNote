@@ -13,7 +13,6 @@ import com.didiglobal.booster.transform.artifacts
 import java.io.File
 import com.android.build.api.transform.*
 import com.didiglobal.booster.kotlinx.NCPU
-import org.gradle.internal.impldep.org.simpleframework.http.Form
 import java.util.concurrent.*
 import com.android.build.api.transform.Status.*
 import com.didiglobal.booster.kotlinx.file
@@ -36,7 +35,7 @@ class DoKitTransformInvocation(
 
     override val temporaryDir: File = delegate.context.temporaryDir
 
-    override val reportsDir: File = File(buildDir, "reports").alse { it.mkdirs() }
+    override val reportsDir: File = File(buildDir, "reports").also { it.mkdirs() }
 
     override val bootClasspath = delegate.bootClasspath
 

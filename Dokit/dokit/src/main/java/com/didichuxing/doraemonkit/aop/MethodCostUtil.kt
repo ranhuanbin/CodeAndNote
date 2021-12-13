@@ -26,7 +26,14 @@ object MethodCostUtil {
             METHOD_COSTS[methodName] = SystemClock.elapsedRealtime()
             if (classObj is Application) {
                 val methods = methodName.split("&".toRegex()).toTypedArray()
-
+                if (methods.size == 2) {
+                    if (methods[1] == "onCreate") {
+                        TimeCounterManager.get().onAppCreateStart()
+                    }
+                    if (methods[1] == "attachBaseContext") {
+                        TimeCounterManager.get().onAppAttachBaseContextStart()
+                    }
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()

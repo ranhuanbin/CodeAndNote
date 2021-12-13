@@ -10,7 +10,6 @@ import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.transform.AbstractKlassPool
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
-import org.gradle.internal.impldep.com.amazonaws.services.s3.transfer.TransferManager
 
 open class DoKitBaseTransform protected constructor(val project: Project) : Transform() {
     internal open val transformers = listOf<Transformer>()
@@ -63,7 +62,7 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
                 doIncrementalTransform()
             } else {
                 outputProvider?.deleteAll()
-                duFullTransform()
+                doFullTransform()
             }
         }
     }
