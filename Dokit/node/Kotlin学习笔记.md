@@ -22,3 +22,8 @@
 >   （3）而且再次调用属性的时候，只会得到结果，而不会再次执行 lazy{} 的运行过程
 > lateinit：延迟初始化属性
 >   （1）
+
+> let、run、with、also、apply 区别
+> https://blog.csdn.net/u013064109/article/details/78786646
+
+> ？与 ！区别
